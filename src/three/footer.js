@@ -7,7 +7,7 @@ Cycle.registerCustomElement("footer", function(User) {
   let View = Cycle.createView(function() {
     return {
       vtree$: Rx.Observable.return(
-        <div>--- footer ===</div>
+        <div>=== footer ===</div>
       )
     };
   });

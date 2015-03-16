@@ -3,7 +3,7 @@ let Cycle = require("cyclejs");
 let {Rx, h} = Cycle;
 
 // ELEMENTS ========================================================================================
-Cycle.registerCustomElement("item", (DOM, Properties) => {
+Cycle.registerCustomElement("item", (DOM, Props) => {
   let View = Cycle.createView(Model => {
     return {
       vtree$: Rx.Observable.combineLatest(
@@ -23,22 +23,21 @@ Cycle.registerCustomElement("item", (DOM, Properties) => {
 
   let Model = Cycle.createModel((Intent, Props) => {
     return {
-      id$: Props.get("id$"),
+      id$: Props.get("id$").shareReplay(1),
       width$: Props.get("width$"),
     };
   });
 
   let Intent = Cycle.createIntent(DOM => {
     return {
-      remove$: DOM.event$(".remove", "click").map(event => event.target.value),
-      changeWidth$: DOM.event$(".width-slider", "input").map(event => event.target.value)
+      changeWidth$: DOM.event$(".width-slider", "input").map(event => parseInt(event.target.value)),
     };
   });
 
-  DOM.inject(View).inject(Model).inject(Intent, Properties)[0].inject(DOM);
+  DOM.inject(View).inject(Model).inject(Intent, Props)[0].inject(DOM);
 
   return {
-    remove$: Intent.get("remove$"),
-    changeWidth$: Intent.get("changeWidth$"),
+    changeWidth$: Intent.get("changeWidth$")
+      .withLatestFrom(Model.get("id$"), (width, id) => ({id, width})),
   };
 });

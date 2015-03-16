@@ -1,4 +1,5 @@
 // IMPORTS =========================================================================================
+let Ld = require("lodash");
 let Cycle = require("cyclejs");
 let {Rx, h} = Cycle;
 let Footer = require("./footer");
@@ -11,11 +12,8 @@ let View = Cycle.createView(Model => {
     vtree$: state$.map(models => {
       return (
         <div class="everything">
-          <div class="topButtons">
-            <button class="add-one-btn">Add One</button>
-          </div>
           <div>
-            {models.map(model => {
+            {Ld.sortBy(Ld.values(models), model => model.id).map(model => {
               return h("Item.item", {id: model.id, width: model.width, key: model.id});
             })}
           </div>
