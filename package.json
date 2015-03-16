@@ -1,0 +1,23 @@
+{
+  "name": "cycle-one",
+  "version": "0.0.0",
+  "dependencies": {
+    "cyclejs": "^0.15.3",
+    "lodash": "^3.5.0",
+    "node-uuid": "^1.4.3",
+    "object.assign": "^1.1.1"
+  },
+  "devDependencies": {
+    "babelify": "^5.0.4",
+    "browserify": "^9.0.3",
+    "gulp": "^3.8.11",
+    "gulp-jsx": "^0.8.0",
+    "gulp-plumber": "^1.0.0",
+    "gulp-rename": "^1.2.0",
+    "run-sequence": "^1.0.2",
+    "through2": "^0.6.3",
+    "vinyl": "^0.4.6",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^2.4.0"
+  }
+}

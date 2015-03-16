@@ -1,0 +1,7 @@
+# EXACT
+/node_modules/
+/build/
+/ignore/
+
+# BY MASK
+.idea
