@@ -43,12 +43,6 @@ var Rx = Cycle.Rx;
 // EXPORTS =========================================================================================
 var Intent = Cycle.createIntent(function (DOM) {
   return {
-    add$: DOM.event$(".add", "click").map(function (event) {
-      return 1;
-    }),
-    remove$: DOM.event$(".item", "destroy").map(function (event) {
-      return event.data;
-    }),
     changeWidth$: DOM.event$(".item", "changeWidth").map(function (event) {
       return event.data;
     }) };
