@@ -10,7 +10,7 @@ Features:
 ## Rebuild
 
 ```
-$ gulp -- rebuild all examples
+$ gulp // rebuild all examples
 ```
 
 ## See in browser
