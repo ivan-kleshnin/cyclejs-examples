@@ -6,12 +6,17 @@ There will be more.
 
 ## Examples
 
-0. [Timer](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/0-timer)
-1. [Hello](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/1-hello)
-2. [Slider: intro](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/2-slider-intro)
-3. [Slider: state](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/3-slider-state)
-4. [Slider: multiple](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/4-slider-multiple)
-5. [Slider: colors](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/5-slider-colors)
+\#1.1 [Timer](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/1.1-timer)
+
+\#2.1 [Hello](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/2.1-hello)
+
+\#3.1 [Slider: intro](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/3.1-slider-intro)
+
+\#3.2 [Slider: state](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/3.2-slider-state)
+
+\#3.3 [Slider: multiple](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/3.3-slider-multiple)
+
+\#3.4 [Slider: colors](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/3.4-slider-colors)
 
 *See index.html in browser*
 

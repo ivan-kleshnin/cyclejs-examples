@@ -12,6 +12,7 @@
   "devDependencies": {
     "babelify": "^5.0.4",
     "browserify": "^9.0.3",
+    "glob": "^5.0.3",
     "gulp": "^3.8.11",
     "gulp-jsx": "^0.8.0",
     "gulp-plumber": "^1.0.0",

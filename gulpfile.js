@@ -1,10 +1,10 @@
 // IMPORTS =========================================================================================
+var Path = require("path");
 var ChildProcess = require("child_process");
+var Glob = require("glob");
 var Gulp = require("gulp");
 var gulpJsx = require("gulp-jsx");
 var gulpPlumber = require("gulp-plumber");
-var browserify = require("browserify");
-var watchify = require("watchify");
 var runSequence = require("run-sequence");
 
 // OPTIONS =========================================================================================
@@ -20,16 +20,9 @@ var jsxOptions = {
   }
 };
 
-let apps = [
-  "0-timer",
-  "1-hello",
-  "2-slider-intro",
-  "3-slider-state",
-  "4-slider-multiple",
-  "5-slider-colors",
-];
+var apps = Glob.sync("./src/*").map(function(path) { return Path.basename(path); });
 
-let libraries = [
+var libraries = [
   "cyclejs",
   "lodash.sortby",
   "lodash.values",
@@ -41,7 +34,7 @@ require("events").EventEmitter.defaultMaxListeners = 999;
 
 // HELPERS =========================================================================================
 function interleaveWith(array, prefix) {
-  return array.reduce((memo, val) => {
+  return array.reduce(function(memo, val) {
     return memo.concat([prefix]).concat([val]);
   }, []);
 }
@@ -62,13 +55,11 @@ Gulp.task("build", function() {
 
 Gulp.task("bundle-vendors", function() {
   // $ browserify -d -r cyclejs [-r ...] -o ./static/scripts/vendors.js
-  let args = ["-d"]
+  var args = ["-d"]
     .concat(interleaveWith(libraries, "-r"))
     .concat(["-o", "./static/scripts/vendors.js"]);
 
-  process.setMaxListeners(999);
-  let bundler = ChildProcess.spawn("browserify", args);
-  bundler.setMaxListeners(999);
+  var bundler = ChildProcess.spawn("browserify", args);
   bundler.stdout.pipe(process.stdout);
   bundler.stderr.pipe(process.stderr);
   bundler.on("exit", function(code) {
@@ -81,12 +72,12 @@ Gulp.task("bundle-vendors", function() {
 Gulp.task("bundle-apps", function() {
   apps.forEach(function(app) {
     // $ browserify -d -x cyclejs [-x ...] ./build/{app}/app.js -o ./static/{app}/scripts/app.js
-    let args = ["-d"]
+    var args = ["-d"]
       .concat(interleaveWith(libraries, "-x"))
       .concat(["./build/" + app + "/app.js"])
       .concat(["-o", "./static/" + app + "/scripts/app.js"]);
 
-    let bundler = ChildProcess.spawn("browserify", args);
+    var bundler = ChildProcess.spawn("browserify", args);
     bundler.stdout.pipe(process.stdout);
     bundler.stderr.pipe(process.stderr);
     bundler.on("exit", function(code) {
@@ -100,12 +91,12 @@ Gulp.task("bundle-apps", function() {
 Gulp.task("watch-build", function() {
   apps.forEach(function(app) {
     // $ watchify -v -d -x react -x reflux [-x ...] ./build/{app}/app.js -o ./static/{app}/scripts/app.js
-    let args = ["-v", "-d"]
+    var args = ["-v", "-d"]
       .concat(interleaveWith(libraries, "-x"))
       .concat(["./build/" + app + "/app.js"])
       .concat(["-o", "./static/" + app + "/scripts/app.js"]);
 
-    let watcher = ChildProcess.spawn("watchify", args);
+    var watcher = ChildProcess.spawn("watchify", args);
     watcher.stdout.pipe(process.stdout);
     watcher.stderr.pipe(process.stderr);
   });
