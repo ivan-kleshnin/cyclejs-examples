@@ -6,6 +6,7 @@ There will be more.
 
 ## Examples
 
+0. [Timer](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/0-timer)
 1. [Hello](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/1-hello)
 2. [Slider: intro](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/2-slider-intro)
 3. [Slider: state](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/3-slider-state)
