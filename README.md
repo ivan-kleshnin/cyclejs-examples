@@ -1,11 +1,8 @@
 # CycleJS example apps
 
-Early stage. Proof of concepts.
-
-See [CycleJS](https://github.com/staltz/cycle) for more information.
-
-Features:
-* JSX views
+Based on CycleJS [examples](https://github.com/staltz/cycle/tree/master/examples/).
+Examples are reworked with ES6 syntax, JSX views and regrouped for better understanding.
+There will be more.
 
 ## Rebuild
 
@@ -21,3 +18,6 @@ static/two/index.html
 ...
 ```
 
+## Useful links
+
+[Comparison of reactive approaches](https://github.com/Paqmind/reactive)
