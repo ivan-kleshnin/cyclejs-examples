@@ -23,8 +23,9 @@ There will be more.
 ## Rebuild
 
 ```
-$ gulp dist // rebuild all examples
-$ gulp      // rebuild & watch
+$ bin/fixes/globule // remove broken lodash dependency
+$ gulp dist         // rebuild all examples
+$ gulp              // rebuild & watch
 ```
 
 ## Useful links

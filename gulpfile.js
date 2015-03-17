@@ -113,5 +113,5 @@ Gulp.task("default", function() {
 
 Gulp.task("dist", function() {
   exitOnError = true;
-  runSequence("build", "bundle");
+  runSequence("build", "bundle-vendors", "bundle-apps");
 });
