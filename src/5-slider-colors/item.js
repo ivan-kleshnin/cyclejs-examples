@@ -5,10 +5,11 @@ let {Rx, h} = Cycle;
 // ELEMENTS ========================================================================================
 Cycle.registerCustomElement("item", (DOM, Props) => {
   let View = Cycle.createView(Model => {
+    let id$ = Model.get("id$");
+    let width$ = Model.get("width$");
+    let color$ = Model.get("color$");
     return {
-      vtree$: Rx.Observable.combineLatest(
-        Model.get("id$"), Model.get("width$"),
-        function(id, width) {
+      vtree$: Rx.Observable.combineLatest(id$, width$, color$, (id, width, color) => {
           return (
             <div class="item" style={{width: width + "px"}}>
               <div class="slider-container">
@@ -26,6 +27,7 @@ Cycle.registerCustomElement("item", (DOM, Props) => {
     return {
       id$: Props.get("id$").shareReplay(1),
       width$: Props.get("width$"),
+      color$: Props.get("color$"),
     };
   });
 
@@ -33,6 +35,7 @@ Cycle.registerCustomElement("item", (DOM, Props) => {
     return {
       remove$: DOM.event$(".remove", "click").map(event => true),
       changeWidth$: DOM.event$(".width-slider", "input").map(event => parseInt(event.target.value)),
+      changeColor$: DOM.event$(".color-field", "input").map(event => parseInt(event.target.value)),
     };
   });
 
@@ -44,5 +47,8 @@ Cycle.registerCustomElement("item", (DOM, Props) => {
 
     changeWidth$: Intent.get("changeWidth$")
       .withLatestFrom(Model.get("id$"), (width, id) => ({id, width})),
+
+    changeColor$: Intent.get("changeColor$")
+      .withLatestFrom(Model.get("id$"), (color, id) => ({id, color})),
   };
 });
