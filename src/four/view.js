@@ -12,6 +12,9 @@ let View = Cycle.createView(Model => {
     vtree$: state$.map(models => {
       return (
         <div class="everything">
+          <div class="topButtons">
+            <button class="add">Add Random</button>
+          </div>
           <div>
             {Ld.sortBy(Ld.values(models), model => model.id).map(model => {
               return h("Item.item", {id: model.id, width: model.width, key: model.id});

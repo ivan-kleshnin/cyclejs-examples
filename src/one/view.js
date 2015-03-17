@@ -21,8 +21,9 @@ let View = Cycle.createView(Model => {
           {h("Footer")}
         </div>
       );
-    })
+    }),
   };
 });
 
 module.exports = View;
+

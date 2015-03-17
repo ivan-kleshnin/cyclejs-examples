@@ -3,7 +3,7 @@ let Cycle = require("cyclejs");
 let {Rx, h} = Cycle;
 
 // ELEMENTS ========================================================================================
-Cycle.registerCustomElement("footer", User => {
+Cycle.registerCustomElement("footer", DOM => {
   let View = Cycle.createView(() => {
     return {
       vtree$: Rx.Observable.return(
@@ -12,5 +12,5 @@ Cycle.registerCustomElement("footer", User => {
     };
   });
 
-  User.inject(View);
+  DOM.inject(View);
 });

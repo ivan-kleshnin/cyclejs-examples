@@ -10,7 +10,7 @@ Cycle.registerCustomElement("item", (DOM, Props) => {
         Model.get("id$"), Model.get("width$"),
         function(id, width) {
           return (
-            <div className="item" style={{width: width + "px"}}>
+            <div class="item" style={{width: width + "px"}}>
               <div class="slider-container">
                 <input class="width-slider" type="range" min="200" max="1000" data-id={id} value={width}/>
               </div>
