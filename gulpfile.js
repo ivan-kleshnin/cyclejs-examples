@@ -26,7 +26,7 @@ let apps = [
   "2-slider-intro",
   "3-slider-state",
   "4-slider-multiple",
-  //"5-slider-colors",
+  "5-slider-colors",
 ];
 
 let libraries = [
