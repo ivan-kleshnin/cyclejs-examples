@@ -1,22 +1,24 @@
 # CycleJS example apps
 
-Based on CycleJS [examples](https://github.com/staltz/cycle/tree/master/examples/).
-Examples are reworked with ES6 syntax, JSX views and regrouped for better understanding.
+Derived from CycleJS [examples](https://github.com/staltz/cycle/tree/master/examples/).
+Narrative examples with ES6 syntax and JSX views. All that you like.
 There will be more.
 
 ## Examples
 
-\#1.1 [Timer](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/1.1-timer)
+\#1.1 [Timer](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/1.1-timer) – simplest timer. Compare to [React](http://jsfiddle.net/martinaglv/3fZT2/light/) implementation
 
-\#2.1 [Hello](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/2.1-hello)
+\#2.1 [Hello: ](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/2.1-hello) – input tracking, multiple files.
 
-\#3.1 [Slider: intro](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/3.1-slider-intro)
+\#2.2 [Hello: footer](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/2.1-hello) – example of static component.
 
-\#3.2 [Slider: state](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/3.2-slider-state)
+\#3.1 [Slider: intro](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/3.1-slider-intro) – input tracking with slider.
 
-\#3.3 [Slider: multiple](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/3.3-slider-multiple)
+\#3.2 [Slider: state](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/3.2-slider-state) – reimplement state.
 
-\#3.4 [Slider: colors](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/3.4-slider-colors)
+\#3.3 [Slider: multiple](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/3.3-slider-multiple) – add/remove sliders.
+
+\#3.4 [Slider: colors](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/3.4-slider-colors) – more attributes.
 
 *See index.html in browser*
 
