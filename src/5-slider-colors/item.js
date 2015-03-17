@@ -37,7 +37,7 @@ Cycle.registerCustomElement("item", (DOM, Props) => {
   let Intent = Cycle.createIntent(DOM => {
     return {
       changeWidth$: DOM.event$(".width-slider", "input").map(event => parseInt(event.target.value)),
-      changeColor$: DOM.event$(".color-field", "input").map(event => parseInt(event.target.value)),
+      changeColor$: DOM.event$(".color-input", "input").map(event => event.target.value),
       remove$: DOM.event$(".remove", "click").map(event => true),
     };
   });

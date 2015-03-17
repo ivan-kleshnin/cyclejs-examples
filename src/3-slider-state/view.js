@@ -1,5 +1,6 @@
 // IMPORTS =========================================================================================
-let Ld = require("lodash");
+let sortBy = require("lodash.sortby");
+let values = require("lodash.values");
 let Cycle = require("cyclejs");
 let {Rx, h} = Cycle;
 let Footer = require("./footer");
@@ -13,7 +14,7 @@ let View = Cycle.createView(Model => {
       return (
         <div class="everything">
           <div>
-            {Ld.sortBy(Ld.values(models), model => model.id).map(model => {
+            {sortBy(values(models), model => model.id).map(model => {
               return h("Item.item", {id: model.id, width: model.width, key: model.id});
             })}
           </div>

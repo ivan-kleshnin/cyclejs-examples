@@ -1,0 +1,1 @@
+console.error("Error: Cannot find module '/Users/ivankleshnin/JavaScript/cyclejs-examples/frontend/app/app.js' from '/Users/ivankleshnin/JavaScript/cyclejs-examples'")
