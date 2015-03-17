@@ -17,7 +17,7 @@ let View = Cycle.createView(Model => {
           </div>
           <div>
             {Ld.sortBy(Ld.values(models), model => model.id).map(model => {
-              return h("Item.item", {id: model.id, width: model.width, key: model.id});
+              return h("Item.item", {id: model.id, width: model.width, color: model.color, key: model.id});
             })}
           </div>
           {h("Footer")}

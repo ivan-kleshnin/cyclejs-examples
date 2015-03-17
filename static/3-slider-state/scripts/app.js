@@ -61,9 +61,11 @@ var h = Cycle.h;
 // ELEMENTS ========================================================================================
 Cycle.registerCustomElement("item", function (DOM, Props) {
   var View = Cycle.createView(function (Model) {
+    var id$ = Model.get("id$");
+    var width$ = Model.get("width$");
     return {
-      vtree$: Rx.Observable.combineLatest(Model.get("id$"), Model.get("width$"), function (id, width) {
-        return h("div", { className: "item", style: { width: width + "px" } }, [h("div", { className: "slider-container" }, [h("input", { className: "width-slider", type: "range", min: "200", max: "1000", "data-id": id, value: width })])]);
+      vtree$: Rx.Observable.combineLatest(id$, width$, function (id, width) {
+        return h("div", { className: "item", style: { width: width + "px" } }, [h("div", null, [h("input", { className: "width-slider", type: "range", min: "200", max: "1000", value: width })])]);
       }) };
   });
 

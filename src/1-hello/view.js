@@ -21,7 +21,7 @@ let View = Cycle.createView(Model => {
           {h("Footer")}
         </div>
       );
-    }),
+    })
   };
 });
 

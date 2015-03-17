@@ -51,6 +51,9 @@ var Intent = Cycle.createIntent(function (DOM) {
     }),
     changeWidth$: DOM.event$(".item", "changeWidth").map(function (event) {
       return event.data;
+    }),
+    changeColor$: DOM.event$(".item", "changeColor").map(function (event) {
+      return event.data;
     }) };
 });
 
@@ -67,37 +70,48 @@ var h = Cycle.h;
 // ELEMENTS ========================================================================================
 Cycle.registerCustomElement("item", function (DOM, Props) {
   var View = Cycle.createView(function (Model) {
+    var id$ = Model.get("id$");
+    var width$ = Model.get("width$");
+    var color$ = Model.get("color$");
     return {
-      vtree$: Rx.Observable.combineLatest(Model.get("id$"), Model.get("width$"), function (id, width) {
-        return h("div", { className: "item", style: { width: width + "px" } }, [h("div", { className: "slider-container" }, [h("input", { className: "width-slider", type: "range", min: "200", max: "1000", "data-id": id, value: width })]), h("button", { className: "remove" }, ["Remove"])]);
+      vtree$: Rx.Observable.combineLatest(id$, width$, color$, function (id, width, color) {
+        return h("div", { className: "item", style: { width: width + "px", backgroundColor: color } }, [h("div", null, [h("input", { className: "width-slider", type: "range", min: "200", max: "1000", value: width })]), h("div", null, [h("input", { className: "color-input", type: "text", value: color })]), h("button", { className: "remove" }, ["Remove"])]);
       }) };
   });
 
   var Model = Cycle.createModel(function (Intent, Props) {
     return {
       id$: Props.get("id$").shareReplay(1),
-      width$: Props.get("width$") };
+      width$: Props.get("width$"),
+      color$: Props.get("color$") };
   });
 
   var Intent = Cycle.createIntent(function (DOM) {
     return {
-      remove$: DOM.event$(".remove", "click").map(function (event) {
-        return true;
-      }),
       changeWidth$: DOM.event$(".width-slider", "input").map(function (event) {
         return parseInt(event.target.value);
+      }),
+      changeColor$: DOM.event$(".color-field", "input").map(function (event) {
+        return parseInt(event.target.value);
+      }),
+      remove$: DOM.event$(".remove", "click").map(function (event) {
+        return true;
       }) };
   });
 
   DOM.inject(View).inject(Model).inject(Intent, Props)[0].inject(DOM);
 
   return {
-    remove$: Intent.get("remove$").withLatestFrom(Model.get("id$"), function (_, id) {
-      return id;
-    }),
-
     changeWidth$: Intent.get("changeWidth$").withLatestFrom(Model.get("id$"), function (width, id) {
       return { id: id, width: width };
+    }),
+
+    changeColor$: Intent.get("changeColor$").withLatestFrom(Model.get("id$"), function (color, id) {
+      return { id: id, color: color };
+    }),
+
+    remove$: Intent.get("remove$").withLatestFrom(Model.get("id$"), function (_, id) {
+      return id;
     }) };
 });
 
@@ -156,7 +170,8 @@ var Model = Cycle.createModel(function (Intent) {
 function createRandom(withData) {
   return Object.assign({
     id: uuid.v4(),
-    width: Math.floor(Math.random() * 800 + 200) }, withData);
+    width: Math.floor(Math.random() * 800 + 200),
+    color: "#" + Math.random().toString(16).substr(-6) }, withData);
 }
 
 function seedState() {
@@ -194,7 +209,7 @@ var View = Cycle.createView(function (Model) {
       return h("div", { className: "everything" }, [h("div", { className: "topButtons" }, [h("button", { className: "add" }, ["Add Random"])]), h("div", null, [Ld.sortBy(Ld.values(models), function (model) {
         return model.id;
       }).map(function (model) {
-        return h("Item.item", { id: model.id, width: model.width, key: model.id });
+        return h("Item.item", { id: model.id, width: model.width, color: model.color, key: model.id });
       })]), h("Footer")]);
     }) };
 });

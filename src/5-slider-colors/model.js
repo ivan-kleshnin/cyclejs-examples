@@ -56,6 +56,7 @@ function createRandom(withData) {
   return Object.assign({
     id: uuid.v4(),
     width: Math.floor(Math.random() * 800 + 200),
+    color: '#' + Math.random().toString(16).substr(-6),
   }, withData);
 }
 

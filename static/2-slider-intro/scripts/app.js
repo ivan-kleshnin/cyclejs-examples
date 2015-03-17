@@ -59,15 +59,16 @@ var h = Cycle.h;
 // ELEMENTS ========================================================================================
 Cycle.registerCustomElement("item", function (DOM, Props) {
   var View = Cycle.createView(function (Model) {
+    var width$ = Model.get("width$");
     return {
-      vtree$: Rx.Observable.combineLatest(Model.get("width$"), function (width) {
-        return h("div", { className: "item", style: { width: width + "px" } }, [h("div", { className: "slider-container" }, [h("input", { className: "width-slider", type: "range", min: "200", max: "1000", value: width })])]);
+      vtree$: Rx.Observable.combineLatest(width$, function (width) {
+        return h("div", { className: "item", style: { width: width + "px" } }, [h("div", null, [h("input", { className: "width-slider", type: "range", min: "200", max: "1000", value: width })])]);
       }) };
   });
 
   var Model = Cycle.createModel(function (Intent, Props) {
     return {
-      width$: Props.get("width$").startWith(200) };
+      width$: Props.get("width$") };
   });
 
   var Intent = Cycle.createIntent(function (DOM) {

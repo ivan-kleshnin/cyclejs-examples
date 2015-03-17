@@ -11,8 +11,8 @@ Cycle.registerCustomElement("item", (DOM, Props) => {
       vtree$: Rx.Observable.combineLatest(id$, width$, (id, width) => {
           return (
             <div class="item" style={{width: width + "px"}}>
-              <div class="slider-container">
-                <input class="width-slider" type="range" min="200" max="1000" data-id={id} value={width}/>
+              <div>
+                <input class="width-slider" type="range" min="200" max="1000" value={width}/>
               </div>
             </div>
           );

@@ -84,7 +84,8 @@ var View = Cycle.createView(function (Model) {
   return {
     vtree$: Rx.Observable.combineLatest(firstName$, lastName$, function (firstName, lastName) {
       return h("div", null, [h("label", null, ["First Name:"]), h("input", { type: "text", id: "firstName" }), h("label", null, ["Last Name:"]), h("input", { type: "text", id: "lastName" }), h("h1", { className: "header" }, ["Hello ", firstName + " " + lastName]), h("Footer")]);
-    }) };
+    })
+  };
 });
 
 module.exports = View;

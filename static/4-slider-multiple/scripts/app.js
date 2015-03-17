@@ -67,9 +67,11 @@ var h = Cycle.h;
 // ELEMENTS ========================================================================================
 Cycle.registerCustomElement("item", function (DOM, Props) {
   var View = Cycle.createView(function (Model) {
+    var id$ = Model.get("id$");
+    var width$ = Model.get("width$");
     return {
-      vtree$: Rx.Observable.combineLatest(Model.get("id$"), Model.get("width$"), function (id, width) {
-        return h("div", { className: "item", style: { width: width + "px" } }, [h("div", { className: "slider-container" }, [h("input", { className: "width-slider", type: "range", min: "200", max: "1000", "data-id": id, value: width })]), h("button", { className: "remove" }, ["Remove"])]);
+      vtree$: Rx.Observable.combineLatest(id$, width$, function (id, width) {
+        return h("div", { className: "item", style: { width: width + "px" } }, [h("div", null, [h("input", { className: "width-slider", type: "range", min: "200", max: "1000", value: width })]), h("button", { className: "remove" }, ["Remove"])]);
       }) };
   });
 
@@ -81,23 +83,23 @@ Cycle.registerCustomElement("item", function (DOM, Props) {
 
   var Intent = Cycle.createIntent(function (DOM) {
     return {
-      remove$: DOM.event$(".remove", "click").map(function (event) {
-        return true;
-      }),
       changeWidth$: DOM.event$(".width-slider", "input").map(function (event) {
         return parseInt(event.target.value);
+      }),
+      remove$: DOM.event$(".remove", "click").map(function (event) {
+        return true;
       }) };
   });
 
   DOM.inject(View).inject(Model).inject(Intent, Props)[0].inject(DOM);
 
   return {
-    remove$: Intent.get("remove$").withLatestFrom(Model.get("id$"), function (_, id) {
-      return id;
-    }),
-
     changeWidth$: Intent.get("changeWidth$").withLatestFrom(Model.get("id$"), function (width, id) {
       return { id: id, width: width };
+    }),
+
+    remove$: Intent.get("remove$").withLatestFrom(Model.get("id$"), function (_, id) {
+      return id;
     }) };
 });
 
