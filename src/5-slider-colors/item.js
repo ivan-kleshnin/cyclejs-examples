@@ -33,22 +33,22 @@ Cycle.registerCustomElement("item", (DOM, Props) => {
 
   let Intent = Cycle.createIntent(DOM => {
     return {
-      remove$: DOM.event$(".remove", "click").map(event => true),
       changeWidth$: DOM.event$(".width-slider", "input").map(event => parseInt(event.target.value)),
       changeColor$: DOM.event$(".color-field", "input").map(event => parseInt(event.target.value)),
+      remove$: DOM.event$(".remove", "click").map(event => true),
     };
   });
 
   DOM.inject(View).inject(Model).inject(Intent, Props)[0].inject(DOM);
 
   return {
-    remove$: Intent.get("remove$")
-      .withLatestFrom(Model.get("id$"), (_, id) => id),
-
     changeWidth$: Intent.get("changeWidth$")
       .withLatestFrom(Model.get("id$"), (width, id) => ({id, width})),
 
     changeColor$: Intent.get("changeColor$")
       .withLatestFrom(Model.get("id$"), (color, id) => ({id, color})),
+
+    remove$: Intent.get("remove$")
+      .withLatestFrom(Model.get("id$"), (_, id) => id),
   };
 });

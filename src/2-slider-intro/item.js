@@ -5,10 +5,9 @@ let {Rx, h} = Cycle;
 // ELEMENTS ========================================================================================
 Cycle.registerCustomElement("item", (DOM, Props) => {
   let View = Cycle.createView(Model => {
+    let width$ = Model.get("width$");
     return {
-      vtree$: Rx.Observable.combineLatest(
-        Model.get("width$"),
-        function(width) {
+      vtree$: Rx.Observable.combineLatest(width$, (width) => {
           return (
             <div class="item" style={{width: width + "px"}}>
               <div class="slider-container">
@@ -23,7 +22,7 @@ Cycle.registerCustomElement("item", (DOM, Props) => {
 
   let Model = Cycle.createModel((Intent, Props) => {
     return {
-      width$: Props.get("width$").startWith(200),
+      width$: Props.get("width$"),
     };
   });
 
