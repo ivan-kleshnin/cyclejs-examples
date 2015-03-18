@@ -21,7 +21,7 @@ let Model = Cycle.createModel(Intent => {
       .startWith(seedState())
       .scan(function(state, transform) {
         return transform(state);
-      })
+      }),
   };
 });
 
