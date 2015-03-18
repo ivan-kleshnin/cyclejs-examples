@@ -6,7 +6,7 @@ let {Rx} = Cycle;
 let Intent = Cycle.createIntent(DOM => {
   return {
     changeQuery$: DOM.event$(".query", "input")
-      .map(event => event.target.value.trim().toLowerCase()),
+      .map(event => event.target.value.trim()),
   };
 });
 

@@ -8,7 +8,8 @@ let View = Cycle.createView(Model => {
   let data$ = Model.get("data$");
   return {
     vtree$: data$.combineLatest(query$, (data, query) => {
-      let items = query ? data.filter(obj => obj.name.toLowerCase().match(query)) : data;
+      let effectiveQuery = query.toLowerCase();
+      let items = query ? data.filter(obj => obj.name.toLowerCase().match(effectiveQuery)) : data;
       return (
         <div>
           <input class="query" type="text" value={query} placeholder="Type here"/>
