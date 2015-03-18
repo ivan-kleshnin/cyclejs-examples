@@ -2,7 +2,7 @@
 let Cycle = require("cyclejs");
 let {Rx, h} = Cycle;
 let Footer = require("./footer");
-let Item = require("./item");
+let Slider = require("./slider");
 
 // EXPORTS =========================================================================================
 let View = Cycle.createView(Model => {
@@ -12,7 +12,7 @@ let View = Cycle.createView(Model => {
       return (
         <div class="everything">
           <div>
-            {h("Item", {width: width})}
+            {h("Slider", {width: width})}
           </div>
           {h("Footer")}
         </div>

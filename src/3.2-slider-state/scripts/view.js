@@ -4,7 +4,7 @@ let values = require("lodash.values");
 let Cycle = require("cyclejs");
 let {Rx, h} = Cycle;
 let Footer = require("./footer");
-let Item = require("./item");
+let Slider = require("./slider");
 
 // EXPORTS =========================================================================================
 let View = Cycle.createView(Model => {
@@ -15,7 +15,7 @@ let View = Cycle.createView(Model => {
         <div class="everything">
           <div>
             {sortBy(values(models), model => model.id).map(model => {
-              return h("Item.item", {id: model.id, width: model.width, key: model.id});
+              return h("Slider.item", {id: model.id, width: model.width, key: model.id});
             })}
           </div>
           {h("Footer")}
