@@ -1,17 +1,17 @@
 # Changelog
 
-### 0.2.0
+## 0.2.0
 
-#### New
+### New
 * Menu examples (\#4.1, \#4.2)
 * Search example (\#5.1)
 * Gulp cache layer
 
-#### Updates
+### Updates
 * Project structure. Custom styles for every project
 * Better Rx behavior
 * Utilize implicit returns in ES6 style
 * Extend documentation
 
-### 0.1.0
+## 0.1.0
 Initial version
