@@ -32,6 +32,13 @@ $ gulp dist         // rebuild all examples
 $ gulp              // rebuild & watch
 ```
 
-## Useful links
+## Learn
 
-[Comparison of reactive approaches](https://github.com/Paqmind/reactive)
+Examples are given in order of increasing complexity so it's better to review them one-by-one.
+Every next app in a single group contains minimal meaningful changeset to the previous one.
+The best way of learning is comparison. And to compare you just diff files.
+
+## Also see
+
+* [Comparison of reactive approaches](https://github.com/Paqmind/reactive)
+* [Rx marble diagrams](http://rxmarbles.com)
