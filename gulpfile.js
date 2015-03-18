@@ -84,10 +84,10 @@ Gulp.task("prebundle-apps", function() {
 
 Gulp.task("bundle-apps", ["prebundle-apps"], function() {
   apps.forEach(function(app) {
-    // $ browserify -d -x cyclejs [-x ...] ./build/{app}/app.js -o ./dist/{app}/scripts/app.js
+    // $ browserify -d -x cyclejs [-x ...] ./build/{app}/scripts/app.js -o ./dist/{app}/scripts/app.js
     var args = ["-d"]
       .concat(interleaveWith(frontendVendors, "-x"))
-      .concat(["./build/" + app + "/app.js"])
+      .concat(["./build/" + app + "/scripts/app.js"])
       .concat(["-o", "./dist/" + app + "/scripts/app.js"]);
 
     var bundler = ChildProcess.spawn("browserify", args);
