@@ -20,6 +20,8 @@ There will be more.
 
 \#3.4 [Slider: colors](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/3.4-slider-colors) – more attributes.
 
+\#4.1 [Menu: basic](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/4.1-menu-basic) – simplest menu.
+
 *See index.html in browser*
 
 ## Rebuild

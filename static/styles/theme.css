@@ -10,3 +10,13 @@ a {
 .item {
   background: none repeat scroll 0 0 #888;
 }
+
+.active {
+  font-weight: bold;
+}
+
+.menu-item {
+  padding: 5px;
+  margin: 5px;
+  background: lightskyblue;
+}
