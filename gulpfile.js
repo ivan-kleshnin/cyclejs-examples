@@ -6,6 +6,7 @@ var Gulp = require("gulp");
 var gulpJsx = require("gulp-jsx");
 var gulpPlumber = require("gulp-plumber");
 var runSequence = require("run-sequence");
+var frontendVendors = require("./package.json").frontendVendors;
 
 // OPTIONS =========================================================================================
 var exitOnError = false;
@@ -21,14 +22,6 @@ var jsxOptions = {
 };
 
 var apps = Glob.sync("./src/*").map(function(path) { return Path.basename(path); });
-
-var libraries = [
-  "cyclejs",
-  "lodash.sortby",
-  "lodash.values",
-  "node-uuid",
-  "object.assign",
-];
 
 require("events").EventEmitter.defaultMaxListeners = 999;
 
@@ -56,7 +49,7 @@ Gulp.task("build", function() {
 Gulp.task("bundle-vendors", function() {
   // $ browserify -d -r cyclejs [-r ...] -o ./static/scripts/vendors.js
   var args = ["-d"]
-    .concat(interleaveWith(libraries, "-r"))
+    .concat(interleaveWith(frontendVendors, "-r"))
     .concat(["-o", "./static/scripts/vendors.js"]);
 
   var bundler = ChildProcess.spawn("browserify", args);
@@ -73,7 +66,7 @@ Gulp.task("bundle-apps", function() {
   apps.forEach(function(app) {
     // $ browserify -d -x cyclejs [-x ...] ./build/{app}/app.js -o ./static/{app}/scripts/app.js
     var args = ["-d"]
-      .concat(interleaveWith(libraries, "-x"))
+      .concat(interleaveWith(frontendVendors, "-x"))
       .concat(["./build/" + app + "/app.js"])
       .concat(["-o", "./static/" + app + "/scripts/app.js"]);
 
@@ -92,7 +85,7 @@ Gulp.task("watch-build", function() {
   apps.forEach(function(app) {
     // $ watchify -v -d -x react -x reflux [-x ...] ./build/{app}/app.js -o ./static/{app}/scripts/app.js
     var args = ["-v", "-d"]
-      .concat(interleaveWith(libraries, "-x"))
+      .concat(interleaveWith(frontendVendors, "-x"))
       .concat(["./build/" + app + "/app.js"])
       .concat(["-o", "./static/" + app + "/scripts/app.js"]);
 

@@ -19,6 +19,14 @@
     "run-sequence": "^1.0.2",
     "watchify": "^2.4.0"
   },
+  "frontendVendors": [
+    "cyclejs",
+    "lodash.sortby",
+    "lodash.values",
+    "node-uuid",
+    "object.assign",
+    "classnames"
+  ],
   "browserify": {
     "transform": [
       [
