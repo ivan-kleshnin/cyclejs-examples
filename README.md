@@ -22,6 +22,8 @@ There will be more.
 
 \#4.1 [Menu: basic](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/dist/4.1-menu-basic) – simplest menu.
 
+\#5.1 [Search: client](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/dist/5.1-search-client) – search (no API).
+
 *See index.html in browser*
 
 ## Rebuild
