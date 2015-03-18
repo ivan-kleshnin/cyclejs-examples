@@ -17,7 +17,7 @@ let View = Cycle.createView(Model => {
           <label>Last Name:</label>
           <input type="text" id="lastName"/>
 
-          <h1 class="header">Hello {firstName + " " + lastName}</h1>
+          <h1>Hello {firstName + " " + lastName}</h1>
           {h("Footer")}
         </div>
       );
