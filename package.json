@@ -1,6 +1,6 @@
 {
   "name": "cyclejs-examples",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "dependencies": {
     "classnames": "^1.2.0",
     "cyclejs": "^0.15.3",
