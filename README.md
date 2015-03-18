@@ -6,7 +6,7 @@ There will be more.
 
 ## Examples
 
-\#1.1 [Timer](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/dist/1.1-timer) – simplest timer. Compare to [React](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/) version.
+\#1.1 [Timer](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/dist/1.1-timer) – simplest timer. Compare to React [version](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/).
 
 \#2.1 [Hello: input](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/dist/2.1-hello-input) – input tracking, multiple files.
 
@@ -20,9 +20,9 @@ There will be more.
 
 \#3.4 [Slider: colors](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/dist/3.4-slider-colors) – more attributes.
 
-\#4.1 [Menu: basic](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/dist/4.1-menu-basic) – simplest menu. Compare to [React](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/) version
+\#4.1 [Menu: basic](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/dist/4.1-menu-basic) – simplest menu. Compare to React [version](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/).
 
-\#5.1 [Search: client](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/dist/5.1-search-client) – search (no API). Compare to [React](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/) version
+\#5.1 [Search: client](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/dist/5.1-search-client) – search (no API). Compare to React [version](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/).
 
 *See index.html in browser*
 
