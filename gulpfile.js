@@ -119,6 +119,9 @@ Gulp.task("watch-build", function() {
 
 Gulp.task("watch-src", function() {
   Gulp.watch("src/**/*.js", ["build"]);
+  Gulp.watch("src/**/*.css", ["dist-css"]);
+  Gulp.watch("src/**/*.html", ["dist-html"]);
+  //Gulp.watch("src/**/*.less", ["dist-less"]);
 });
 
 // TASK DEPS =======================================================================================
