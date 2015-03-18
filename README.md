@@ -22,6 +22,8 @@ There will be more.
 
 \#4.1 [Menu: basic](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/dist/4.1-menu-basic) – simplest menu. Compare to React [version](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/).
 
+\#4.2 [Menu: form](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/dist/4.1-menu-form) – menu & order form. Compare to React [version](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/).
+
 \#5.1 [Search: client](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/dist/5.1-search-client) – search (no API). Compare to React [version](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/).
 
 *See index.html in browser*
