@@ -13,5 +13,5 @@ if gulp dist; then
 fi
 
 if ${stash}; then
-  git stash apply
+  git checkout stash -- .
 fi
