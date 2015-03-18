@@ -21,9 +21,10 @@ Cycle.registerCustomElement("Menu", (DOM, Props) => {
           <div>
             <ul>
               {items.map((item, i) =>
-                (<li attributes={{"data-index": i}} key={i} class={makeClass({"menu-item": true, active: active == i})}>{item}</li>)
+                (<li attributes={{"data-index": i}} key={i} class={makeClass({"menu-item": true, active: i == active})}>{item}</li>)
               )}
             </ul>
+            <p>Selected: <b>{items[active]}</b></p>
           </div>
         );
       }),
@@ -34,7 +35,7 @@ Cycle.registerCustomElement("Menu", (DOM, Props) => {
 
   let Intent = Cycle.createIntent(DOM => {
     return {
-      selectActive$: DOM.event$("", "click").map(event => event.target.dataset.index),
+      selectActive$: DOM.event$(".menu-item", "click").map(event => event.target.dataset.index),
     };
   });
 
