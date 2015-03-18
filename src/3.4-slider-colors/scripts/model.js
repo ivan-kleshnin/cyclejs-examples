@@ -46,9 +46,9 @@ let Model = Cycle.createModel(Intent => {
   return {
     state$: transforms
       .startWith(seedState())
-      .scan(function(state, transform) {
-        return transform(state);
-      })
+      .scan((state, transform) => (
+        transform(state)
+      )),
   };
 });
 
