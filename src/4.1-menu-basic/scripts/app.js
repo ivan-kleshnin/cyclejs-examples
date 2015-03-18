@@ -5,16 +5,15 @@ let makeClass = require("classnames");
 
 // APP =============================================================================================
 Cycle.registerCustomElement("Menu", (DOM, Props) => {
-  let Model = Cycle.createModel((Intent, Props) => {
+  let Model = Cycle.createModel(Intent => {
     return {
-      items$: Props.get("items$").startWith(["Home", "Feedback"]),
       active$: Intent.get("selectActive$").startWith(0),
     };
   });
 
-  let View = Cycle.createView(Model => {
+  let View = Cycle.createView((Model, Props) => {
     let active$ = Model.get("active$");
-    let items$ = Model.get("items$");
+    let items$ = Props.get("items$");
     return {
       vtree$: active$.combineLatest(items$, (active, items) => {
         return (
@@ -28,7 +27,6 @@ Cycle.registerCustomElement("Menu", (DOM, Props) => {
           </div>
         );
       }),
-      // TODO <p>Selected: {Props.items[active]}</p>
       // TODO https://github.com/alexmingoia/jsx-transform/issues/15
     };
   });
@@ -39,7 +37,7 @@ Cycle.registerCustomElement("Menu", (DOM, Props) => {
     };
   });
 
-  DOM.inject(View).inject(Model).inject(Intent, Props)[0].inject(DOM);
+  DOM.inject(View).inject(Model, Props)[0].inject(Intent).inject(DOM);
 });
 
 let View = Cycle.createView(() => {
