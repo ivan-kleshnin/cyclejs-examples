@@ -1,0 +1,23 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.item {
+  background: none repeat scroll 0 0 #888;
+}
+
+.active {
+  font-weight: bold;
+}
+
+.menu-item {
+  padding: 5px;
+  margin: 5px;
+  background: lightskyblue;
+  cursor:pointer;
+}

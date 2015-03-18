@@ -6,6 +6,7 @@ var Gulp = require("gulp");
 var gulpJsx = require("gulp-jsx");
 var gulpPlumber = require("gulp-plumber");
 var runSequence = require("run-sequence");
+var mkdirp = require("mkdirp");
 var frontendVendors = require("./package.json").frontendVendors;
 
 // OPTIONS =========================================================================================
@@ -21,7 +22,7 @@ var jsxOptions = {
   }
 };
 
-var apps = Glob.sync("./src/*").map(function(path) { return Path.basename(path); });
+var apps = Glob.sync("./src/*/").map(function(path) { return Path.basename(path); });
 
 require("events").EventEmitter.defaultMaxListeners = 999;
 
@@ -32,13 +33,26 @@ function interleaveWith(array, prefix) {
   }, []);
 }
 
-function gulpTo5(opts) {
-  return gulp6to5(Object.assign({
-    experimental: true
-  }, opts));
-}
-
 // TASKS ===========================================================================================
+Gulp.task("dist-html", function() {
+  return Gulp.src(["./src/**/*.html"])
+    .pipe(gulpPlumber({errorHandler: !exitOnError}))
+    .pipe(Gulp.dest("./dist/"));
+});
+
+Gulp.task("dist-css", function() {
+  return Gulp.src(["./src/**/*.css"])
+    .pipe(gulpPlumber({errorHandler: !exitOnError}))
+    .pipe(Gulp.dest("./dist/"));
+});
+
+Gulp.task("dist-less", function() {
+//  return Gulp.src(["./frontend/styles/theme.less", "./frontend/styles/http-errors.less"])
+//    .pipe(gulpPlumber({errorHandler: !exitOnError}))
+//    .pipe(gulpLess())
+//    .pipe(Gulp.dest("./dist/styles"));
+});
+
 Gulp.task("build", function() {
   return Gulp.src("src/**/*.js")
     .pipe(gulpPlumber({errorHandler: !exitOnError}))
@@ -47,10 +61,10 @@ Gulp.task("build", function() {
 });
 
 Gulp.task("bundle-vendors", function() {
-  // $ browserify -d -r cyclejs [-r ...] -o ./static/scripts/vendors.js
+  // $ browserify -d -r cyclejs [-r ...] -o ./dist/scripts/vendors.js
   var args = ["-d"]
     .concat(interleaveWith(frontendVendors, "-r"))
-    .concat(["-o", "./static/scripts/vendors.js"]);
+    .concat(["-o", "./dist/scripts/vendors.js"]);
 
   var bundler = ChildProcess.spawn("browserify", args);
   bundler.stdout.pipe(process.stdout);
@@ -62,13 +76,19 @@ Gulp.task("bundle-vendors", function() {
   });
 });
 
-Gulp.task("bundle-apps", function() {
+Gulp.task("prebundle-apps", function() {
   apps.forEach(function(app) {
-    // $ browserify -d -x cyclejs [-x ...] ./build/{app}/app.js -o ./static/{app}/scripts/app.js
+    mkdirp.sync("dist/" + app + "/scripts/");
+  });
+});
+
+Gulp.task("bundle-apps", ["prebundle-apps"], function() {
+  apps.forEach(function(app) {
+    // $ browserify -d -x cyclejs [-x ...] ./build/{app}/app.js -o ./dist/{app}/scripts/app.js
     var args = ["-d"]
       .concat(interleaveWith(frontendVendors, "-x"))
       .concat(["./build/" + app + "/app.js"])
-      .concat(["-o", "./static/" + app + "/scripts/app.js"]);
+      .concat(["-o", "./dist/" + app + "/scripts/app.js"]);
 
     var bundler = ChildProcess.spawn("browserify", args);
     bundler.stdout.pipe(process.stdout);
@@ -83,11 +103,11 @@ Gulp.task("bundle-apps", function() {
 
 Gulp.task("watch-build", function() {
   apps.forEach(function(app) {
-    // $ watchify -v -d -x react -x reflux [-x ...] ./build/{app}/app.js -o ./static/{app}/scripts/app.js
+    // $ watchify -v -d -x react -x reflux [-x ...] ./build/{app}/app.js -o ./dist/{app}/scripts/app.js
     var args = ["-v", "-d"]
       .concat(interleaveWith(frontendVendors, "-x"))
       .concat(["./build/" + app + "/app.js"])
-      .concat(["-o", "./static/" + app + "/scripts/app.js"]);
+      .concat(["-o", "./dist/" + app + "/scripts/app.js"]);
 
     var watcher = ChildProcess.spawn("watchify", args);
     watcher.stdout.pipe(process.stdout);
@@ -101,10 +121,19 @@ Gulp.task("watch-src", function() {
 
 // TASK DEPS =======================================================================================
 Gulp.task("default", function() {
-  runSequence("build", "bundle-vendors", "bundle-apps", ["watch-src", "watch-build"]);
+  runSequence(
+    ["dist-html", "dist-css", "dist-less"],
+    "build",
+    ["bundle-vendors", "bundle-apps"],
+    ["watch-src", "watch-build"]
+  );
 });
 
 Gulp.task("dist", function() {
   exitOnError = true;
-  runSequence("build", "bundle-vendors", "bundle-apps");
+  runSequence(
+    ["dist-html", "dist-css", "dist-less"],
+    "build",
+    ["bundle-vendors", "bundle-apps"]
+  );
 });
