@@ -4,6 +4,7 @@ var ChildProcess = require("child_process");
 var Glob = require("glob");
 var Gulp = require("gulp");
 var gulpJsx = require("gulp-jsx");
+var gulpCached = require("gulp-cached");
 var gulpPlumber = require("gulp-plumber");
 var runSequence = require("run-sequence");
 var mkdirp = require("mkdirp");
@@ -56,6 +57,7 @@ Gulp.task("dist-less", function() {
 Gulp.task("build", function() {
   return Gulp.src("src/**/*.js")
     .pipe(gulpPlumber({errorHandler: !exitOnError}))
+    .pipe(gulpCached("build"))
     .pipe(gulpJsx(jsxOptions))
     .pipe(Gulp.dest("build"));
 });
@@ -103,10 +105,10 @@ Gulp.task("bundle-apps", ["prebundle-apps"], function() {
 
 Gulp.task("watch-build", function() {
   apps.forEach(function(app) {
-    // $ watchify -v -d -x react -x reflux [-x ...] ./build/{app}/app.js -o ./dist/{app}/scripts/app.js
+    // $ watchify -v -d -x react -x reflux [-x ...] ./build/{app}/scripts/app.js -o ./dist/{app}/scripts/app.js
     var args = ["-v", "-d"]
       .concat(interleaveWith(frontendVendors, "-x"))
-      .concat(["./build/" + app + "/app.js"])
+      .concat(["./build/" + app + "/scripts/app.js"])
       .concat(["-o", "./dist/" + app + "/scripts/app.js"]);
 
     var watcher = ChildProcess.spawn("watchify", args);
