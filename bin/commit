@@ -1,0 +1,17 @@
+#!/bin/sh
+# We should distribute and run tests against commited state, not working dir state
+# So we stash / unstash non-staged changes
+
+set -ue
+
+if ${stash}; then
+  git stash save --keep-index
+fi
+
+if gulp dist; then
+  git commit ${@};
+fi
+
+if ${stash}; then
+  git stash apply
+fi
