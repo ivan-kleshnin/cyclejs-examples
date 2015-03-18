@@ -20,7 +20,7 @@ Cycle.registerCustomElement("Menu", (DOM, Props) => {
           <div>
             <ul>
               {items.map((item, i) =>
-                (<li attributes={{"data-index": i}} key={i} class={makeClass({"menu-item": true, active: i == active})}>{item}</li>)
+                <li attributes={{"data-index": i}} key={i} class={makeClass({"menu-item": true, active: i == active})}>{item}</li>
               )}
             </ul>
             <p>Selected: <b>{items[active]}</b></p>
