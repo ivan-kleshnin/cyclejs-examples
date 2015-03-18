@@ -6,7 +6,7 @@ There will be more.
 
 ## Examples
 
-\#1.1 [Timer](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/1.1-timer) – simplest timer. Compare to [React](http://jsfiddle.net/martinaglv/3fZT2/light/) implementation.
+\#1.1 [Timer](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/1.1-timer) – simplest timer. Compare to [React](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/) implementation.
 
 \#2.1 [Hello: input](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/static/2.1-hello-input) – input tracking, multiple files.
 
