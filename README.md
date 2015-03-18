@@ -40,5 +40,5 @@ The best way of learning is comparison. And to compare you just diff files.
 
 ## Also see
 
-* [Comparison of reactive approaches](https://github.com/Paqmind/reactive)
+* [Comparison of "reactive" architectures](https://github.com/Paqmind/reactive)
 * [Rx marble diagrams](http://rxmarbles.com)
