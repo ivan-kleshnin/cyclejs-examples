@@ -11,13 +11,10 @@ a {
   background: none repeat scroll 0 0 #888;
 }
 
-.active {
-  font-weight: bold;
+nav .menu-item {
+  cursor: pointer;
 }
 
-.menu-item {
-  padding: 5px;
-  margin: 5px;
+nav .menu-item.active {
   background: lightskyblue;
-  cursor:pointer;
 }
