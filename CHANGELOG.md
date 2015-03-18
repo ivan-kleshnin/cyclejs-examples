@@ -9,7 +9,7 @@
 
 ### Updates
 * Project structure. Custom styles for every project
-* Better Rx behavior
+* Better Rx handling
 * Utilize implicit returns in ES6 style
 * Extend documentation
 
