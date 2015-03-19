@@ -10,7 +10,7 @@ let View = Cycle.createView(Model => {
     vtree$: width$.map(width => (
       <div class="everything">
         <div>
-          {h("Slider", {width: width})}
+          <Slider width={width}/>
         </div>
       </div>
     )),

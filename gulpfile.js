@@ -16,6 +16,7 @@ var exitOnError = false;
 var jsxOptions = {
   ignoreDocblock: true,
   docblockUnknownTags: true,
+  unknownTagsAsString: true,
   jsx: "h",
   renameAttrs: {
     "for": "htmlFor",

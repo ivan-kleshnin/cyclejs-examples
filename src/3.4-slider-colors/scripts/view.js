@@ -15,9 +15,9 @@ let View = Cycle.createView(Model => {
           <button class="add">Add Random</button>
         </div>
         <div>
-          {sortBy(values(models), model => model.id).map(model => {
-            return h("Slider.item", {id: model.id, width: model.width, color: model.color, key: model.id});
-          })}
+          {sortBy(values(models), model => model.id).map(model =>
+            <Slider id={model.id} width={model.width} color={model.color} key={model.id}/>
+          )}
         </div>
       </div>
     )),

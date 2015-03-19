@@ -11,7 +11,9 @@ let data = [
 let active = "Services";
 
 let View = Cycle.createView(() => ({
-  vtree$: Rx.Observable.return(h("Menu", {items: data, active: active})),
+  vtree$: Rx.Observable.return(
+    <Menu items={data} active={active}/>
+  ),
 }));
 
 Cycle.createDOMUser("main").inject(View);

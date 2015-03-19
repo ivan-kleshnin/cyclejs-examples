@@ -12,9 +12,9 @@ let View = Cycle.createView(Model => {
     vtree$: state$.map(models => (
       <div class="everything">
         <div>
-          {sortBy(values(models), model => model.id).map(model => {
-            return h("Slider.item", {id: model.id, width: model.width, key: model.id});
-          })}
+          {sortBy(values(models), model => model.id).map(model =>
+            <Slider id={model.id} width={model.width} key={model.id}/>
+          )}
         </div>
       </div>
     )),
