@@ -25,7 +25,7 @@ Cycle.registerCustomElement("Menu", (DOM, Props) => {
             <nav>
               {items.map(item =>
                 <div attributes={{"data-name": item}} key={item}
-                  class={makeClass({"menu-item": true, active: item == active})}>
+                  class={makeClass({"item": true, active: item == active})}>
                   {item}
                 </div>
               )}
@@ -42,7 +42,7 @@ Cycle.registerCustomElement("Menu", (DOM, Props) => {
 
   let Intent = Cycle.createIntent(DOM => {
     return {
-      selectActive$: DOM.event$(".menu-item", "click")
+      selectActive$: DOM.event$("nav .item", "click")
         .map(event => event.currentTarget.dataset.name),
     };
   });
