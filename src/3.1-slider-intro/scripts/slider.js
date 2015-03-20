@@ -5,16 +5,21 @@ let {Rx, h} = Cycle;
 // ELEMENTS ========================================================================================
 Cycle.registerCustomElement("Slider", (DOM, Props) => {
   let Model = Cycle.createModel((Intent, Props) => ({
-    width$: Props.get("width$"),
+    value$: Props.get("value$").startWith(0)
+      .merge(Intent.get("changeValue$")),
   }));
 
   let View = Cycle.createView(Model => {
-    let width$ = Model.get("width$");
+    let value$ = Model.get("value$");
     return {
-      vtree$: width$.map(width => (
-        <div class="item" style={{width: width + "px"}}>
-          <div>
-            <input class="width-slider" type="range" min="200" max="1000" value={width}/>
+      vtree$: value$.map(value => (
+        <div class="form-group">
+          <label>Amount</label>
+          <div class="input-group">
+            <input type="range" value={value} placeholder="Amount"/>
+            <div class="input-group-addon">
+              <input type="text" value={value} readonly="1"/>
+            </div>
           </div>
         </div>
       )),
@@ -23,13 +28,14 @@ Cycle.registerCustomElement("Slider", (DOM, Props) => {
 
   let Intent = Cycle.createIntent(DOM => {
     return {
-      changeWidth$: DOM.event$(".width-slider", "input").map(event => parseInt(event.target.value)),
+      changeValue$: DOM.event$("[type=range]", "input")
+        .map(event => parseInt(event.target.value)),
     };
   });
 
   DOM.inject(View).inject(Model).inject(Intent, Props)[0].inject(DOM);
 
   return {
-    changeWidth$: Intent.get("changeWidth$")
+    changeValue$: Intent.get("changeValue$")
   };
 });

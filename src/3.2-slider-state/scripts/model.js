@@ -5,15 +5,15 @@ let {Rx} = Cycle;
 
 // EXPORTS =========================================================================================
 let Model = Cycle.createModel(Intent => {
-  let changeWidth$ = Intent.get("changeWidth$").map(model => {
+  let changeValue$ = Intent.get("changeValue$").map(model => {
     return function transform(state) {
-      state[model.id].width = model.width;
+      state[model.id].value = model.value;
       return state;
     };
   });
 
   let transforms = Rx.Observable.merge(
-    changeWidth$
+    changeValue$
   );
 
   return {
@@ -28,7 +28,7 @@ let Model = Cycle.createModel(Intent => {
 function createRandom(withData) {
   return Object.assign({
     id: uuid.v4(),
-    width: Math.floor(Math.random() * 800 + 200),
+    value: Math.floor(Math.random() * 100) + 1,
   }, withData);
 }
 

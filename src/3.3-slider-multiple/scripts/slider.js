@@ -6,38 +6,55 @@ let {Rx, h} = Cycle;
 Cycle.registerCustomElement("Slider", (DOM, Props) => {
   let Model = Cycle.createModel((Intent, Props) => ({
     id$: Props.get("id$").shareReplay(1),
-    width$: Props.get("width$").merge(Intent.get("changeWidth$")),
+
+    value$: Props.get("value$").startWith(0)
+      .merge(Intent.get("changeValue$")),
   }));
 
   let View = Cycle.createView(Model => {
     let id$ = Model.get("id$");
-    let width$ = Model.get("width$");
+    let value$ = Model.get("value$");
     return {
-      vtree$: width$.combineLatest(id$, (width, id) => (
-        <div class="item" style={{width: width + "px"}}>
-          <div>
-            <input class="width-slider" type="range" min="200" max="1000" value={width}/>
+      vtree$: value$.combineLatest(id$, (value, id) => (
+        <fieldset class="slider">
+          <legend>Slider <small>{id}</small></legend>
+          <div class="form-group">
+            <label>Amount</label>
+            <div class="input-group">
+              <input type="range" value={value} min="0" max="100"/>
+              <div class="input-group-addon">
+                <input type="text" value={value} readonly="1"/>
+              </div>
+            </div>
           </div>
-          <button class="remove">Remove</button>
-        </div>
+          <div>
+            <button class="btn btn-default remove">Remove</button>
+          </div>
+        </fieldset>
       )),
     };
   });
 
   let Intent = Cycle.createIntent(DOM => {
     return {
-      changeWidth$: DOM.event$(".width-slider", "input").map(event => parseInt(event.target.value)),
-      remove$: DOM.event$(".remove", "click").map(event => true),
+      changeValue$: DOM.event$("[type=range]", "input")
+        .map(event => parseInt(event.target.value)),
+
+      remove$: DOM.event$(".btn.remove", "click")
+        .map(event => true),
     };
   });
 
   DOM.inject(View).inject(Model).inject(Intent, Props)[0].inject(DOM);
 
   return {
-    changeWidth$: Intent.get("changeWidth$")
-      .combineLatest(Model.get("id$"), (width, id) => ({id, width})),
+    changeValue$: Intent.get("changeValue$")
+      .combineLatest(Model.get("id$"), (value, id) => ({id, value})),
 
     remove$: Intent.get("remove$")
-      .combineLatest(Model.get("id$"), (_, id) => id),
+      .combineLatest(Model.get("id$"), (_, id) => id)
+      .tap((id) => {
+        console.log(`Component sends remove(${id})`);
+      }),
   };
 });

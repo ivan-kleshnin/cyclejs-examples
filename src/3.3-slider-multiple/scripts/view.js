@@ -10,13 +10,13 @@ let View = Cycle.createView(Model => {
   let state$ = Model.get("state$");
   return {
     vtree$: state$.map(models => (
-      <div class="everything">
-        <div class="topButtons">
-          <button class="add">Add Random</button>
+      <div class="sliders">
+        <div>
+          <button class="btn btn-default add">Add Random</button>
         </div>
         <div>
           {sortBy(values(models), model => model.id).map(model =>
-            <Slider id={model.id} width={model.width} key={model.id}/>
+            <Slider id={model.id} value={model.value} key={model.id}/>
           )}
         </div>
       </div>

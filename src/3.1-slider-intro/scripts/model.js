@@ -5,7 +5,7 @@ let {Rx} = Cycle;
 // EXPORTS =========================================================================================
 let Model = Cycle.createModel(Intent => {
   return {
-    width$: Intent.get("changeWidth$").startWith(300),
+    value$: Intent.get("changeValue$").startWith(Math.floor(Math.random() * 100) + 1),
   };
 });
 

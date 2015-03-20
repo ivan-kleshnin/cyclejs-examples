@@ -5,12 +5,12 @@ let Slider = require("./slider");
 
 // EXPORTS =========================================================================================
 let View = Cycle.createView(Model => {
-  let width$ = Model.get("width$");
+  let value$ = Model.get("value$");
   return {
-    vtree$: width$.map(width => (
+    vtree$: value$.map(value => (
       <div class="everything">
         <div>
-          <Slider width={width}/>
+          <Slider value={value}/>
         </div>
       </div>
     )),
