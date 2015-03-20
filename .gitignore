@@ -1,7 +1,8 @@
 # EXACT
 /node_modules/
-/build/
+/vendors/
 /ignore/
 
 # BY MASK
 .idea
+build/

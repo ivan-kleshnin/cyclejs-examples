@@ -1,6 +1,7 @@
 {
   "name": "cyclejs-examples",
   "dependencies": {
-    "bootstrap": "^3.3.4"
+    "bootstrap": "^3.3.4",
+    "semantic-ui": "~1.11.4"
   }
 }

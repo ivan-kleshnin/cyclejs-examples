@@ -8,9 +8,7 @@ if ${stash}; then
   git stash save --keep-index
 fi
 
-if gulp dist; then
-  git commit ${@};
-fi
+git commit ${@};
 
 if ${stash}; then
   git checkout stash -- .

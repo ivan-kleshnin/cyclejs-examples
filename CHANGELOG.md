@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0
+
+### Updates
+* New project structure. Share node modules / bower components but split gulp files
+  to separate builds.
+
 ## 0.3.0
 
 ### New

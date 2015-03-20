@@ -6,45 +6,52 @@ There will be more.
 
 ## Examples
 
-\#1.1 [Timer](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/dist/1.1-timer) – simplest timer. Compare to React [version](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/).
+\#1.1 [Timer](examples/1.1-timer) – simplest timer. Compare to React [version](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/).
 
-\#1.2 [Timer: more](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/dist/1.2-timer-more) – timer with control buttons.
+\#1.2 [Timer: more](examples/1.2-timer-more) – timer with control buttons.
 
-\#2.1 [Hello: input](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/dist/2.1-hello-input) – input tracking, multiple files.
+\#2.1 [Hello: input](examples/2.1-hello-input) – input tracking, multiple files.
 
-\#2.2 [Hello: footer](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/dist/2.1-hello-footer) – example of static component.
+\#2.2 [Hello: footer](examples/2.1-hello-footer) – example of static component.
 
-\#3.1 [Slider: intro](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/dist/3.1-slider-intro) – input tracking with slider.
+\#3.1 [Slider: intro](examples/3.1-slider-intro) – input tracking with slider.
 
-\#3.2 [Slider: state](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/dist/3.2-slider-state) – reimplement state.
+\#3.2 [Slider: state](examples/3.2-slider-state) – reimplement state.
 
-\#3.3 [Slider: multiple](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/dist/3.3-slider-multiple) – add/remove sliders.
+\#3.3 [Slider: multiple](examples/3.3-slider-multiple) – add/remove sliders.
 
-\#3.4 [Slider: colors](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/dist/3.4-slider-colors) – more attributes.
+\#3.4 [Slider: colors](examples/3.4-slider-colors) – more attributes.
 
-\#4.1 [Menu: basic](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/dist/4.1-menu-basic) – simplest menu. Compare to React [version](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/).
+\#4.1 [Menu: basic](examples/4.1-menu-basic) – simplest menu. Compare to React [version](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/).
 
-\#4.2 [Menu: form](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/dist/4.1-menu-form) – menu & order form. Compare to React [version](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/).
+\#4.2 [Menu: form](examples/4.1-menu-form) – menu & order form. Compare to React [version](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/).
 
-\#5.1 [Search: client](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/dist/5.1-search-client) – search (no API). Compare to React [version](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/).
+\#5.1 [Search: client](examples/5.1-search-client) – search (no API). Compare to React [version](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/).
 
 *See index.html in browser*
 
-## Rebuild
-
-```
-$ bin/fixes/globule // remove broken lodash dependency
-$ gulp dist         // rebuild all examples
-$ gulp              // rebuild & watch
-```
-
 ## Learn
 
-Examples are given in order of increasing complexity so it's better to review them one-by-one.
+See index.html in example folders. Examples are given in order of increasing complexity so it's better to review them sequentially.
 Every next app in a single group contains minimal meaningful changeset to the previous one.
 The best way of learning is comparison. And to compare you just diff files.
 
-## Also see
+## Practice
+
+Distributions are under VCS. To rebuild, run this from root folder:
+
+```
+$ gulp fix   // remove broken lodash dependency
+$ gulp gulp  // copy gulpfile from examples/common to examples/<app>
+```
+
+And this, from project folder:
+
+```
+$ gulp dist  // rebuild
+$ gulp       // rebuild & watch
+```
+
+## See also
 
 * [Comparison of "reactive" architectures](https://github.com/Paqmind/reactive)
-* [Rx marble diagrams](http://rxmarbles.com)

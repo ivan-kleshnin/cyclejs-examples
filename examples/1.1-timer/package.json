@@ -1,0 +1,20 @@
+{
+  "dependencies": {
+    "object.assign": "^1.1.1"
+  },
+  "frontendVendors": [
+    "cyclejs",
+    "object.assign"
+  ],
+  "browserify": {
+    "transform": [
+      [
+        "babelify",
+        {
+          "experimental": true,
+          "sourceMapRelative": "."
+        }
+      ]
+    ]
+  }
+}
