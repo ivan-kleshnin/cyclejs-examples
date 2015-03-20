@@ -1,25 +1,17 @@
 // IMPORTS =========================================================================================
+var Path = require("path");
 var ChildProcess = require("child_process");
 var Glob = require("glob");
 var Gulp = require("gulp");
 
-// TASKS ===========================================================================================
-Gulp.task("gulp", function() {
-  Glob.sync("examples/*/", {ignore: "examples/common/"}).forEach(function(exampleDir) {
-    ChildProcess.exec("cp examples/common/gulpfile.js " + exampleDir, function(err, stdin, stdout) {
-      if (err) { throw err; }
-    });
-    //ChildProcess.exec("cp examples/common/.bowerrc " + exampleDir, function(err, stdin, stdout) {
-    //  if (err) { throw err; }
-    //});
-    //ChildProcess.exec("cp examples/common/bower.json " + exampleDir, function(err, stdin, stdout) {
-    //  if (err) { throw err; }
-    //});
-  });
-});
+// SETTINGS ========================================================================================
+var apps = Glob.sync("./src/*/").map(function(path) { return Path.basename(path); });
 
-Gulp.task("fix", function() {
-  ChildProcess.exec("bin/fixes/globule", function(err, stdin, stdout) {
-    if (err) { throw err; }
-  });
-});
+// TASKS ===========================================================================================
+//Gulp.task("gulp", function() {
+//  Glob.sync("examples/*/", {ignore: "examples/common/"}).forEach(function(exampleDir) {
+//    ChildProcess.exec("cp examples/common/gulpfile.js " + exampleDir, function(err, stdin, stdout) {
+//      if (err) { throw err; }
+//    });
+//  });
+//});

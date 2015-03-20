@@ -41,8 +41,8 @@ The best way of learning is comparison. And to compare you just diff files.
 Distributions are under VCS. To rebuild, run this from root folder:
 
 ```
-$ gulp fix   // remove broken lodash dependency
-$ gulp gulp  // copy gulpfile from examples/common to examples/<app>
+$ bin/fixes/globule // remove broken lodash dependency
+$ bin/copygulp      // copy gulpfile from examples/common to examples/<app>
 ```
 
 And this, from project folder:
