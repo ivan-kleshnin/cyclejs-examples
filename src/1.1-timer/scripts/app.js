@@ -5,12 +5,9 @@ let {Rx, h} = Cycle;
 // APP =============================================================================================
 let Model = Cycle.createModel(() => {
   let started = Date.now();
-  let tickToTimeDelta = function() {
-    return Date.now() - started
-  };
   return {
     msSinceStart$: Rx.Observable.interval(100)
-      .map(tickToTimeDelta),
+      .map(() => Date.now() - started)
   };
 });
 

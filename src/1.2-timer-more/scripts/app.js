@@ -6,18 +6,17 @@ let {Rx, h} = Cycle;
 // APP =============================================================================================
 let Model = Cycle.createModel(Intent => {
   let started = Date.now();
-  let tickToTimeDelta = function() {
-    return Date.now() - started
-  };
-  let control$ = Intent.get("control$").startWith(true);
-  let stop$ = Intent.get("stop$");
+  let control$ = Rx.Observable.merge(
+    Intent.get("continue$"),
+    Intent.get("pause$").map(() => false)
+  );
   return {
     msSinceStart$: Rx.Observable.interval(100)
-      .map(tickToTimeDelta)
-      .pausable(control$)
-      .takeUntil(stop$),
+      .map(() => Date.now() - started)
+      .pausable(control$.startWith(true))
+      .takeUntil(Intent.get("stop$")),
 
-    stopped$: stop$.startWith(false),
+    stopped$: Intent.get("stop$").startWith(false),
   };
 });
 
@@ -46,11 +45,9 @@ let View = Cycle.createView(Model => {
 
 let Intent = Cycle.createIntent(DOM => {
   return {
-    control$: Rx.Observable.merge(
-      DOM.event$(".btn.pause", "click").map(() => false),
-      DOM.event$(".btn.continue", "click").map(() => true)
-    ),
-    stop$: DOM.event$(".btn.stop", "click"),
+    pause$: DOM.event$(".btn.pause", "click").map(() => true),
+    continue$: DOM.event$(".btn.continue", "click").map(() => true),
+    stop$: DOM.event$(".btn.stop", "click").map(() => true),
   }
 });
 
