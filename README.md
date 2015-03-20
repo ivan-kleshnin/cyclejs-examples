@@ -8,6 +8,8 @@ There will be more.
 
 \#1.1 [Timer](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/dist/1.1-timer) – simplest timer. Compare to React [version](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/).
 
+\#1.2 [Timer: more](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/dist/1.2-timer-more) – timer with control buttons.
+
 \#2.1 [Hello: input](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/dist/2.1-hello-input) – input tracking, multiple files.
 
 \#2.2 [Hello: footer](https://github.com/ivan-kleshnin/cyclejs-examples/tree/master/dist/2.1-hello-footer) – example of static component.
