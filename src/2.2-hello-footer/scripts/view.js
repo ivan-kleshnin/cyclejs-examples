@@ -10,13 +10,17 @@ let View = Cycle.createView(Model => {
   return {
     vtree$: Rx.Observable.combineLatest(firstName$, lastName$, (firstName, lastName) => (
       <div>
-        <label>First Name:</label>
-        <input type="text" id="firstName"/>
+        <div class="form-group">
+          <label>First Name:</label>
+          <input type="text" class="form-control" id="firstName" placeholder="First Name"/>
+        </div>
 
-        <label>Last Name:</label>
-        <input type="text" id="lastName"/>
+        <div class="form-group">
+          <label>Last Name:</label>
+          <input type="text" class="form-control" id="lastName" placeholder="Last Name"/>
+        </div>
 
-        <h1>Hello {firstName + " " + lastName}</h1>
+        <h1>Hello {firstName + " " + lastName}!</h1>
         <Footer class="xxx"/>
       </div>
     )),

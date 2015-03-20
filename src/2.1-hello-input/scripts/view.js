@@ -7,19 +7,21 @@ let View = Cycle.createView(Model => {
   let firstName$ = Model.get("firstName$");
   let lastName$ = Model.get("lastName$");
   return {
-    vtree$: Rx.Observable.combineLatest(firstName$, lastName$, (firstName, lastName) => {
-      return (
-        <div>
+    vtree$: Rx.Observable.combineLatest(firstName$, lastName$, (firstName, lastName) => (
+      <div>
+        <div class="form-group">
           <label>First Name:</label>
-          <input type="text" id="firstName"/>
-
-          <label>Last Name:</label>
-          <input type="text" id="lastName"/>
-
-          <h1>Hello {firstName + " " + lastName}</h1>
+          <input type="text" class="form-control" id="firstName" placeholder="First Name"/>
         </div>
-      );
-    })
+
+        <div class="form-group">
+          <label>Last Name:</label>
+          <input type="text" class="form-control" id="lastName" placeholder="Last Name"/>
+        </div>
+
+        <h1>Hello {firstName + " " + lastName}!</h1>
+      </div>
+    )),
   };
 });
 
