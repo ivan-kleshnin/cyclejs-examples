@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0
+
+### New
+* Timer example (\#1.2)
+* Bootstrap themes
+
 ## 0.2.0
 
 ### New
