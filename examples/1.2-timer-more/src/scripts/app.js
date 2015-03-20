@@ -43,14 +43,14 @@ let View = Cycle.createView(Model => {
   };
 });
 
-let Intent = Cycle.createIntent(DOM => {
+let Intent = Cycle.createIntent(User => {
   return {
-    pause$: DOM.event$(".btn.pause", "click").map(() => true),
-    continue$: DOM.event$(".btn.continue", "click").map(() => true),
-    stop$: DOM.event$(".btn.stop", "click").map(() => true),
+    pause$: User.event$(".btn.pause", "click").map(() => true),
+    continue$: User.event$(".btn.continue", "click").map(() => true),
+    stop$: User.event$(".btn.stop", "click").map(() => true),
   }
 });
 
-let DOM = Cycle.createDOMUser("main");
+let User = Cycle.createDOMUser("main");
 
-DOM.inject(View).inject(Model).inject(Intent).inject(DOM);
+User.inject(View).inject(Model).inject(Intent).inject(User);

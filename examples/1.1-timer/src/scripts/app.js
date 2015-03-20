@@ -24,6 +24,6 @@ let View = Cycle.createView(Model => {
   };
 });
 
-let DOM = Cycle.createDOMUser("main");
+let User = Cycle.createDOMUser("main");
 
-DOM.inject(View).inject(Model);
+User.inject(View).inject(Model);

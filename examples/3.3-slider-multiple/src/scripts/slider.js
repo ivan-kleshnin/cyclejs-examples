@@ -3,7 +3,7 @@ let Cycle = require("cyclejs");
 let {Rx, h} = Cycle;
 
 // ELEMENTS ========================================================================================
-Cycle.registerCustomElement("Slider", (DOM, Props) => {
+Cycle.registerCustomElement("Slider", (User, Props) => {
   let Model = Cycle.createModel((Intent, Props) => ({
     id$: Props.get("id$").shareReplay(1),
 
@@ -35,17 +35,17 @@ Cycle.registerCustomElement("Slider", (DOM, Props) => {
     };
   });
 
-  let Intent = Cycle.createIntent(DOM => {
+  let Intent = Cycle.createIntent(User => {
     return {
-      changeValue$: DOM.event$("[type=range]", "input")
+      changeValue$: User.event$("[type=range]", "input")
         .map(event => parseInt(event.target.value)),
 
-      remove$: DOM.event$(".btn.remove", "click")
+      remove$: User.event$(".btn.remove", "click")
         .map(event => true),
     };
   });
 
-  DOM.inject(View).inject(Model).inject(Intent, Props)[0].inject(DOM);
+  User.inject(View).inject(Model).inject(Intent, Props)[0].inject(User);
 
   return {
     changeValue$: Intent.get("changeValue$")

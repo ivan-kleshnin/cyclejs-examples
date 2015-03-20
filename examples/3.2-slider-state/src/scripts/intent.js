@@ -3,9 +3,9 @@ let Cycle = require("cyclejs");
 let {Rx} = Cycle;
 
 // EXPORTS =========================================================================================
-let Intent = Cycle.createIntent(DOM => {
+let Intent = Cycle.createIntent(User => {
   return {
-    changeValue$: DOM.event$(".item", "changeValue").map(event => event.data),
+    changeValue$: User.event$(".item", "changeValue").map(event => event.data),
   };
 });
 

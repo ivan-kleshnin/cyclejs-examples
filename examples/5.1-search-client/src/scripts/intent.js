@@ -3,9 +3,9 @@ let Cycle = require("cyclejs");
 let {Rx} = Cycle;
 
 // EXPORTS =========================================================================================
-let Intent = Cycle.createIntent(DOM => {
+let Intent = Cycle.createIntent(User => {
   return {
-    changeQuery$: DOM.event$(".query", "input")
+    changeQuery$: User.event$(".query", "input")
       .map(event => event.target.value.trim()),
   };
 });

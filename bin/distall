@@ -1,0 +1,6 @@
+#!/bin/sh
+
+set -ue
+
+cd examples/1.1-timer
+gulp dist

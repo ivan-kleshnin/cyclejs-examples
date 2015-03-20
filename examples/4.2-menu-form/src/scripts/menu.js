@@ -4,7 +4,7 @@ let {Rx, h} = Cycle;
 let makeClass = require("classnames");
 
 // COMPONENTS ======================================================================================
-Cycle.registerCustomElement("Menu", (DOM, Props) => {
+Cycle.registerCustomElement("Menu", (User, Props) => {
   let Model = Cycle.createModel((Intent, Props) => {
     let items$ = Props.get("items$");
     let active$ = Props.get("active$");
@@ -57,12 +57,12 @@ Cycle.registerCustomElement("Menu", (DOM, Props) => {
     };
   });
 
-  let Intent = Cycle.createIntent(DOM => {
+  let Intent = Cycle.createIntent(User => {
     return {
-      selectOrUnselect$: DOM.event$("nav .item", "click")
+      selectOrUnselect$: User.event$("nav .item", "click")
         .map(event => event.currentTarget.dataset.name),
     };
   });
 
-  DOM.inject(View).inject(Model).inject(Intent, Props)[0].inject(DOM);
+  User.inject(View).inject(Model).inject(Intent, Props)[0].inject(User);
 });

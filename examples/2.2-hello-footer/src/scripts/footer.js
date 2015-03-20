@@ -3,12 +3,12 @@ let Cycle = require("cyclejs");
 let {Rx, h} = Cycle;
 
 // ELEMENTS ========================================================================================
-Cycle.registerCustomElement("Footer", DOM => {
+Cycle.registerCustomElement("Footer", User => {
   let View = Cycle.createView(() => ({
     vtree$: Rx.Observable.return(
       <div>=== footer ===</div>
     )
   }));
 
-  DOM.inject(View);
+  User.inject(View);
 });
