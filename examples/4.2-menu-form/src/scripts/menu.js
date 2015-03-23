@@ -6,24 +6,22 @@ let makeClass = require("classnames");
 // COMPONENTS ======================================================================================
 Cycle.registerCustomElement("Menu", (User, Props) => {
   let Model = Cycle.createModel((Intent, Props) => {
-    let items$ = Props.get("items$");
-    let active$ = Props.get("active$");
-    let selectOrUnselect$ = Intent.get("selectOrUnselect$");
     return {
-      items$: items$,
-      active$: selectOrUnselect$.merge(active$)
-        .scan((active, clickedName) => {
-          if (clickedName) {
-            if (active.indexOf(clickedName) == -1) {
+      items$: Props.get("items$").startWith([]),
+      active$: Props.get("active$").startWith([])
+        .merge(Intent.get("selectOrUnselect$"))
+        .scan((state, name) => {
+          if (name) {
+            if (state.indexOf(name) == -1) {
               // Select
-              return active.concat([clickedName]);
+              return state.concat([name]);
             } else {
               // Unselect
-              return active.filter(name => name != clickedName);
+              return state.filter(n => n != name);
             }
           } else {
             // Keep current
-            return active;
+            return state;
           }
         }),
     };

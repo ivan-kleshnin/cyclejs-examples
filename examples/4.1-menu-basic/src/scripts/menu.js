@@ -6,12 +6,10 @@ let makeClass = require("classnames");
 // COMPONENTS ======================================================================================
 Cycle.registerCustomElement("Menu", (User, Props) => {
   let Model = Cycle.createModel((Intent, Props) => {
-    let items$ = Props.get("items$");
-    let active$ = Props.get("active$");
-    let selectActive$ = Intent.get("selectActive$");
     return {
-      items$: items$,
-      active$: active$.merge(selectActive$),
+      items$: Props.get("items$").startWith([]),
+      active$: Props.get("active$").startWith([])
+        .merge(Intent.get("selectActive$")),
     }
   });
 

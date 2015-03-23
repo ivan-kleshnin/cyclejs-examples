@@ -1,4 +1,5 @@
 // IMPORTS =========================================================================================
+require("./shims");
 let makeClass = require("classnames");
 let Cycle = require("cyclejs");
 let {Rx, h} = Cycle;

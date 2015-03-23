@@ -24,11 +24,11 @@
     "watchify": "^2.4.0"
   },
   "frontendVendors": [
+    "babel/polyfill",
     "cyclejs",
     "lodash.sortby",
     "lodash.values",
     "node-uuid",
-    "object.assign",
     "classnames"
   ],
   "browserify": {

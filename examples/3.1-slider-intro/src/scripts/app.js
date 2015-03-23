@@ -1,6 +1,5 @@
-require("./shims");
-
 // IMPORTS =========================================================================================
+require("./shims");
 let Cycle = require("cyclejs");
 let Model = require("./model");
 let View = require("./view");
