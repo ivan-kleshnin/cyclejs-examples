@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.0
+
+### New
+* Menu example (\#4.3)
+
+### Updates
+* Dependencies
+* Code cleanup
+
 ## 0.4.1
 
 ### Updates
