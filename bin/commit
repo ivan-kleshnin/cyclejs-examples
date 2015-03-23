@@ -4,12 +4,8 @@
 
 set -ue
 
-if ${stash}; then
-  git stash save --keep-index
+git stash save --keep-index
+if git commit ${@}; then
+  true
 fi
-
-git commit ${@};
-
-if ${stash}; then
-  git checkout stash -- .
-fi
+git stash pop
