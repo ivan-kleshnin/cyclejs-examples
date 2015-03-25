@@ -86,8 +86,8 @@ Gulp.task("dist-css", function() {
 });
 
 Gulp.task("watch-build", function() {
-  // $ watchify -v -d -x react -x reflux [-x ...] ./build/{app}/scripts/app.js -o ./dist/{app}/scripts/app.js
-  var args = ["-v", "-d"]
+  // $ watchify --delay 0 -v -d -x react -x reflux [-x ...] ./build/{app}/scripts/app.js -o ./dist/{app}/scripts/app.js
+  var args = ["-v", "-d", "--delay 0"]
     .concat(interleaveWith(frontendVendors, "-x"))
     .concat(["./build/scripts/app.js"])
     .concat(["-o", "./dist/scripts/app.js"]);
