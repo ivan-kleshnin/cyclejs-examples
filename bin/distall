@@ -42,6 +42,10 @@ cd examples/4.2-menu-form
 gulp dist
 cd ../../
 
+cd examples/4.3-menu-fun
+gulp dist
+cd ../../
+
 cd examples/5.1-search-client
 gulp dist
 cd ../../

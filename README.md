@@ -26,7 +26,7 @@ There will be more.
 
 \#4.2 [Menu: form](examples/4.1-menu-form) – menu & order form. Compare to React [version](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/).
 
-\#4.3 [Menu: stream](examples/4.3-menu-stream) – combine automatic and custom selections.
+\#4.3 [Menu: fun](examples/4.3-menu-fun) – combine automatic and custom selections for fun.
 
 \#5.1 [Search: client](examples/5.1-search-client) – search (no API). Compare to React [version](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/).
 
