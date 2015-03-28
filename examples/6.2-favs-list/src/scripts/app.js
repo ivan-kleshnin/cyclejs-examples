@@ -90,19 +90,3 @@ User.inject(View).inject(Model).inject(Intent).inject(User);
 //User.event$("Picture", "click").subscribe(...);
 //User.event$("Picture", "favup").subscribe(...);
 //User.event$("Picture", "unfav").subscribe(...);
-
-// APP =============================================================================================
-//https://pbs.twimg.com/media/B5AJRfWCYAAbLyJ.png
-
-// Render the PictureList component, and add it to body.
-// I am using an API key for a Instagram test ap. Please generate and
-// use your own from here http://instagram.com/developer/
-//React.renderComponent(
-//  <PictureList apiKey="642176ece1e7445e99244cec26f4de1f" />,
-//  document.querySelector("main")
-//);
-//
-//React.renderComponent(
-//  <PictureList apiKey="642176ece1e7445e99244cec26f4de1f" />,
-//  document.querySelector("main")
-//);
