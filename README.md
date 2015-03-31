@@ -67,10 +67,10 @@ The best way of learning is comparison. And to compare you just diff files.
 
 Distributions are under VCS. To rebuild, run:
 
-```bash
-npm install
-bower install
-gulp [gulp dist] // rebuild all examples [& watch]
+```
+$ npm install
+$ bower install
+$ gulp [gulp dist] // rebuild all examples [& watch]
 ```
 
 ## See also
