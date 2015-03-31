@@ -100,4 +100,4 @@ $ gulp [gulp dist] // rebuild all examples [& watch]
 
 ## See also
 
-* [Comparison of "reactive" architectures](https://github.com/Paqmind/reactive)
+* [Comparison of web app architectures](https://github.com/Paqmind/reactive)
