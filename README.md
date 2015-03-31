@@ -65,20 +65,12 @@ The best way of learning is comparison. And to compare you just diff files.
 
 ## Practice
 
-Distributions are under VCS. To rebuild, run this from root folder:
+Distributions are under VCS. To rebuild, run:
 
-```
-$ npm install
-$ bower install
-$ bin/fixes/globule // remove broken lodash dependency
-$ bin/distall       // rebuild all examples
-```
-
-And/or this, from chosen example folder:
-
-```
-$ gulp dist  // rebuild
-$ gulp       // rebuild & watch
+```bash
+npm install
+bower install
+gulp [gulp dist] // rebuild all examples [& watch]
 ```
 
 ## See also
