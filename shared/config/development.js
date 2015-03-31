@@ -5,10 +5,10 @@ module.exports = {
 
   // HOSTS (required in "development" envs)
   "production-ssh": "paqmind@dgo",
-  "production-host": "react-starter.paqmind.com",
-  "production-service": "react-starter.paqmind.node.service",
+  "production-host": "cyclejs-examples.paqmind.com",
+  "production-service": "cyclejs-examples.paqmind.node.service",
 
   "staging-ssh": "paqmind@dgo",
-  "staging-host": "demo.react-starter.paqmind.com",
-  "staging-service": "demo.react-starter.paqmind.node.service",
+  "staging-host": "demo.cyclejs-examples.paqmind.com",
+  "staging-service": "demo.cyclejs-examples.paqmind.node.service",
 };

@@ -23,12 +23,12 @@ export default {
   "mail-robot": "robot@localhost",
   "mail-support": "support@localhost",
 
-  // HOSTS (required in "development" envs)
+  // HOSTS (redeclare in development env!)
   "production-ssh": "xxx@dgo",
-  "production-host": "react-starter.xxx.com",
-  "production-service": "react-starter.xxx.node.service",
+  "production-host": "cyclejs-examples.xxx.com",
+  "production-service": "cyclejs-examples.xxx.node.service",
 
   "staging-ssh": "yyy@dgo",
-  "staging-host": "demo.react-starter.xxx.com",
-  "staging-service": "demo.react-starter.xxx.node.service",
+  "staging-host": "demo.cyclejs-examples.xxx.com",
+  "staging-service": "demo.cyclejs-examples.xxx.node.service",
 };

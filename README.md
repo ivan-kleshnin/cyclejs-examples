@@ -4,6 +4,29 @@ Derived from CycleJS [examples](https://github.com/staltz/cycle/tree/master/exam
 Narrative examples with ES6 syntax and JSX views. All that you like.
 There will be more.
 
+## Project structure
+Project includes backend and frontend part. Backend is **ExpressJS** based.
+Frontend is obviously **CycleJS**. Backend is common for all examples. It powers API
+and URL endpoints. Frontend is a sequence of independent apps which share some common files.
+
+```
+frontend
+  > 1.1-timer -- example \#1.1
+    > scripts -- frontend CycleJS APP, other scripts
+    > styles -- app styles
+  > ...
+  > common -- common files
+    > scripts -- common scripts
+    > styles -- common styles
+
+backend
+  > scripts -- backend APP, API
+  > templates -- nunjucks templates
+
+shared
+  > config -- config folder
+```
+
 ## Examples
 
 ### \#1.1 Timer

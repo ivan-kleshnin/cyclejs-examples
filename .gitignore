@@ -1,8 +1,11 @@
-# EXACT
-/node_modules/
-/vendors/
+# EXACT --------------------------------------------------------------------------------------------
+/build/
 /ignore/
+/logs/
+/node_modules/
+/shared/config/development.js
 
-# BY MASK
+# BY MASK ------------------------------------------------------------------------------------------
+*.iml
 .idea
-build/
+.DS_Store
