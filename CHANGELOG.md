@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.0
+
+### New
+* Fav examples (\#6.1, \#6.2)
+
+### Updates
+* New project structure. Rethink folders, gulp tasks, binaries...
+
 ## 0.5.0
 
 ### New
