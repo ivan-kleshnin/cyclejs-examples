@@ -84,7 +84,7 @@ TODO: implement, add description
 
 ## Learn
 
-See index.html in example folders. Examples are given in order of increasing complexity so it's better to review them sequentially.
+Examples are given in order of increasing complexity so it's better to review them sequentially.
 Every next app in a single group contains minimal meaningful changeset to the previous one.
 The best way of learning is comparison. And to compare you just diff files.
 
