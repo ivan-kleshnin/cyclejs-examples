@@ -4,7 +4,7 @@
 
 ### New
 * Fav examples (\#6.1, \#6.2)
-* Backend added
+* Backend
 
 ### Updates
 * New project structure. Rethink folders, gulp tasks, binaries...
