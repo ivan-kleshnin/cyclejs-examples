@@ -36,7 +36,7 @@ let Model = Cycle.createModel(Intent => {
     };
   });
 
-  let transforms = Rx.Observable.merge(
+  let transform$ = Rx.Observable.merge(
     add$,
     remove$,
     changeColor$,
@@ -44,11 +44,9 @@ let Model = Cycle.createModel(Intent => {
   );
 
   return {
-    state$: transforms
+    state$: transform$
       .startWith(seedState())
-      .scan((state, transform) => {
-        return transform(state);
-      })
+      .scan((state, transform) => transform(state)),
   };
 });
 

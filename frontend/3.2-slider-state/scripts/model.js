@@ -12,16 +12,14 @@ let Model = Cycle.createModel(Intent => {
     };
   });
 
-  let transforms = Rx.Observable.merge(
+  let transform$ = Rx.Observable.merge(
     changeValue$
   );
 
   return {
-    state$: transforms
+    state$: transform$
       .startWith(seedState())
-      .scan((state, transform) => {
-        return transform(state);
-      })
+      .scan((state, transform) => transform(state)),
   };
 });
 
