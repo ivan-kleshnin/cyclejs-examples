@@ -6,31 +6,56 @@ There will be more.
 
 ## Examples
 
-\#1.1 [Timer](examples/1.1-timer) – simplest timer. Compare to React [version](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/).
+### \#1.1 Timer
+Simplest timer. Compare to [React version](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/).
+CycleJS is basically RxJS + VirtualDOM + DataFlowNodes
 
-\#1.2 [Timer: more](examples/1.2-timer-more) – timer with control buttons.
+### \#1.2 Timer: more
+Timer with control buttons.
+Try to reproduce the same having only `setTimeout` and `setInterval` in your toolbelt.
 
-\#2.1 [Hello: input](examples/2.1-hello-input) – input tracking, multiple files.
+### \#2.1 Hello: input
+Input tracking, multiple files.
 
-\#2.2 [Hello: footer](examples/2.1-hello-footer) – example of static component.
+### \#2.2 Hello: footer
+Your first component. Static.
 
-\#3.1 [Slider: intro](examples/3.1-slider-intro) – input tracking with slider.
+### \#3.1 Slider: intro
+Input tracking with slider.
 
-\#3.2 [Slider: state](examples/3.2-slider-state) – reimplement state.
+### \#3.2 Slider: state
+Reimplement state management for slider.
 
-\#3.3 [Slider: multiple](examples/3.3-slider-multiple) – add/remove sliders.
+### \#3.3 Slider: multiple
+Multiple slider. Kinda CRUD
 
-\#3.4 [Slider: colors](examples/3.4-slider-colors) – more attributes.
+### \#3.4 Slider: colors
+Add more attributes with ease
 
-\#4.1 [Menu: basic](examples/4.1-menu-basic) – simplest menu. Compare to React [version](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/).
+### \#4.1 Menu: basic
+Simplest menu. Compare to [React version](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/).
 
-\#4.2 [Menu: form](examples/4.1-menu-form) – menu & order form. Compare to React [version](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/).
+### \#4.2 Menu: form
+Menu or Order form? Dunno :)
+Compare to [React version](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/).
 
-\#4.3 [Menu: fun](examples/4.3-menu-fun) – combine automatic and custom selections for fun.
+### \#4.3 Menu: fun
+Combine automatic and custom selections for fun.
 
-\#5.1 [Search: client](examples/5.1-search-client) – search (no API). Compare to React [version](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/).
+### \#5.1 Search: client
+Search (client-only). Compare to [React version](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/).
 
-*See index.html in browser*
+### \#5.2 Search: API
+TODO: implement, add description
+
+### \#6.1 Favs: single
+TODO: add description
+
+### \#6.2 Favs: list
+TODO: add description
+
+### \#7 Todo
+TODO: implement, add description
 
 ## Learn
 
