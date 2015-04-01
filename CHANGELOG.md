@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.7.0
+
+### New
+* Timer example (\#1.3) with additional behavior
+
+### Updates
+* Timer examples
+* Documentation
+
 ## 0.6.0
 
 ### New
