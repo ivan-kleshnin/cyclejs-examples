@@ -8,13 +8,14 @@ let {Rx, h} = Cycle;
 let Model = Cycle.createModel(Intent => {
   let started = Date.now();
   let control$ = Rx.Observable.merge(
-    Intent.get("continue$"),
+    Intent.get("resume$"),
     Intent.get("pause$").map(() => false)
-  );
+  ).distinctUntilChanged();
+
   return {
     msSinceStart$: Rx.Observable.interval(100)
-      .map(() => Date.now() - started)
       .pausable(control$.startWith(true))
+      .map(() => Date.now() - started)
       .takeUntil(Intent.get("stop$")),
 
     stopped$: Intent.get("stop$").startWith(false),
@@ -34,7 +35,7 @@ let View = Cycle.createView(Model => {
             </p>
             <div class="btn-group">
               <button class="btn btn-default pause" disabled={stopped}>Pause</button>
-              <button class="btn btn-default continue" disabled={stopped}>Continue</button>
+              <button class="btn btn-default resume" disabled={stopped}>Resume</button>
               <button class="btn btn-default stop" disabled={stopped}>Stop</button>
             </div>
           </div>
@@ -47,7 +48,7 @@ let View = Cycle.createView(Model => {
 let Intent = Cycle.createIntent(User => {
   return {
     pause$: User.event$(".btn.pause", "click").map(() => true),
-    continue$: User.event$(".btn.continue", "click").map(() => true),
+    resume$: User.event$(".btn.resume", "click").map(() => true),
     stop$: User.event$(".btn.stop", "click").map(() => true),
   }
 });
