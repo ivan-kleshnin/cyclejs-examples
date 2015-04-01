@@ -37,7 +37,11 @@ CycleJS is basically RxJS + VirtualDOM + DataFlowNodes
 
 ### \#1.2 Timer: more
 Timer with control buttons.
-Try to reproduce the same having only `setTimeout` and `setInterval` in your toolbelt.
+Try to implement the same example having only `setTimeout` and `setInterval` in your toolbelt.
+
+### \#1.3 Timer: smart
+Timer with two stop modes.
+Try to implement the same example having only `setTimeout` and `setInterval` in your toolbelt.
 
 ### \#2.1 Hello: input
 Input tracking, multiple files.

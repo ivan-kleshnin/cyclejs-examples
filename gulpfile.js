@@ -156,9 +156,10 @@ function watchifyFactory(appCode) { // , ["frontend:predist-app"]
   }
 }
 
-// This is required because of dumb Gulp v3 architecture. TODO replace at Gulp v4 release
+// All this mess is required because of dumb Gulp v3 architecture. TODO: reconsider at Gulp v4 release (undocumented yet!)
 Gulp.task("frontend:dist-1.1", distFactory("1.1"));
 Gulp.task("frontend:dist-1.2", distFactory("1.2"));
+Gulp.task("frontend:dist-1.3", distFactory("1.3"));
 Gulp.task("frontend:dist-2.1", distFactory("2.1"));
 Gulp.task("frontend:dist-2.2", distFactory("2.2"));
 Gulp.task("frontend:dist-3.1", distFactory("3.1"));
@@ -171,10 +172,10 @@ Gulp.task("frontend:dist-4.3", distFactory("4.3"));
 Gulp.task("frontend:dist-5.1", distFactory("5.1"));
 Gulp.task("frontend:dist-6.1", distFactory("6.1"));
 Gulp.task("frontend:dist-6.2", distFactory("6.2"));
-//Gulp.task("frontend:dist-7.1", distFactory("7.1"));
 
 Gulp.task("frontend:watchify-1.1", watchifyFactory("1.1"));
 Gulp.task("frontend:watchify-1.2", watchifyFactory("1.2"));
+Gulp.task("frontend:watchify-1.3", watchifyFactory("1.3"));
 Gulp.task("frontend:watchify-2.1", watchifyFactory("2.1"));
 Gulp.task("frontend:watchify-2.2", watchifyFactory("2.2"));
 Gulp.task("frontend:watchify-3.1", watchifyFactory("3.1"));
@@ -187,11 +188,10 @@ Gulp.task("frontend:watchify-4.3", watchifyFactory("4.3"));
 Gulp.task("frontend:watchify-5.1", watchifyFactory("5.1"));
 Gulp.task("frontend:watchify-6.1", watchifyFactory("6.1"));
 Gulp.task("frontend:watchify-6.2", watchifyFactory("6.2"));
-//Gulp.task("frontend:watchify-7.1", watchifyFactory("7.1"));
 
 Gulp.task("frontend:dist-scripts", function() {
   RunSequence(
-    "frontend:dist-1.1", "frontend:dist-1.2",
+    "frontend:dist-1.1", "frontend:dist-1.2", "frontend:dist-1.3",
     "frontend:dist-2.1", "frontend:dist-2.2",
     "frontend:dist-3.1", "frontend:dist-3.2", "frontend:dist-3.3", "frontend:dist-3.4",
     "frontend:dist-4.1", "frontend:dist-4.2", "frontend:dist-4.3",
@@ -202,7 +202,7 @@ Gulp.task("frontend:dist-scripts", function() {
 
 Gulp.task("frontend:watchify", function () {
   RunSequence(
-    "frontend:watchify-1.1", "frontend:watchify-1.2",
+    "frontend:watchify-1.1", "frontend:watchify-1.2", "frontend:watchify-1.3",
     "frontend:watchify-2.1", "frontend:watchify-2.2",
     "frontend:watchify-3.1", "frontend:watchify-3.2", "frontend:watchify-3.3", "frontend:watchify-3.4",
     "frontend:watchify-4.1", "frontend:watchify-4.2", "frontend:watchify-4.3",
