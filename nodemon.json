@@ -2,7 +2,7 @@
   "execMap": {
     "js": "babel-node --experimental"
   },
-  "ext": "js json html",
+  "ext": "js html",
   "ignore": [
     ".git",
     "node_modules/**/node_modules"
