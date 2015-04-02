@@ -9,11 +9,11 @@ let Slider = require("./slider");
 let View = Cycle.createView(Model => {
   let state$ = Model.get("state$");
   return {
-    vtree$: state$.map(models => (
+    vtree$: state$.map(items => (
       <div class="sliders">
         <div>
-          {sortBy(values(models), model => model.id).map(model =>
-            <Slider id={model.id} value={model.value} key={model.id}/>
+          {sortBy(values(items), item => item.id).map(item =>
+            <Slider id={item.id} value={item.value} key={item.id}/>
           )}
         </div>
       </div>

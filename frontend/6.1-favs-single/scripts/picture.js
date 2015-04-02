@@ -27,10 +27,10 @@ export default Cycle.registerCustomElement("Picture", (User, Props) => {
 
   let View = Cycle.createView(Model => {
     return {
-      vtree$: Cycle.latest(Model, Object.keys(props), model => {
+      vtree$: Cycle.latest(Model, Object.keys(props), item => {
           return (
-            <div class={Class({picture: true, favorite: model.favorite})}>
-              <img src={model.src} width={model.width} title={model.title}/>
+            <div class={Class({picture: true, favorite: item.favorite})}>
+              <img src={item.src} width={item.width} title={item.title}/>
             </div>
           );
         }

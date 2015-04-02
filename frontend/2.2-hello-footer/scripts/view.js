@@ -21,7 +21,7 @@ let View = Cycle.createView(Model => {
         </div>
 
         <h1>Hello {firstName + " " + lastName}!</h1>
-        <Footer class="xxx"/>
+        <Footer class="xxx">content</Footer>
       </div>
     )),
   };

@@ -13,8 +13,8 @@ export default Cycle.registerCustomElement("Pictures", (User, Props) => {
       vtree$: Model.get("data$").map(data => {
         return (
           <div class="pictures">
-            {data.map(model => (
-              <Picture key={model.src} src={model.src} title={model.title} favorite={model.favorite} width="100"/>
+            {data.map(item => (
+              <Picture key={item.src} src={item.src} title={item.title} favorite={item.favorite} width="100"/>
             ))}
           </div>
         );
