@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# Setup default development config
+mv shared/config/development.example.js shared/config/development.js 2> /dev/null
+
+# Setup local gulp.js to be runned through `babel-node`
+if [[ `uname` == 'Darwin' ]]; then
+  gulp_file=`greadlink -f node_modules/.bin/gulp`
+else
+  gulp_file=`readlink -f node_modules/.bin/gulp`
+fi
+sed '1 s/ node$/ babel-node/' ${gulp_file} > .gulp.js
+mv .gulp.js ${gulp_file}
+chmod +x ${gulp_file}
