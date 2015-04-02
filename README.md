@@ -1,10 +1,27 @@
 # CycleJS example apps
 
-Derived from CycleJS [examples](https://github.com/staltz/cycle/tree/master/examples/).
-Narrative examples with ES6 syntax and JSX views. All that you like.
-There will be more.
+Derived from and inspired by CycleJS [examples](https://github.com/staltz/cycle/tree/master/examples/).
+ES6 syntax, JSX views.
+
+Examples are given in narrative order and we recommend to review them sequentially.
+The best way of learning is comparison. And to compare you just diff files.
 
 TODO setup demo instance
+
+## Install
+
+```
+$ wget https://github.com/ivan-kleshnin/cyclejs-examples/archive/master.zip; unzip master.zip -d cyclejs-examples; rm master.zip
+$ cd cyclejs-examples
+$ npm install; bower install; bin/install
+```
+
+## Run
+
+```
+$ npm start -- run without watches
+$ npm run devel -- run with watches
+```
 
 ## Project structure
 Project includes backend and frontend part. Backend is **[ExpressJS](https://github.com/strongloop/express)** + **[Nunjucks](https://github.com/mozilla/nunjucks)** based.
@@ -12,6 +29,10 @@ Frontend is obviously **[CycleJS](https://github.com/staltz/cycle)**. Backend is
 and URL endpoints. Frontend is a sequence of independent apps which a few common files.
 
 ```
+bin
+  > install -- a few installation steps
+  > init -- add node_modules/.bin to $PATH (required to run scripts outside of `$ npm run`)
+
 frontend
   > 1.1-timer -- example #1.1
     > scripts -- frontend APP
@@ -86,23 +107,8 @@ TODO: add description
 ### \#7 Todo
 TODO: implement, add description
 
-## Learn
+## Useful links
 
-Examples are given in order of increasing complexity so it's better to review them sequentially.
-The best way of learning is comparison. And to compare you just diff files.
-It's also important to learn only one thing at a time. So we're trying to keep minimal
-meaningful changesets between every pair.
-
-## Practice
-
-Distributions are under VCS. To rebuild, run:
-
-```
-$ npm install
-$ bower install
-$ gulp [gulp dist] // rebuild all examples [& watch]
-```
-
-## See also
-
+* [Marble diagrams of Rx operators](http://rxmarbles.com/)
+* [RxJS documentation](https://github.com/Reactive-Extensions/RxJS/tree/master/doc)
 * [Comparison of web app architectures](https://github.com/Paqmind/reactive)
