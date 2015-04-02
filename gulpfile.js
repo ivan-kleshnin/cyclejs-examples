@@ -42,24 +42,9 @@ function interleaveWith(array, prefix) {
   }, []);
 }
 
-// BACKEND TASKS ===================================================================================
-//Gulp.task("backend:lint", function() {
-//  return Gulp.src(["./backend/**/*.js"])
-//    .pipe(GulpPlumber({errorHandler: !exitOnError}))
-//    .pipe(cached("backend:lint"))
-//    .pipe(GulpJshint())
-//    .pipe(GulpJshint.reporter(jshintStylish));
-//});
-
-Gulp.task("backend:nodemon", function() {
-  let nodemon = ChildProcess.spawn("npm", ["run", "nodemon"]);
-  nodemon.stdout.pipe(process.stdout);
-  nodemon.stderr.pipe(process.stderr);
-});
-
-// FRONTEND TASKS ==================================================================================
+// TASKS ===========================================================================================
 // TODO sourcemaps
-Gulp.task("frontend:build", function () {
+Gulp.task("build", function () {
   return Gulp.src("frontend/**/*.js")
     .pipe(GulpPlumber({errorHandler: !exitOnError}))
     .pipe(GulpCached("build"))
@@ -67,14 +52,14 @@ Gulp.task("frontend:build", function () {
     .pipe(Gulp.dest("build"));
 });
 
-Gulp.task("frontend:dist-styles", function() {
+Gulp.task("dist-styles", function() {
   return Gulp.src(["./frontend/**/theme.css"])
     .pipe(GulpPlumber({errorHandler: !exitOnError}))
     //.pipe(GulpLess())
     .pipe(Gulp.dest("./static/"));
 });
 
-//Gulp.task("frontend:lint", function() {
+//Gulp.task("lint", function() {
 //  return Gulp.src(["./frontend/**/*.js"])
 //    .pipe(GulpPlumber({errorHandler: !exitOnError}))
 //    .pipe(cached("lint-react"))
@@ -82,12 +67,12 @@ Gulp.task("frontend:dist-styles", function() {
 //    .pipe(GulpJshint.reporter(JshintStylish));
 //});
 
-Gulp.task("frontend:dist-images", function () {
+Gulp.task("dist-images", function () {
   return Gulp.src(["./images/**/*"])
     .pipe(Gulp.dest("./static/images"));
 });
 
-Gulp.task("frontend:dist-vendors", function () {
+Gulp.task("dist-vendors", function () {
   // $ browserify -d -r cyclejs [-r ...] -o ./static/scripts/vendors.js
   Mkdirp.sync("./static/common/scripts");
 
@@ -105,7 +90,7 @@ Gulp.task("frontend:dist-vendors", function () {
   });
 });
 
-function distFactory(appCode) { // , ["frontend:predist-app"]
+function distFactory(appCode) { // , ["predist-app"]
   return function dist() {
     let folders = Glob.sync(`build/${appCode}*`);
     if (!folders) {
@@ -133,7 +118,7 @@ function distFactory(appCode) { // , ["frontend:predist-app"]
   }
 }
 
-function watchifyFactory(appCode) { // , ["frontend:predist-app"]
+function watchifyFactory(appCode) { // , ["predist-app"]
   return function dist() {
     let folders = Glob.sync(`build/${appCode}*`);
     if (!folders) {
@@ -157,84 +142,72 @@ function watchifyFactory(appCode) { // , ["frontend:predist-app"]
 }
 
 // All this mess is required because of dumb Gulp v3 architecture. TODO: reconsider at Gulp v4 release (undocumented yet!)
-Gulp.task("frontend:dist-1.1", distFactory("1.1"));
-Gulp.task("frontend:dist-1.2", distFactory("1.2"));
-Gulp.task("frontend:dist-1.3", distFactory("1.3"));
-Gulp.task("frontend:dist-2.1", distFactory("2.1"));
-Gulp.task("frontend:dist-2.2", distFactory("2.2"));
-Gulp.task("frontend:dist-3.1", distFactory("3.1"));
-Gulp.task("frontend:dist-3.2", distFactory("3.2"));
-Gulp.task("frontend:dist-3.3", distFactory("3.3"));
-Gulp.task("frontend:dist-3.4", distFactory("3.4"));
-Gulp.task("frontend:dist-4.1", distFactory("4.1"));
-Gulp.task("frontend:dist-4.2", distFactory("4.2"));
-Gulp.task("frontend:dist-4.3", distFactory("4.3"));
-Gulp.task("frontend:dist-5.1", distFactory("5.1"));
-Gulp.task("frontend:dist-6.1", distFactory("6.1"));
-Gulp.task("frontend:dist-6.2", distFactory("6.2"));
+Gulp.task("dist-1.1", distFactory("1.1"));
+Gulp.task("dist-1.2", distFactory("1.2"));
+Gulp.task("dist-1.3", distFactory("1.3"));
+Gulp.task("dist-2.1", distFactory("2.1"));
+Gulp.task("dist-2.2", distFactory("2.2"));
+Gulp.task("dist-3.1", distFactory("3.1"));
+Gulp.task("dist-3.2", distFactory("3.2"));
+Gulp.task("dist-3.3", distFactory("3.3"));
+Gulp.task("dist-3.4", distFactory("3.4"));
+Gulp.task("dist-4.1", distFactory("4.1"));
+Gulp.task("dist-4.2", distFactory("4.2"));
+Gulp.task("dist-4.3", distFactory("4.3"));
+Gulp.task("dist-5.1", distFactory("5.1"));
+Gulp.task("dist-6.1", distFactory("6.1"));
+Gulp.task("dist-6.2", distFactory("6.2"));
 
-Gulp.task("frontend:watchify-1.1", watchifyFactory("1.1"));
-Gulp.task("frontend:watchify-1.2", watchifyFactory("1.2"));
-Gulp.task("frontend:watchify-1.3", watchifyFactory("1.3"));
-Gulp.task("frontend:watchify-2.1", watchifyFactory("2.1"));
-Gulp.task("frontend:watchify-2.2", watchifyFactory("2.2"));
-Gulp.task("frontend:watchify-3.1", watchifyFactory("3.1"));
-Gulp.task("frontend:watchify-3.2", watchifyFactory("3.2"));
-Gulp.task("frontend:watchify-3.3", watchifyFactory("3.3"));
-Gulp.task("frontend:watchify-3.4", watchifyFactory("3.4"));
-Gulp.task("frontend:watchify-4.1", watchifyFactory("4.1"));
-Gulp.task("frontend:watchify-4.2", watchifyFactory("4.2"));
-Gulp.task("frontend:watchify-4.3", watchifyFactory("4.3"));
-Gulp.task("frontend:watchify-5.1", watchifyFactory("5.1"));
-Gulp.task("frontend:watchify-6.1", watchifyFactory("6.1"));
-Gulp.task("frontend:watchify-6.2", watchifyFactory("6.2"));
+Gulp.task("watchify-1.1", watchifyFactory("1.1"));
+Gulp.task("watchify-1.2", watchifyFactory("1.2"));
+Gulp.task("watchify-1.3", watchifyFactory("1.3"));
+Gulp.task("watchify-2.1", watchifyFactory("2.1"));
+Gulp.task("watchify-2.2", watchifyFactory("2.2"));
+Gulp.task("watchify-3.1", watchifyFactory("3.1"));
+Gulp.task("watchify-3.2", watchifyFactory("3.2"));
+Gulp.task("watchify-3.3", watchifyFactory("3.3"));
+Gulp.task("watchify-3.4", watchifyFactory("3.4"));
+Gulp.task("watchify-4.1", watchifyFactory("4.1"));
+Gulp.task("watchify-4.2", watchifyFactory("4.2"));
+Gulp.task("watchify-4.3", watchifyFactory("4.3"));
+Gulp.task("watchify-5.1", watchifyFactory("5.1"));
+Gulp.task("watchify-6.1", watchifyFactory("6.1"));
+Gulp.task("watchify-6.2", watchifyFactory("6.2"));
 
-Gulp.task("frontend:dist-scripts", function() {
+Gulp.task("dist-scripts", function() {
   RunSequence(
-    "frontend:dist-1.1", "frontend:dist-1.2", "frontend:dist-1.3",
-    "frontend:dist-2.1", "frontend:dist-2.2",
-    "frontend:dist-3.1", "frontend:dist-3.2", "frontend:dist-3.3", "frontend:dist-3.4",
-    "frontend:dist-4.1", "frontend:dist-4.2", "frontend:dist-4.3",
-    "frontend:dist-5.1",
-    "frontend:dist-6.1", "frontend:dist-6.2"
+    "dist-1.1", "dist-1.2", "dist-1.3",
+    "dist-2.1", "dist-2.2",
+    "dist-3.1", "dist-3.2", "dist-3.3", "dist-3.4",
+    "dist-4.1", "dist-4.2", "dist-4.3",
+    "dist-5.1",
+    "dist-6.1", "dist-6.2"
   )
 });
 
-Gulp.task("frontend:watchify", function () {
+Gulp.task("watch-build", function () {
   RunSequence(
-    "frontend:watchify-1.1", "frontend:watchify-1.2", "frontend:watchify-1.3",
-    "frontend:watchify-2.1", "frontend:watchify-2.2",
-    "frontend:watchify-3.1", "frontend:watchify-3.2", "frontend:watchify-3.3", "frontend:watchify-3.4",
-    "frontend:watchify-4.1", "frontend:watchify-4.2", "frontend:watchify-4.3",
-    "frontend:watchify-5.1",
-    "frontend:watchify-6.1", "frontend:watchify-6.2"
+    "watchify-1.1", "watchify-1.2", "watchify-1.3",
+    "watchify-2.1", "watchify-2.2",
+    "watchify-3.1", "watchify-3.2", "watchify-3.3", "watchify-3.4",
+    "watchify-4.1", "watchify-4.2", "watchify-4.3",
+    "watchify-5.1",
+    "watchify-6.1", "watchify-6.2"
   )
 });
 
-Gulp.task("frontend:dist", [
-  "frontend:dist-scripts",
-  "frontend:dist-images",
-  "frontend:dist-styles",
-]);
-
-Gulp.task("frontend:watch", function () {
-  Gulp.watch("./frontend/**/*.js", ["frontend:build"]);
-  Gulp.watch("./frontend/**/*.(jpg|png|gif)", ["frontend:dist-images"]);
-  Gulp.watch("./frontend/**/*.css", ["frontend:dist-styles"]);
+Gulp.task("watch-src", function () {
+  Gulp.watch("./frontend/**/*.js", ["build"]);
+  Gulp.watch("./frontend/**/*.(jpg|png|gif)", ["dist-images"]);
+  Gulp.watch("./frontend/**/*.css", ["dist-styles"]);
 });
 
-// TASK DEPS =======================================================================================
-Gulp.task("default", function () {
+Gulp.task("dist", function () {
+  exitOnError = true;
   return RunSequence(
-    ["frontend:build"],
-    ["backend:nodemon", "frontend:dist"],
-    ["frontend:watch", "frontend:watchify"]
+    ["build"],
+    ["dist-scripts", "dist-images", "dist-styles"]
   );
 });
 
-Gulp.task("devel", function () {
-  return RunSequence(
-    ["frontend:dist-vendors", "frontend:dist"],
-    "default"
-  );
-});
+Gulp.task("watch", ["watch-src", "watch-build"]);
