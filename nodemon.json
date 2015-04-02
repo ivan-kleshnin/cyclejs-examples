@@ -1,0 +1,15 @@
+{
+  "execMap": {
+    "js": "babel-node --experimental"
+  },
+  "ext": "js json html",
+  "ignore": [
+    ".git",
+    "node_modules/**/node_modules"
+  ],
+  "verbose": true,
+  "watch": [
+    "backend/",
+    "shared/"
+  ]
+}
