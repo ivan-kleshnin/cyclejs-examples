@@ -52,14 +52,14 @@ Gulp.task("build", function () {
     .pipe(Gulp.dest("build"));
 });
 
-Gulp.task("dist-styles", function() {
+Gulp.task("dist-styles", function () {
   return Gulp.src(["./frontend/**/theme.css"])
     .pipe(GulpPlumber({errorHandler: !exitOnError}))
     //.pipe(GulpLess())
     .pipe(Gulp.dest("./static/"));
 });
 
-//Gulp.task("lint", function() {
+//Gulp.task("lint", function () {
 //  return Gulp.src(["./frontend/**/*.js"])
 //    .pipe(GulpPlumber({errorHandler: !exitOnError}))
 //    .pipe(cached("lint-react"))
@@ -174,7 +174,7 @@ Gulp.task("watchify-5.1", watchifyFactory("5.1"));
 Gulp.task("watchify-6.1", watchifyFactory("6.1"));
 Gulp.task("watchify-6.2", watchifyFactory("6.2"));
 
-Gulp.task("dist-scripts", function() {
+Gulp.task("dist-scripts", function () {
   RunSequence(
     "dist-1.1", "dist-1.2", "dist-1.3",
     "dist-2.1", "dist-2.2",
