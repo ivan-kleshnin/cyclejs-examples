@@ -31,7 +31,7 @@ and URL endpoints. Frontend is a sequence of independent apps which a few common
 ```
 bin
   > install -- a few installation steps
-  > init -- add node_modules/.bin to $PATH (required to run scripts outside of `$ npm run`)
+  > env -- add node_modules/.bin to $PATH (required to run scripts outside of `$ npm run`)
 
 frontend
   > 1.1-timer -- example #1.1

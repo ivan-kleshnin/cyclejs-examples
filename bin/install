@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 # Setup default development config
 mv shared/config/development.example.js shared/config/development.js 2> /dev/null
