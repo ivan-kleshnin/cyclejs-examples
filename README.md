@@ -28,7 +28,7 @@ $ npm run devel -- run with watches
 ## Project structure
 Project includes backend and frontend part. Backend is **[ExpressJS](https://github.com/strongloop/express)** + **[Nunjucks](https://github.com/mozilla/nunjucks)** based.
 Frontend is obviously **[CycleJS](https://github.com/staltz/cycle)**. Backend is common for all examples. It powers API
-and URL endpoints. Frontend is a sequence of independent apps which a few common files.
+and URL endpoints. Frontend is a sequence of independent apps with a few common files.
 
 ```
 bin
