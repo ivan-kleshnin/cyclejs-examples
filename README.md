@@ -57,10 +57,10 @@ shared
 ### 1. Gentle Introduction
 
 #### \#1.1 Hello: cycle
-Input tracking, multiple files.
+Meet CycleJS
 
 #### \#1.2 Hello: streams
-Your first component. Static.
+Be conventional
 
 ## Useful links
 
