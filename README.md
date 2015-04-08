@@ -1,5 +1,8 @@
 # CycleJS example apps
 
+**CycleJS is making breaking changes on API. For newcomers it's better to review #streams branch
+which probably be pushed into master soon.**
+
 Derived from and inspired by CycleJS [examples](https://github.com/staltz/cycle/tree/master/examples/).
 ES6 syntax, JSX views.
 
