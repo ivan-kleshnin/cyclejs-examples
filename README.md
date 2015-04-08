@@ -1,6 +1,7 @@
 # CycleJS example apps
 
-**CycleJS is making breaking changes on API. For newcomers it's better to review #streams branch
+Note from April 08, 2015
+**CycleJS is going through breaking changes on API now. For newcomers it's better to review #streams branch
 which probably be pushed into master soon.**
 
 Derived from and inspired by CycleJS [examples](https://github.com/staltz/cycle/tree/master/examples/).
