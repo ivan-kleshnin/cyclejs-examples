@@ -1,7 +1,5 @@
 # CycleJS example apps
 
---
-
 **Note from April 08, 2015**
 
 CycleJS is going through breaking changes on API now. For newcomers it's better to review #streams branch
