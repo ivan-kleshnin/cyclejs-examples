@@ -1,12 +1,3 @@
-/**
- * 1. Everything is Rx.Observable (nearly)
- * 2. Observables can be classified into Nodes
- * 3. Common Nodes are:
- *    Model / View / Intent / Interactions (MVII)
- * 4. Dependencies are circular:
- *    Interactions <- Intent <- Model <- View <- Interactions
- * 5. CycleJS provides `inject` method to solve this
- */
 // IMPORTS =========================================================================================
 require("../../common/scripts/polyfills");
 let {Rx, h, createStream, render} = require("cyclejs");
@@ -36,5 +27,5 @@ let vtree$ = name$.map(name => {
   );
 });
 
-// [VTREE] <- INTERACTIONS =========================================================================
+// CYCLE ===========================================================================================
 interactions$.inject(vtree$);

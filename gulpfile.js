@@ -176,7 +176,7 @@ Gulp.task("watchify-6.2", watchifyFactory("6.2"));
 
 Gulp.task("dist-scripts", function () {
   RunSequence(
-    "dist-1.1", "dist-1.2"//, "dist-1.3",
+    "dist-1.1", "dist-1.2", "dist-1.3"//,
     //"dist-2.1", "dist-2.2",
     //"dist-3.1", "dist-3.2", "dist-3.3", "dist-3.4",
     //"dist-4.1", "dist-4.2", "dist-4.3",
@@ -187,7 +187,7 @@ Gulp.task("dist-scripts", function () {
 
 Gulp.task("watch-build", function () {
   RunSequence(
-    "watchify-1.1", "watchify-1.2"//, "watchify-1.3",
+    "watchify-1.1", "watchify-1.2", "watchify-1.3"//,
     //"watchify-2.1", "watchify-2.2",
     //"watchify-3.1", "watchify-3.2", "watchify-3.3", "watchify-3.4",
     //"watchify-4.1", "watchify-4.2", "watchify-4.3",

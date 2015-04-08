@@ -1,12 +1,12 @@
-# CycleJS example apps
+# CycleJS examples
 
 Derived from and inspired by CycleJS [examples](https://github.com/staltz/cycle/tree/master/examples/).
-ES6 syntax, JSX views.
+Use ES6 and JSX syntax.
 
-Examples are given in narrative order and we recommend to review them sequentially.
-The best way of learning is comparison. And to compare you just diff files.
-
-Tutorial text is available at the beginning of each app file.
+Examples are grouped into lessons and placed in narrative order in tutorial-like way.
+They are meant to be reviewed one by one, sequentially. Every example is accompanied
+by a tutorial text (see links below). To review examples you install and run app and inspect app files.
+The best way of learning is comparison. And to compare just run diff tool.
 
 TODO setup demo instance
 
@@ -27,8 +27,9 @@ $ npm run devel -- run with watches
 
 ## Project structure
 Project includes backend and frontend part. Backend is **[ExpressJS](https://github.com/strongloop/express)** + **[Nunjucks](https://github.com/mozilla/nunjucks)** based.
-Frontend is obviously **[CycleJS](https://github.com/staltz/cycle)**. Backend is common for all examples. It powers API
-and URL endpoints. Frontend is a sequence of independent apps with a few common files.
+Frontend is obviously **[CycleJS](https://github.com/staltz/cycle)**. Backend is common for all examples. It
+serves static files in simplest cases and powers API / url endpoints in more complex. Frontend consists from
+independent apps with a few common files.
 
 ```
 bin
@@ -54,13 +55,16 @@ shared
 
 ## Examples
 
-### 1. Gentle Introduction
+### Lesson 1: gentle introduction
 
-#### \#1.1 Hello: cycle
-Meet CycleJS
+#### Example 1.1: hello cycle
+[Meet cycle](docs/lessons-1.md/#1.1)
 
-#### \#1.2 Hello: streams
-Be conventional
+#### Example 1.2: hello streams
+[Meet streams](docs/lessons-1.md/#1.2)
+
+#### Example 1.3: hello nodes
+[Meet nodes](docs/lessons-1.md/#1.3)
 
 ## Useful links
 

@@ -2,6 +2,13 @@
 require("../../common/scripts/polyfills");
 let {Rx, h, createStream, render} = require("cyclejs");
 
+// DATA-SOURCE =====================================================================================
+let input$ = Rx.Observable.fromPromise(
+  new Promise((resolve, reject) => {
+    resolve("CycleJS");
+  })
+);
+
 // INTERACTIONS ====================================================================================
 let interactions$ = createStream(vtree$ => {
   return render(vtree$, "main").interactions$;
@@ -13,8 +20,8 @@ let changeName$ = createStream(interactions$ => {
 });
 
 // [INTENT] <- MODEL ===============================================================================
-let name$ = createStream(changeName$ => {
-  return changeName$.startWith("");
+let name$ = createStream((changeName$, input$) => {
+  return input$.merge(changeName$).startWith("");
 });
 
 // [MODEL] <- VIEW =================================================================================
@@ -33,8 +40,13 @@ let vtree$ = createStream(name$ => {
   });
 });
 
+// DATA-SINK =======================================================================================
+name$.subscribe(name => {
+  console.log(name);
+});
+
 // CYCLE ===========================================================================================
 interactions$.inject(vtree$);
 vtree$.inject(name$);
-name$.inject(changeName$);
+name$.inject(changeName$, input$);
 changeName$.inject(interactions$);
