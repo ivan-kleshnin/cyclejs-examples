@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.9.1
+
+### Update
+* Use CycleJS version 0.20.1
+
 ## 0.9.0
 
 ### New

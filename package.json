@@ -1,6 +1,6 @@
 {
   "name": "cyclejs-examples",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "scripts": {
     "start": "babel-node backend/scripts/app.js",
     "nodemon": "nodemon backend/scripts/app.js",
