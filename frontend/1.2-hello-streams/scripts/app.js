@@ -2,14 +2,14 @@
 require("../../common/scripts/polyfills");
 let {Rx, h, createStream, render} = require("cyclejs");
 
-// INTERACTIONS ====================================================================================
-let interactions$ = createStream(vtree$ => {
-  return render(vtree$, "main").interactions$;
+// INTERACTION =====================================================================================
+let interaction$ = createStream(vtree$ => {
+  return render(vtree$, "main").interaction$;
 });
 
-// [INTERACTIONS] <- INTENT ========================================================================
-let changeName$ = createStream(interactions$ => {
-  return interactions$.choose("[name=name]", "input").map(event => event.target.value);
+// [INTERACTION] <- INTENT =========================================================================
+let changeName$ = createStream(interaction$ => {
+  return interaction$.choose("[name=name]", "input").map(event => event.target.value);
 });
 
 // [INTENT] <- MODEL ===============================================================================
@@ -34,7 +34,7 @@ let vtree$ = createStream(name$ => {
 });
 
 // CYCLE ===========================================================================================
-interactions$.inject(vtree$);
+interaction$.inject(vtree$);
 vtree$.inject(name$);
 name$.inject(changeName$);
-changeName$.inject(interactions$);
+changeName$.inject(interaction$);

@@ -7,10 +7,10 @@
 2. Observables can be classified by their role
 
 3. Common roles are:
-   `Model / View / Interactions / Intent` (MVII)
+   `Model / View / Interaction / Intent` (MVII)
 
 4. Dependencies are circular:
-   `Interactions <- Intent <- Model <- View <- Interactions`
+   `Interaction <- Intent <- Model <- View <- Interaction`
 
 5. This can be solved by making some part(s) of the system passive and anaware of others.
 
