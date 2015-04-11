@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.9.0
+
+### New
+* Adopt CycleJS version 0.20.0. All examples are to be rewritten.
+
+## 0.8.0
+
+Documentation missing
+
 ## 0.7.0
 
 ### New
