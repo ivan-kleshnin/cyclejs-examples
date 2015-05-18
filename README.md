@@ -20,6 +20,9 @@ $ cd cyclejs-examples
 $ npm install; bower install; bin/install
 ```
 
+Note that `bin/install` depends on `greadlink` being in your path. On OSX, you can run `brew install coreutils` to install it. [more info](http://stackoverflow.com/questions/1055671/how-can-i-get-the-behavior-of-gnus-readlink-f-on-a-mac)
+
+
 ## Run
 
 ```
