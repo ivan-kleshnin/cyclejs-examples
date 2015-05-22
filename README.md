@@ -6,9 +6,7 @@ Use ES6 and JSX syntax.
 Examples are grouped into lessons and placed in narrative order in tutorial-like way.
 They are meant to be reviewed one by one, sequentially. Every example is accompanied
 by a tutorial text (see links below). To review examples you install and run app and inspect app files.
-The best way of learning is comparison. And to compare just run diff tool.
-
-TODO setup demo instance
+The best way of learning is comparison. And to compare you just diff files.
 
 ## Install
 
@@ -18,59 +16,37 @@ $ cd cyclejs-examples
 $ npm install; bower install; bin/install
 ```
 
-Note that `bin/install` depends on `greadlink` being in your path. On OSX, you can run `brew install coreutils` to install it. (more info)[http://stackoverflow.com/questions/1055671/how-can-i-get-the-behavior-of-gnus-readlink-f-on-a-mac]
-
-
 ## Run
 
+This repo uses [Webpack](http://webpack.github.io/) for builds and development.
+[Babel](babeljs.io) is used for ES6 -> ES5 syntax convertions.
+
+Rebuild examples
 ```
-$ npm start -- run without watches
-$ npm run devel -- run with watches
+$ npm run build
 ```
 
-## Project structure
-Project includes backend and frontend part. Backend is **[ExpressJS](https://github.com/strongloop/express)** + **[Nunjucks](https://github.com/mozilla/nunjucks)** based.
-Frontend is obviously **[CycleJS](https://github.com/staltz/cycle)**. Backend is common for all examples. It
-serves static files in simplest cases and powers API / url endpoints in more complex. Frontend consists from
-independent apps with a few common files.
-
+Run in dev mode (with live reload). Files are server from memory
 ```
-bin
-  > install -- a few installation steps
-  > env -- add node_modules/.bin to $PATH (required to run scripts outside of `$ npm run`)
-
-frontend
-  > 1.1-hello-cycle -- example #1.1
-    > scripts -- frontend APP
-    > styles -- app styles
-  > ...
-  > common -- common files
-    > scripts -- common scripts
-    > styles -- common styles
-
-backend
-  > scripts -- backend APP, API
-  > templates -- nunjucks templates
-
-shared
-  > config -- config folder
+$ npm run dev
 ```
 
 ## Examples
 
-### Lesson 1: gentle introduction
+### Lesson 1: Gentle Introduction
 
-#### Example 1.1: hello cycle
-[Meet cycle](docs/lessons-1.md/#1.1)
+#### 1.0: Hello Cycle
+[Meet cycle](docs/lessons-1.md/#1.0)
 
-#### Example 1.2: hello streams
-[Meet streams](docs/lessons-1.md/#1.2)
+#### 1.1: Hello Component
+[Meet streams](docs/lessons-1.md/#1.1)
 
-#### Example 1.3: hello nodes
-[Meet nodes](docs/lessons-1.md/#1.3)
+#### 1.2: Hello Nodes
+[Meet nodes](docs/lessons-1.md/#1.2)
 
 ## Useful links
 
 * [Marble diagrams of Rx operators](http://rxmarbles.com/)
 * [RxJS documentation](https://github.com/Reactive-Extensions/RxJS/tree/master/doc)
 * [Comparison of web app architectures](https://github.com/Paqmind/reactive)
+

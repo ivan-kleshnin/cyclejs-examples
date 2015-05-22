@@ -1,49 +1,80 @@
-# Lesson 1: gentle introduction
+# Lesson 1: Gentle Introduction
 
-<h2 id="1.1">Example 1.1: hello cycle</h2>
+Be sure you have read at least [CycleJS README](https://github.com/staltz/cycle).
 
-1. Everything is `Rx.Observable` (nearly)
+## 1.0: Hello Cycle <span id="1.0"/>
 
-2. Observables can be classified by their role
+Your whole app contains only one imperative call `Cycle.applyToDOM`. Everything else is declarative.
 
-3. Common roles are:
-   `Model / View / Interaction / Intent` (MVII)
+Data flow is expressed in terms of RxJS operators and their combinations.
 
-4. Dependencies are circular:
-   `Interaction <- Intent <- Model <- View <- Interaction`
+Notice that
+```js
+Cycle.applyToDOM("#main", Computer);
+```
+is
+```js
+Cycle.applyToDOM("#main", interactions => Computer(interactions));
+```
 
-5. This can be solved by making some part(s) of the system passive and anaware of others.
+So in the simplest case your app is the single function `Computer` which
+translates `User` interactions to Virtual DOM Observable.
 
-6. But CyleJS does not pretend to "simplify" reality.
-   Instead it provides `Stream` abstraction and `inject` method to solve this in rather elegant way.
+## 1.1: Hello Component <span id="1.1"/>
 
-7. One `Stream` is enough to cut the dependency lock.
+Component has the same structure as the App. In functional programming done right
+the common answer to *"What is [something]?"* is *"A function..."*.
+CycleJS is no exception ;)
 
+The same structure means your app can be put into Web Component and released as library.
 
-<h2 id="1.2">Example 1.2: hello streams</h2>
+You must pass unique (among siblings) key arguments into custom components.
 
-1. Every `Stream` provides injection point
+This is different from, say, React, because Virtual DOM used by CycleJS has a different approach
+to VDOM <-> DOM conversions.
 
-2. Hardwired `Observable` is not testable (input/output is fixed!), but `Stream` is.
+Also be sure to check the requirements for WebComponent names:
+https://github.com/staltz/cycle/issues/126
 
-3. It's up to you how many streams you want to distinguish, just don't be afraid of a few more characters:
-   they will pay back.
+This may be changed later, as WC is a draft, not a spec.
 
-4. The point where everything injects provides bird-view of your app or component for free.
+## 1.2: Hello Nodes <span id="1.2"/>
 
+We want to group observables by aspect or behavior.
+We can express data flow in terms of nodes. Notice that structure stays the same,
+just more function calls are added to the sequence:
 
-<h2 id="1.3">Example 1.3: hello nodes</h2>
+Before
+```js
+Cycle.applyToDOM("#main", interactions => Computer(interactions));
+```
 
-1. MVII is a convenient preset, not a requirement (CycleJS is more a library, than a framework)
+After
+```js
+Cycle.applyToDOM("#main", interactions => View(Model(Intent(Computer(interactions)))));
+```
 
-2. You business case may require more or less "classifiers". And it's completely idiomatic to add or remove them.
+The number and meaning of nodes is up to you. You can skip the `Intent`, for example, or add more nodes to the sequence.
+The structure won't change. Nodes may accept more than one argument. For example, `Model` can
+be derived from `intentions` and `source` (some initial data).
+CycleJS does not establish any hardcoded conventions here. Just be sure you combine
+your circular dependency in the right order. The last node in the sequence should return VDOM.
 
-3. Every "group" may be viewed as logic point and is commonly called "node" in reactive programming.
+To reiterate:
 
-4. Nodes with input and output describe logic flow. They are called data-flow nodes.
+#### Simplest data-flow scheme
+```
+Computer: interactions <- VDOM
+User: VDOM <- interactions (this part is implicit)
+```
 
-5. Nodes without output are called data-output or data-sink nodes.
-   They describe side-effects of your app like storing data.
+#### Advanced data-flow scheme
+```
+Intent: interactions <- intentions
+Model: intentions <- models
+View: models <- VDOM
+User: VDOM <- interactions (this part is implicit)
+```
 
-6. Nodes without input are called data-output or data-source nodes.
-   They conversely describe side-effects of app environment.
+And don't forget the lesson from \1.1. Everything is fractal: the same or different
+data-flow can be incapsulated in any component.
