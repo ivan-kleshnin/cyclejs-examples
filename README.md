@@ -31,15 +31,11 @@ Run in dev mode (with live reload). Files are server from memory
 $ npm run dev
 ```
 
-## Examples
+## Lessons
 
-### [Chapter 1: Gentle Introduction](docs/lessons-1.md)
+### [1. Gentle Introduction](docs/lessons-1.md)
 
-#### Example 1.0: Hello Cycle
-
-#### Example 1.1: Hello Component
-
-#### Example 1.2: Hello Nodes
+### ...coming
 
 ## Useful links
 
