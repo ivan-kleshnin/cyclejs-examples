@@ -8,6 +8,12 @@ They are meant to be reviewed one by one, sequentially. Every example is accompa
 by a tutorial text (see links below). To review examples you install and run app and inspect app files.
 The best way of learning is comparison. And to compare you just diff files.
 
+## Description
+
+This project will provide frontend-only examples of CycleJS apps.
+Examples with a backend would be an overkill for beginners and would require much more complex build
+processes to support. Additional projects will be created to cover such cases.
+
 ## Install
 
 ```
@@ -21,7 +27,7 @@ $ npm install; bower install; bin/install
 This repo uses [Webpack](http://webpack.github.io/) for builds and development, and
 [Babel](babeljs.io) for ES6 -> ES5 convertions.
 
-Rebuild examples
+Rebuild examples.
 ```
 $ npm run build
 ```
