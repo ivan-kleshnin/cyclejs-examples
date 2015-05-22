@@ -36,17 +36,17 @@ $ npm run dev
 ### Lesson 1: Gentle Introduction
 
 #### 1.0: Hello Cycle
-[Meet cycle](docs/lessons-1.md/#1.0)
+[Docs](docs/lessons-1.md/#1.0)
 
 #### 1.1: Hello Component
-[Meet streams](docs/lessons-1.md/#1.1)
+[Docs](docs/lessons-1.md/#1.1)
 
 #### 1.2: Hello Nodes
-[Meet nodes](docs/lessons-1.md/#1.2)
+[Docs](docs/lessons-1.md/#1.2)
 
 ## Useful links
 
 * [Marble diagrams of Rx operators](http://rxmarbles.com/)
 * [RxJS documentation](https://github.com/Reactive-Extensions/RxJS/tree/master/doc)
-* [Comparison of web app architectures](https://github.com/Paqmind/reactive)
+* [Web app architectures](https://github.com/Paqmind/reactive)
 
