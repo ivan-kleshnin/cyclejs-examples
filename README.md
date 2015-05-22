@@ -33,16 +33,13 @@ $ npm run dev
 
 ## Examples
 
-### Lesson 1: Gentle Introduction
+### [Lesson 1: Gentle Introduction](docs/lessons-1.md)
 
-#### 1.0: Hello Cycle
-[Docs](docs/lessons-1.md/#1.0)
+#### [1.0: Hello Cycle](docs/lessons-1.md/#1.0)
 
-#### 1.1: Hello Component
-[Docs](docs/lessons-1.md/#1.1)
+#### [1.1: Hello Component](docs/lessons-1.md/#1.1)
 
-#### 1.2: Hello Nodes
-[Docs](docs/lessons-1.md/#1.2)
+#### [1.2: Hello Nodes](docs/lessons-1.md/#1.2)
 
 ## Useful links
 
