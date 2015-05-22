@@ -18,8 +18,8 @@ $ npm install; bower install; bin/install
 
 ## Run
 
-This repo uses [Webpack](http://webpack.github.io/) for builds and development.
-[Babel](babeljs.io) is used for ES6 -> ES5 syntax convertions.
+This repo uses [Webpack](http://webpack.github.io/) for builds and development and
+[Babel](babeljs.io) for ES6 -> ES5 syntax convertions.
 
 Rebuild examples
 ```
