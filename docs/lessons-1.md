@@ -2,7 +2,7 @@
 
 Be sure you have read at least [CycleJS README](https://github.com/staltz/cycle).
 
-## 1.0: Hello Cycle <span id="1.0"/>
+## 1.0: Hello Cycle
 
 Your whole app contains only one imperative call `Cycle.applyToDOM`. Everything else is declarative.
 
@@ -20,7 +20,7 @@ Cycle.applyToDOM("#main", interactions => Computer(interactions));
 So in the simplest case your app is the single function `Computer` which
 translates `User` interactions to Virtual DOM Observable.
 
-## 1.1: Hello Component <span id="1.1"/>
+## 1.1: Hello Component
 
 Component has the same structure as the App. In functional programming done right
 the common answer to *"What is [something]?"* is *"A function..."*.
@@ -38,7 +38,7 @@ https://github.com/staltz/cycle/issues/126
 
 This may be changed later, as WC is a draft, not a spec.
 
-## 1.2: Hello Nodes <span id="1.2"/>
+## 1.2: Hello Nodes
 
 We want to group observables by aspect or behavior.
 We can express data flow in terms of nodes. Notice that structure stays the same,
