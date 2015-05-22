@@ -18,15 +18,15 @@ $ npm install; bower install; bin/install
 
 ## Run
 
-This repo uses [Webpack](http://webpack.github.io/) for builds and development and
-[Babel](babeljs.io) for ES6 -> ES5 syntax convertions.
+This repo uses [Webpack](http://webpack.github.io/) for builds and development, and
+[Babel](babeljs.io) for ES6 -> ES5 convertions.
 
 Rebuild examples
 ```
 $ npm run build
 ```
 
-Run in dev mode (with live reload). Files are server from memory
+Run in dev mode (with live reload). Files are served from memory.
 ```
 $ npm run dev
 ```
