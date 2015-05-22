@@ -1,5 +1,7 @@
 # CycleJS examples
 
+**Warning: repo is outsynced from CycleJS due to the API breaking changes. Will be updated soon**
+
 Derived from and inspired by CycleJS [examples](https://github.com/staltz/cycle/tree/master/examples/).
 Use ES6 and JSX syntax.
 
