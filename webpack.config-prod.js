@@ -12,6 +12,9 @@ export default {
     "1.0-hello-cycle": "./1.0-hello-cycle/scripts/app",
     "1.1-hello-component": "./1.1-hello-component/scripts/app",
     "1.2-hello-nodes": "./1.2-hello-nodes/scripts/app",
+    "2.0-timer-basic": "./2.0-timer-basic/scripts/app",
+    "2.1-timer-control": "./2.1-timer-control/scripts/app",
+    "2.2-timer-smart": "./2.2-timer-smart/scripts/app",
   },
 
   // Output files http://webpack.github.io/docs/configuration.html#output
