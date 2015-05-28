@@ -5,14 +5,14 @@ let Observable = Rx.Observable;
 
 // APP =============================================================================================
 function Computer(interactions) {
-  let $firstName = interactions.get("#first-name", "input")
+  let firstName$ = interactions.get("#first-name", "input")
     .map(ev => ev.target.value)
     .startWith("");
-  let $lastName = interactions.get("#last-name", "input")
+  let lastName$ = interactions.get("#last-name", "input")
     .map(ev => ev.target.value)
     .startWith("");
   return Observable.combineLatest(
-    $firstName, $lastName,
+    firstName$, lastName$,
     function (firstName, lastName) {
       return (
         <div>

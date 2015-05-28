@@ -6,21 +6,21 @@ let Observable = Rx.Observable;
 // APP =============================================================================================
 function Intent(interactions) {
   return {
-    $firstName: interactions.get("#first-name", "input").map(ev => ev.target.value),
-    $lastName: interactions.get("#last-name", "input").map(ev => ev.target.value),
+    firstName$: interactions.get("#first-name", "input").map(ev => ev.target.value),
+    lastName$: interactions.get("#last-name", "input").map(ev => ev.target.value),
   };
 }
 
 function Model(intentions) {
   return {
-    $firstName: intentions.$firstName.startWith(""),
-    $lastName: intentions.$lastName.startWith(""),
+    firstName$: intentions.firstName$.startWith(""),
+    lastName$: intentions.lastName$.startWith(""),
   };
 }
 
 function View(state) {
   return Observable.combineLatest(
-    state.$firstName, state.$lastName,
+    state.firstName$, state.lastName$,
     function (firstName, lastName) {
       return (
         <div>
