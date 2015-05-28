@@ -40,6 +40,7 @@ $ npm run dev
 ## Lessons
 
 ### [1. Gentle Introduction](docs/lessons-1.md)
+### [2. Fun With Timers](docs/lessons-2.md)
 
 ### ...coming
 

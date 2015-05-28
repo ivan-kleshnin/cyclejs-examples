@@ -9,10 +9,13 @@ Your whole app contains only one imperative call `Cycle.applyToDOM`. Everything 
 Data flow is expressed in terms of RxJS operators and their combinations.
 
 Notice that
+
 ```js
 Cycle.applyToDOM("#main", Computer);
 ```
+
 is
+
 ```js
 Cycle.applyToDOM("#main", interactions => Computer(interactions));
 ```
@@ -45,11 +48,13 @@ We can express data flow in terms of nodes. Notice that structure stays the same
 just more function calls are added to the sequence:
 
 Before
+
 ```js
 Cycle.applyToDOM("#main", interactions => Computer(interactions));
 ```
 
 After
+
 ```js
 Cycle.applyToDOM("#main", interactions => View(Model(Intent(Computer(interactions)))));
 ```
@@ -63,16 +68,18 @@ your circular dependency in the right order. The last node in the sequence shoul
 To reiterate:
 
 #### Simplest data-flow scheme
+
 ```
 Computer: interactions <- VDOM
 User: VDOM <- interactions (this part is implicit)
 ```
 
 #### Advanced data-flow scheme
+
 ```
 Intent: interactions <- intentions
-Model: intentions <- models
-View: models <- VDOM
+Model: intentions <- state
+View: state <- VDOM
 User: VDOM <- interactions (this part is implicit)
 ```
 
