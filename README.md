@@ -48,5 +48,5 @@ $ npm run dev
 
 * [Marble diagrams of Rx operators](http://rxmarbles.com/)
 * [RxJS documentation](https://github.com/Reactive-Extensions/RxJS/tree/master/doc)
-* [Web app architectures](https://github.com/Paqmind/reactive)
+* [Web app dataflows](https://github.com/Paqmind/dataflows)
 
