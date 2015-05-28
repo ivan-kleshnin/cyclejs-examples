@@ -23,8 +23,9 @@ function Model(intentions) {
 
   let stop$ = intentions.stop$;
 
-  let timerIdle$ = run$.timeInterval()
-    .filter(data => data.value) // Watch false => true transitions (resume and continue after pause)
+  let timerIdle$ = run$
+    .filter(data => !data) // pass only true => false transitions (timer is stopped)
+    .timeInterval()
     .pluck("interval")
     .sample(intentions.resume$)
     .startWith(0);

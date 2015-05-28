@@ -63,11 +63,12 @@ This function does two things:
 2. Sends new value down the stream
 
 That would be enough for such timer but we wanted to support both Resume and Continue features.
-To implement Resume in terms of counter we need to count an idle time as well.
+To implement Resume in terms of counter we need to save an idle time as well.
 
 ```js
-let timerIdle$ = run$.timeInterval()
-  .filter(data => data.value) // Watch false => true transitions (resume and continue after pause)
+let timerIdle$ = run$
+  .filter(data => !data) // pass only true => false transitions (timer is stopped)
+  .timeInterval()
   .pluck("interval")
   .sample(intentions.resume$)
   .startWith(0);
