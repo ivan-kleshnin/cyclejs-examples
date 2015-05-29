@@ -1,6 +1,6 @@
 # Lesson 2: Reimplementing React examples
 
-## 2.0: Timer Basic
+## 2.00: Timer Basic
 
 Let's reimplement the simplest timer example from [TutorialZine](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/)
 
@@ -15,7 +15,7 @@ Observable.interval(100)
 View renders this value in a human readable way.
 We don't need Intent cause there is no interaction with the DOM (yet).
 
-## 2.1: Timer Control
+## 2.01: Timer Control
 
 How about more complex example with control buttons?
 Stop button releases the stream of timedeltas with this code.
@@ -38,7 +38,7 @@ msSinceStart$: Observable.interval(100)
   .takeUntil(stop$),
 ```
 
-## 2.2: Timer Smart
+## 2.02: Timer Smart
 
 Well, not so fast. You probably noticed that the Resume button works strange.
 Like the timer is not really stopped but rather displaying of numbers were blocked.
