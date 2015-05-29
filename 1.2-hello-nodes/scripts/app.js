@@ -6,8 +6,8 @@ let Observable = Rx.Observable;
 // APP =============================================================================================
 function Intent(interactions) {
   return {
-    firstName$: interactions.get("#first-name", "input").map(ev => ev.target.value),
-    lastName$: interactions.get("#last-name", "input").map(ev => ev.target.value),
+    firstName$: interactions.get("#first-name", "input").map(event => event.target.value),
+    lastName$: interactions.get("#last-name", "input").map(event => event.target.value),
   };
 }
 

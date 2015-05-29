@@ -6,10 +6,10 @@ let Observable = Rx.Observable;
 // APP =============================================================================================
 function Computer(interactions) {
   let firstName$ = interactions.get("#first-name", "input")
-    .map(ev => ev.target.value)
+    .map(event => event.target.value)
     .startWith("");
   let lastName$ = interactions.get("#last-name", "input")
-    .map(ev => ev.target.value)
+    .map(event => event.target.value)
     .startWith("");
   return Observable.combineLatest(
     firstName$, lastName$,
