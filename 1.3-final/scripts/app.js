@@ -5,12 +5,12 @@ let Observable = Rx.Observable;
 
 // APP =============================================================================================
 function Computer1() {
-  return Observable.just(<div>App #1 rendered!</div>);
+  return Observable.just(<div>App-1 rendered!</div>);
 }
 
 function Computer2() {
   return {
-    vtree$: Observable.just(<div>App #2 rendered!</div>),
+    vtree$: Observable.just(<div>App-2 rendered!</div>),
   };
 }
 

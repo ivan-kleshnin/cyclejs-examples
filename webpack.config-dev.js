@@ -12,6 +12,7 @@ export default {
     "1.0-hello-cycle": "./1.0-hello-cycle/scripts/app",
     "1.1-hello-component": "./1.1-hello-component/scripts/app",
     "1.2-hello-nodes": "./1.2-hello-nodes/scripts/app",
+    "1.3-final": "./1.3-final/scripts/app",
     "2.00-timer-basic": "./2.00-timer-basic/scripts/app",
     "2.01-timer-control": "./2.01-timer-control/scripts/app",
     "2.02-timer-smart": "./2.02-timer-smart/scripts/app",
