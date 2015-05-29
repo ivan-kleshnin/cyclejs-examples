@@ -15,6 +15,8 @@ export default {
     "2.0-timer-basic": "./2.0-timer-basic/scripts/app",
     "2.1-timer-control": "./2.1-timer-control/scripts/app",
     "2.2-timer-smart": "./2.2-timer-smart/scripts/app",
+    "2.10-menu-stateless": "./2.10-menu-stateless/scripts/app",
+    "2.11-menu-stateful": "./2.11-menu-stateful/scripts/app",
   },
 
   // Output files http://webpack.github.io/docs/configuration.html#output

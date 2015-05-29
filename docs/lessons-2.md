@@ -1,4 +1,4 @@
-# Lesson 2: Fun With Timers
+# Lesson 2: Reimplementing React examples
 
 ## 2.0: Timer Basic
 
@@ -25,7 +25,7 @@ Observable.interval(100)
   .takeUntil(stop$),
 ```
 
-To pause and resume the timer we can use the `.pausable()` operator of RxJS.
+To pause and resume the timer we can use `.pausable()` operator of RxJS.
 It takes an Obserable of booleans where `true` means "run" and `false` means "don't run".
 Simple enough.
 
@@ -87,3 +87,58 @@ Observable.interval(100)
   .scan(0, (delta, idle) => delta + 100 + idle)
   .takeUntil(stop$),
 ```
+
+## 2.10: Menu Stateless
+
+Let's reimplement the simplest menu example from [TutorialZine](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/)
+Important question: should our components be stateful or stateless?
+
+Experience from React totally applies here.
+It's better to create stateless components whenever possible.
+But is it possible in this case?
+
+Menu may be stateless if it exposes it's interactions to the outer world.
+If the chosen option holds a business value and it represents something in an app state (or URL)
+there is just no reason in duplicating that state in component.
+
+On the flip side, if menu is just a fancy toggler like dropdown and does not affect anything external,
+it has to be implemented in a stateful way.
+
+We're going to implement Menu in a stateless way first.
+
+The code is pretty simple and probably requires no explanations.
+
+App holds the menu state and what item is active now,
+is decided by an application via component properties.
+
+```js
+<app-menu items={items} active={active} key="1"/>
+```
+
+## 2.11: Menu Stateful
+
+We also can combine both approaches and keep state both in app and componet.
+While it's an overkill it's probably good for learning purposes.
+
+The interesting point here is the usage of `shareReplay` operator.
+
+```js
+function Model(intentions, props) {
+  return {
+    items$: props.get("items")
+      .startWith([])
+      .shareReplay(1), // <- !!!
+    ...
+  }
+}
+```
+
+Every time Observer subscribes to the Observable either new stream may be created or the old one reused.
+Second behavior it the default so we change it.
+`shareReplay(1)` basically means: "reuse existing Observable for every
+new Observer attached, giving him one last (current) value".
+
+TODO: give a link to the visual or better explanation.
+
+As a rule of thumb, you will want to apply `shareReplay(1)` to every Observable
+that is exposed from component except `vtree$`. That should be enough for this moment.

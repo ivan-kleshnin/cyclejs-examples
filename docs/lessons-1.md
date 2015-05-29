@@ -65,8 +65,6 @@ be derived from `intentions` and `source` (some initial data).
 CycleJS does not establish any hardcoded conventions here. Just be sure you combine
 your circular dependency in the right order. The last node in the sequence should return VDOM.
 
-To reiterate:
-
 #### Simplest data-flow scheme
 
 ```
@@ -83,5 +81,43 @@ View: state <- VDOM
 User: VDOM <- interactions (this part is implicit)
 ```
 
-And don't forget the lesson from \1.1. Everything is fractal: the same or different
+And don't forget the conclusion from \1.1. Everything is fractal: the same or different
 data-flow can be incapsulated in any component.
+
+## 1.3: Final
+
+If you was attentive you might notice one difference between `App` and `Component` code.
+Let's reiterate.
+
+For now we saw two ways to setup an app:
+```js
+// 1)
+Cycle.applyToDOM("#main", interactions => Computer(interactions));
+// 2)
+Cycle.applyToDOM("#main", interactions => View(Model(Intent(interactions))));
+```
+
+So it's `interactions -> VDOM` for setup 1)
+and `pipe (interactions -> intentions) (intentions -> state) (state -> VDOM)` for setup 2),
+where `pipe` is a left-to-right function composer.
+
+But `Footer` function from [**Hello Component**](#11-hello-component) looks different:
+
+```js
+function Footer(interactions, props) {
+  return {
+    vtree$: Observable...
+  };
+}
+```
+
+So it's `interactions -> props -> {vtree$: Observable}`?!
+
+Don't wory: that's actually the same thing.
+
+Both app and component functions accept an interactions and an optional container of props.
+
+Both app and component may return `vtree$` directly or an object with `vtree$` key
+in case the other keys describing interactions are required. The first option is just a shortcut
+for second.
+
