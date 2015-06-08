@@ -16,6 +16,7 @@ export default {
     "2.00-timer-basic": "./2.00-timer-basic/scripts/app",
     "2.01-timer-control": "./2.01-timer-control/scripts/app",
     "2.02-timer-control2": "./2.02-timer-control2/scripts/app",
+    "2.03-timer-stopwatch": "./2.03-timer-timer/scripts/app",
     "2.10-menu-stateless": "./2.10-menu-stateless/scripts/app",
     "2.11-menu-stateful": "./2.11-menu-stateful/scripts/app",
   },
