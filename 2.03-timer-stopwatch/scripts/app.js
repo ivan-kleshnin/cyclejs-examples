@@ -54,7 +54,7 @@ function Model(intentions) {
   });
 
   return {
-    value$
+    value$: value$.map(v => MINUTE_MS - v),
   };
 }
 
@@ -62,18 +62,28 @@ function View(state) {
   return Observable.combineLatest(
     state.value$,
     function (value) {
+      let second = (value / 1000).toFixed(1);
+      let angle = secondToAngle(second);
       return (
         <div>
-          <p>
-            {(value / 1000).toFixed(1)}
-          </p>
-          <div className="btn-group">
+          <div className="stopWatch frame">
+            <div className="stopWatch arrow" style={{
+              "transform": `rotate(${angle}deg)`,
+              "transform-origin": "bottom",
+            }}>
+            </div>
+          </div>
+          <div className="btn-group stopWatch trigger">
             <button className="btn btn-default trigger">Trigger</button>
           </div>
         </div>
       );
     }
   );
+}
+
+function secondToAngle(second) {
+  return ((second % 60) * 90) / 15;
 }
 
 Cycle.applyToDOM("#main", interactions => View(Model(Intent(interactions))));

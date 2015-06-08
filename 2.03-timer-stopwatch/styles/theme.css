@@ -10,3 +10,24 @@ main {
   max-width: 300px;
   margin: auto auto;
 }
+
+.stopWatch.trigger {
+  margin-top: 20px;
+}
+
+.stopWatch.frame {
+  position: relative;
+  border-radius: 50%;
+	width: 200px;
+	height: 200px;
+  background-color: skyblue;
+}
+
+.stopWatch.arrow {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  height: 50%;
+  width: 2px;
+  background-color: white;
+}
