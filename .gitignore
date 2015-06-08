@@ -3,9 +3,9 @@
 /node_modules/
 
 # BY MASK ------------------------------------------------------------------------------------------
-public
 npm-debug.log
-*.iml
 .idea
 .DS_Store
 
+test*.js
+*.iml
