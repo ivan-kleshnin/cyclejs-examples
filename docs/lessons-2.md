@@ -38,7 +38,7 @@ msSinceStart$: Observable.interval(100)
   .takeUntil(stop$),
 ```
 
-## 2.02: Timer Smart
+## 2.02: Timer Control 2
 
 Well, not so fast. You probably noticed that the Resume button works strange.
 Like the timer is not really stopped but rather displaying of numbers were blocked.
