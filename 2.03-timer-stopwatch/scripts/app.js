@@ -1,4 +1,5 @@
 // IMPORTS =========================================================================================
+import {assoc} from "ramda";
 import Class from "classnames";
 import Cycle from "cyclejs";
 let {Rx} = Cycle;
@@ -11,58 +12,68 @@ const MINUTE_MS = 600 * TICK_MS;
 // APP =============================================================================================
 function Intent(interactions) {
   return {
-    // TODO: how to debounce without delay
+    // TODO: debounce without delay
     trigger$: interactions.get(".btn.trigger", "click").map(true)
   }
 }
 
 function Model(intentions) {
-  let triggerSubject$ = new Subject();
-  let trigger$ = triggerSubject$.scan(0, (state, trigger) => trigger ? (state + 1) % 3 : 0);
+  function seedState() {
+    return {
+      watch: 0,         // state: 0 = stopped, 1 = running, 2 = paused
+      value: MINUTE_MS, // timer value in milliseconds
+    };
+  }
 
-  let running$ = trigger$.map(state => state == 1);
-  let stop$ = trigger$.filter(state => state == 0);
-
-  let tick$ = Observable.interval(TICK_MS)
-    .pausable(running$)
-    .map(() => {
-      return function (state) {
-        return state > TICK_MS ? state - TICK_MS : 0;
-      }
-    });
-
-  let reset$ = stop$.startWith(true).map(() => {
+  let trigger$ = intentions.trigger$.map(() => {
     return function (state) {
-      return MINUTE_MS;
+      if (state.watch == 2) {
+        state = assoc("value", MINUTE_MS, state);
+      }
+      state = assoc("watch", (state.watch + 1) % 3, state);
+      return state;
     }
   });
 
+  let tick$ = Observable.interval(TICK_MS)
+    .map(() => {
+      return function (state) {
+        if (state.watch == 1) {
+          state = assoc("value", state.value > TICK_MS ? state.value - TICK_MS : 0, state);
+        }
+        if (state.value == 0) {
+          state = assoc("watch", 0, state);
+        }
+        return state;
+      }
+    });
+
   let transform$ = Rx.Observable.merge(
-    tick$, reset$
+    trigger$, tick$
   );
 
-  let value$ = transform$
-    .scan(MINUTE_MS, (state, transform) => transform(state));
-
-  let timerStopped$ = value$.filter(v => v == 0);
-
-  intentions.trigger$.subscribe(() => {
-    triggerSubject$.onNext(true);
-  });
-  timerStopped$.subscribe(() => {
-    triggerSubject$.onNext(false);
-  });
-
   return {
-    value$: value$.map(v => MINUTE_MS - v),
+    state$: transform$
+      .scan(seedState(), (state, transform) => transform(state))
+      .map(state => {
+        return assoc("value", MINUTE_MS - state.value, state);
+      })
+      .distinctUntilChanged()
+      .shareReplay(1)
   };
 }
 
 function View(state) {
-  return Observable.combineLatest(
-    state.value$,
-    function (value) {
-      let second = (value / 1000).toFixed(1);
+  function mSecToSec(value) {
+    return (value / 1000).toFixed(1)
+  }
+
+  function secondToAngle(second) {
+    return (second % 60) * 6;
+  }
+
+  return state.state$.map(state => {
+      let second = mSecToSec(state.value);
       let angle = secondToAngle(second);
       return (
         <div>
@@ -71,19 +82,16 @@ function View(state) {
               "transform": `rotate(${angle}deg)`,
               "transform-origin": "bottom",
             }}>
+              {second}
             </div>
           </div>
-          <div className="btn-group stopWatch trigger">
+          <div className="stopWatch trigger">
             <button className="btn btn-default trigger">Trigger</button>
           </div>
         </div>
       );
     }
   );
-}
-
-function secondToAngle(second) {
-  return ((second % 60) * 90) / 15;
 }
 
 Cycle.applyToDOM("#main", interactions => View(Model(Intent(interactions))));
