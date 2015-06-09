@@ -7,7 +7,7 @@ let {Observable, Subject} = Rx;
 
 // CONSTANTS =======================================================================================
 const TICK_MS = 500;
-const MINUTE_MS = 600 * TICK_MS;
+const MINUTE_MS = 60000;
 
 // APP =============================================================================================
 function Intent(interactions) {
@@ -20,17 +20,17 @@ function Intent(interactions) {
 function Model(intentions) {
   function seedState() {
     return {
-      watch: 0,         // state: 0 = stopped, 1 = running, 2 = paused
-      value: MINUTE_MS, // timer value in milliseconds
-      prevValue: MINUTE_MS,
+      watch: 0,            // state: 0 = stopped, 1 = running, 2 = paused
+      value: 0,            // timer value in milliseconds
+      valueBeforeReset: 0, // prev timer value, required for animation
     };
   }
 
   let trigger$ = intentions.trigger$.map(() => {
     return function (state) {
       if (state.watch == 2) {
-        state = assoc("prevValue", state.value, state);
-        state = assoc("value", MINUTE_MS, state);
+        state = assoc("valueBeforeReset", state.value, state);
+        state = assoc("value", 0, state);
       }
       state = assoc("watch", (state.watch + 1) % 3, state);
       return state;
@@ -41,7 +41,11 @@ function Model(intentions) {
     .map(() => {
       return function (state) {
         if (state.watch == 1) {
-          state = assoc("value", state.value > TICK_MS ? state.value - TICK_MS : 0, state);
+          if (state.value < MINUTE_MS - TICK_MS) {
+            state = assoc("value", state.value + TICK_MS, state);
+          } else {
+            state = assoc("value", 0, state);
+          }
         }
         if (state.value == 0) {
           state = assoc("watch", 0, state);
@@ -57,11 +61,6 @@ function Model(intentions) {
   return {
     state$: transform$
       .scan(seedState(), (state, transform) => transform(state))
-      .map(state => {
-        state = assoc("prevValue", MINUTE_MS - state.prevValue, state);
-        state = assoc("value", MINUTE_MS - state.value, state);
-        return state;
-      })
       .distinctUntilChanged()
       .shareReplay(1)
   };
@@ -77,7 +76,7 @@ function View(state) {
   }
 
   return state.state$.map(state => {
-      let prevSecond = mSecToSec(state.prevValue);
+      let secondBeforeReset = mSecToSec(state.valueBeforeReset);
       let second = mSecToSec(state.value);
       let angle = secondToAngle(second);
       let stopped = state.watch == 0;
@@ -89,7 +88,7 @@ function View(state) {
               "transform-origin": "bottom",
               "transition-property": "transform",
               "transition-timing-function": stopped ? "ease-out" : "cubic-bezier(.4, 2, .55, .44)",
-              "transition-duration": stopped ? `${prevSecond / 30}s` : `${TICK_MS / 1000}s`,
+              "transition-duration": stopped ? `${secondBeforeReset / 30}s` : `${TICK_MS / 1000}s`,
             }}>
               {second}
             </div>
