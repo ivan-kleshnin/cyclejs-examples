@@ -16,10 +16,6 @@ main {
 .stopWatch.frame {
   position: relative;
   margin: auto auto;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
   border-radius: 50%;
 	width: 200px;
 	height: 200px;
@@ -37,10 +33,5 @@ main {
 
 .stopWatch.trigger {
   text-align: center;
-  margin: auto auto;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
   margin-top: 20px;
 }
