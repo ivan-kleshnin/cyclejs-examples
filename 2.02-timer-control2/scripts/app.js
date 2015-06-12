@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import Class from "classnames";
 import Cycle from "cyclejs";
 let {Rx} = Cycle;

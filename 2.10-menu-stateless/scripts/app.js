@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import Cycle from "cyclejs";
 import Menu from "./menu";
 let {Rx} = Cycle;

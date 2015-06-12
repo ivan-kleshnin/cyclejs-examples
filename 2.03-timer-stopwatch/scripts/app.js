@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import {assoc} from "ramda";
 import Class from "classnames";
 import Cycle from "cyclejs";

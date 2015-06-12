@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import Cycle from "cyclejs";
 let {Rx} = Cycle;
 let Observable = Rx.Observable;
