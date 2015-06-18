@@ -102,16 +102,7 @@ Arrow state can be created on top of an Observable `interval` and button state i
 finite state-machine where `0` means "stopped", `1` means "running" and `2` means "paused".
 Then, the formula for a next button state is `(previousState + 1) % 3`.
 
-Dataflow is quite simple and variable meanings should be self-speaking.
-
-```js
-function seedState() {
-  return {
-    watch: 0, // state: 0 = stopped, 1 = running, 2 = paused
-    value: 0, // timer value in milliseconds
-  };
-}
-```
+Dataflow is quite simple and should be evident if you mastered previous tutorials.
 
 An interesting question is how make an arrow movement smooth.
 We can select smaller interval like 100ms or 50ms but in this case we're charging CPU with
