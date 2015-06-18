@@ -126,14 +126,15 @@ transition-duration: `${TICK_MS / 1000}s;
 They have to be in JS because their values are derived from variables.
 
 To add a slightly exagerrated arrow bounce we have a `transition-timing-function`
-setted to `cubic-bezier(.4, 2, .55, .44)`.
+setted to `cubic-bezier`.
 
 And we also need to have a different animation preferences for arrow resets.
 We keep third `valueBeforeReset` state value just to be able to evaluate correct transition time
 for counter-clockwise arrow movement after main value was resetted.
 
 `Observable.interval` counts forever but there is no sense in
-broadcasting repeating values. `.distinctUntilChanged()` is a very convenient operator which can help
+broadcasting repeating values.<br/>
+`.distinctUntilChanged()` is a very convenient operator which can help
 with this issue. It cuts consequent repeating items keeping outer layers unaware of inner buzz.
 
 ## 2.10: Menu Stateless
