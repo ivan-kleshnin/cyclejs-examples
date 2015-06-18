@@ -101,7 +101,7 @@ So it's `interactions -> VDOM` for setup 1)
 and `pipe (interactions -> intentions) (intentions -> state) (state -> VDOM)` for setup 2),
 where `pipe` is a left-to-right function composer.
 
-But `Footer` function from [**Hello Component**](#11-hello-component) looks different:
+But `Footer` function from [**Hello Component**](#11-hello-components) looked different:
 
 ```js
 function Footer(interactions, props) {
