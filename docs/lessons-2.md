@@ -99,7 +99,8 @@ which can count timedeltas up to one minute.
 
 Our stopwatch basically has two states: arrow state and button state.
 Arrow state can be created on top of an Observable `interval` and button state is basically a
-finite state-machine. Next button state is expressed by formula `(previousState + 1) % 3`.
+finite state-machine where `0` means "stopped", `1` means "running" and `2` means "paused".
+Then, the formula for a next button state is `(previousState + 1) % 3`.
 
 Dataflow is quite simple and variable meanings should be self-speaking.
 
