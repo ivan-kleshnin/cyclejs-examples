@@ -134,7 +134,7 @@ for counter-clockwise arrow movement after main value was resetted.
 
 `Observable.interval` counts forever but there is no sense in
 broadcasting repeating values.<br/>
-`.distinctUntilChanged()` is a very convenient operator which can help
+There is a very convenient operator `distinctUntilChanged` which can help
 with this issue. It cuts consequent repeating items keeping outer layers unaware of inner buzz.
 
 ## 2.10: Menu Stateless
