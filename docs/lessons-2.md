@@ -94,7 +94,7 @@ Ready for something more ambitious? Good, let's create semi-realistic mechanical
 with adequate visual representation. Simplest stopwatches can have only one
 button which runs, pauses, resets and runs the timer again on consequent presses.
 Just google some video if you need a visual clue. More advanced double-button stopwatches can also **continue** after **stop**
-by separating reset to a distinct button. But we're going to stick with a single-button case
+because they have reset button separated. But we're going to stick with a single-button case
 which can count timedeltas up to one minute.
 
 Our stopwatch basically has two states: arrow state and button state.
