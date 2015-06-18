@@ -88,6 +88,54 @@ Observable.interval(100)
   .takeUntil(stop$),
 ```
 
+## 2.03: Timer Stopwatch
+
+Ready for something more ambitious? Good, let's create semi-realistic mechanical stopwatch emulation
+with adequate visual representation. Simplest stopwatches can have only one
+button which runs, pauses, resets and runs the timer again on consequent presses.
+Just google some video if you need a visual clue. More advanced double-button stopwatches can also **continue** after **stop**
+by separating reset to a distinct button. But we're going to stick with a single-button case
+which can count timedeltas up to one minute.
+
+Our stopwatch basically has two states: arrow state and button state.
+Arrow state can be created on top of an Observable `interval` and button state is basically a
+finite state-machine. Next button state is expressed by formula `(previousState + 1) % 3`.
+
+Dataflow is quite simple and variable meanings should be self-speaking.
+
+```js
+function seedState() {
+  return {
+    watch: 0, // state: 0 = stopped, 1 = running, 2 = paused
+    value: 0, // timer value in milliseconds
+  };
+}
+```
+
+An interesting question is how make an arrow movement smooth.
+We can select smaller interval like 100ms or 50ms but in this case we're charging CPU with
+a lot of worthless load. CSS transitions is much more viable solution.
+
+To emulate arrow rotation this two properties are embedded as local styles:
+
+```CSS
+transform: rotate(${angle}deg);
+transition-duration: `${TICK_MS / 1000}s;
+```
+
+They have to be in JS because their values are derived from variables.
+
+To add a slightly exagerrated arrow bounce we have a `transition-timing-function`
+setted to `cubic-bezier(.4, 2, .55, .44)`.
+
+And we also need to have a different animation preferences for arrow resets.
+We keep third `valueBeforeReset` state value just to be able to evaluate correct transition time
+for counter-clockwise arrow movement after main value was resetted.
+
+`Observable.interval` counts forever but there is no sense in
+broadcasting repeating values. `.distinctUntilChanged()` is a very convenient operator which can help
+with this issue. It cuts consequent repeating items keeping outer layers unaware of inner buzz.
+
 ## 2.10: Menu Stateless
 
 Let's reimplement the simplest menu example from [TutorialZine](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/)
