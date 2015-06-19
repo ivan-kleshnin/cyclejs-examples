@@ -60,8 +60,7 @@ function Model(intentions) {
   return {
     state$: transform$
       .scan(seedState(), (state, transform) => transform(state))
-      .distinctUntilChanged()
-      .shareReplay(1)
+      .distinctUntilChanged(),
   };
 }
 

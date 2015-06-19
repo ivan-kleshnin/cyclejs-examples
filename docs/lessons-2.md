@@ -97,12 +97,61 @@ Just google some video if you need a visual clue. More advanced double-button st
 because they have reset button separated. But we're going to stick with a single-button case
 which can count timedeltas up to one minute.
 
-Our stopwatch basically has two states: arrow state and button state.
+The most important point in this lesson is how state is declared. In previous parts
+we had simple situations where state could be expressed by single-value and operations
+over state could be expressed in terms of items in Observables.
+
+General reactive solution to state is one the most beautiful things I saw in programming.
+It models state explicitly as a stream of transformation functions over state incapsulated in `scan`.
+
+It looks like this:
+
+```js
+let transform$ = Rx.Observable.merge(
+  transform1$, transform2$, ...
+);
+
+let state$ = transform$.scan(initialState, (state, transform) => transform(state));
+```
+
+I know, this requires some time to absorb. We have 3 functions: `scan`, `reducer` and current `transfomer`
+which all interact in a specific way. Before this lesson you saw the `scan` operator accepting only value items
+but in this case it accepts function items (transformers). This is much more powerful concept which
+can express almost any business logic case.
+
+```js
+let transform$ = Rx.Observable.merge(
+  addModel$, removeModel$, ...
+);
+
+let state$ = transform$.scan(initialModels, (state, transform) => transform(state));
+```
+
+Note that only variable names were changed!
+
+Our stopwatch has two states: current arrow state and current button state.
 Arrow state can be created on top of an Observable `interval` and button state is basically a
 finite state-machine where `0` means "stopped", `1` means "running" and `2` means "paused".
 The formula for a next button state is `(previousState + 1) % 3`.
 
-Dataflow is quite simple and should be evident if you mastered previous tutorials.
+And the whole state formula is:
+
+```js
+let transform$ = Rx.Observable.merge(
+  trigger$, tick$
+);
+
+return {
+  state$: transform$
+    .scan(seedState(), (state, transform) => transform(state))
+    .distinctUntilChanged(),
+};
+```
+
+`Observable.interval` counts forever but there is no sense in
+broadcasting repeating values.<br/>
+There is a very convenient operator `distinctUntilChanged` which can help
+with this issue. It cuts consequent repeating items keeping outer layers unaware of inner buzz.
 
 An interesting question is how make an arrow movement smooth.
 We can select smaller interval like 100ms or 50ms but in this case we're charging CPU with
@@ -123,11 +172,6 @@ setted to `cubic-bezier`.
 And we also need to have a different animation preferences for arrow resets.
 We keep third `valueBeforeReset` state value just to be able to evaluate correct transition time
 for counter-clockwise arrow movement after main value was resetted.
-
-`Observable.interval` counts forever but there is no sense in
-broadcasting repeating values.<br/>
-There is a very convenient operator `distinctUntilChanged` which can help
-with this issue. It cuts consequent repeating items keeping outer layers unaware of inner buzz.
 
 ## 2.10: Menu Stateless
 
