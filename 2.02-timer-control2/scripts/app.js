@@ -10,7 +10,7 @@ function Intent(interactions) {
     resume$: interactions.get(".btn.resume", "click").map(() => true),
     continue$: interactions.get(".btn.continue", "click").map(() => true),
     stop$: interactions.get(".btn.stop", "click").map(() => true),
-  }
+  };
 }
 
 function Model(intentions) {

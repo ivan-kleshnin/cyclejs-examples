@@ -13,7 +13,7 @@ function Intent(interactions) {
   return {
     // TODO: debounce without delay
     trigger$: interactions.get(".btn.trigger", "click").map(true)
-  }
+  };
 }
 
 function Model(intentions) {
@@ -33,7 +33,7 @@ function Model(intentions) {
       }
       state = assoc("watch", (state.watch + 1) % 3, state);
       return state;
-    }
+    };
   });
 
   let tick$ = Observable.interval(TICK_MS)
@@ -50,7 +50,7 @@ function Model(intentions) {
           state = assoc("watch", 0, state);
         }
         return state;
-      }
+      };
     });
 
   let transform$ = Rx.Observable.merge(
@@ -66,7 +66,7 @@ function Model(intentions) {
 
 function View(state) {
   function mSecToSec(value) {
-    return (value / 1000).toFixed(1)
+    return (value / 1000).toFixed(1);
   }
 
   function secondToAngle(second) {

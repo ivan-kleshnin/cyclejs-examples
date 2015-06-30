@@ -37,6 +37,12 @@ Run in dev mode (with live reload). Files are served from memory.
 $ npm run dev
 ```
 
+## Lint
+
+```
+$ npm run lint -s (mute node output)
+```
+
 ## Lessons
 
 ### [1. Gentle Introduction](docs/lessons-1.md)

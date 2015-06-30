@@ -22,7 +22,7 @@ export default function Menu(interactions, props) {
         .startWith(undefined)
         .merge(intentions.selectActive$)
         .shareReplay(1),
-    }
+    };
   }
 
   function View(state) {
