@@ -61,6 +61,8 @@ $ npm run dev
 
 #### 2.11: Menu Stateful
 
+### 3. [Tetris Game](https://github.com/ivan-kleshnin/tetris-cyclejs)
+
 There will be more.
 
 ## Useful links
