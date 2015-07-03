@@ -4,24 +4,41 @@ Be sure you have read at least [CycleJS README](https://github.com/staltz/cycle)
 
 ## 1.0: Hello Cycle
 
-Your whole app contains only one imperative call `Cycle.applyToDOM`. Everything else is declarative.
+Every file which uses JSX syntax must import `h` variable from `@cycle/web`.
+
+```js
+import {h} from "@cycle/web";
+```
+
+The `jsx-webpack?ignoreDocblock&jsx=h` line in `webpack.config-*.js` corresponds to that.
+
+Here and below we will capitalize data-flow functions (like `Model`, `View`, `Intent`, `Main`...)
+for better visual separation. Data-flow functions are object creators and we're not going to fall back to
+ OOP anymore so why not withdraw this privilege from them.
+
+The whole app contains only one imperative call `Cycle.run`. Everything else is declarative.
 
 Data flow is expressed in terms of RxJS operators and their combinations.
 
 Notice that
 
 ```js
-Cycle.applyToDOM("#main", Computer);
+Cycle.run(Main, drivers)
 ```
 
-is
+is the same thing as
 
 ```js
-Cycle.applyToDOM("#main", interactions => Computer(interactions));
+Cycle.run(responses => Main(responses), drivers);
 ```
 
-So in the simplest case your app is the single function `Computer` which
-translates `User` interactions to Virtual DOM Observable.
+In this simplest case our app is the single function `Main` which relies on the single `DOM` driver.
+
+```js
+Responses: {*: Observable}
+Requests: {*: Observable}
+Main: Responses -> Requests
+```
 
 ## 1.1: Hello Component
 
