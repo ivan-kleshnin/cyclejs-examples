@@ -49,4 +49,4 @@ function Footer(interactions, props) {
 
 Cycle.registerCustomElement("app-footer", Footer);
 
-Cycle.applyToDOM("#main", interactions => View(Model(Intent(interactions))));
+Cycle.applyToDOM("#app", interactions => View(Model(Intent(interactions))));

@@ -50,13 +50,13 @@ just more function calls are added to the sequence:
 Before
 
 ```js
-Cycle.applyToDOM("#main", interactions => Computer(interactions));
+Cycle.applyToDOM("#app", interactions => Computer(interactions));
 ```
 
 After
 
 ```js
-Cycle.applyToDOM("#main", interactions => View(Model(Intent(Computer(interactions)))));
+Cycle.applyToDOM("#app", interactions => View(Model(Intent(Computer(interactions)))));
 ```
 
 The number and meaning of nodes is up to you. You can skip the `Intent`, for example, or add more nodes to the sequence.
@@ -92,9 +92,9 @@ Let's reiterate.
 For now we saw two ways to setup an app:
 ```js
 // 1)
-Cycle.applyToDOM("#main", interactions => Computer(interactions));
+Cycle.applyToDOM("#app", interactions => Computer(interactions));
 // 2)
-Cycle.applyToDOM("#main", interactions => View(Model(Intent(interactions))));
+Cycle.applyToDOM("#app", interactions => View(Model(Intent(interactions))));
 ```
 
 So it's `interactions -> VDOM` for setup 1)

@@ -23,4 +23,4 @@ function View(state) {
   });
 }
 
-Cycle.applyToDOM("#main", () => View(Model()));
+Cycle.applyToDOM("#app", () => View(Model()));

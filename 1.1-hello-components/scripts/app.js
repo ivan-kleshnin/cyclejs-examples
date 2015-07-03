@@ -41,4 +41,4 @@ function Footer(interactions, props) {
 
 Cycle.registerCustomElement("app-footer", Footer);
 
-Cycle.applyToDOM("#main", Computer);
+Cycle.applyToDOM("#app", Computer);

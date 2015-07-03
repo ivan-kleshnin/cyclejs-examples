@@ -63,4 +63,4 @@ function View(state) {
   );
 }
 
-Cycle.applyToDOM("#main", interactions => View(Model(Intent(interactions))));
+Cycle.applyToDOM("#app", interactions => View(Model(Intent(interactions))));

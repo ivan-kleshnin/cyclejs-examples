@@ -22,4 +22,4 @@ function Computer(interactions) {
 
 Cycle.registerCustomElement("app-menu", Menu);
 
-Cycle.applyToDOM("#main", interactions => Computer(interactions));
+Cycle.applyToDOM("#app", interactions => Computer(interactions));
