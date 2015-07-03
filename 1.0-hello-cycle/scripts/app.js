@@ -1,5 +1,5 @@
 import Cycle from "@cycle/core";
-import CycleWeb from "@cycle/web";
+import CycleWeb, {h} from "@cycle/web";
 
 let {Rx} = Cycle;
 let Observable = Rx.Observable;
