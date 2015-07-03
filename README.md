@@ -5,14 +5,16 @@ Use ES6 and JSX syntax.
 
 Examples are grouped into lessons and placed in narrative order in tutorial-like way.
 They are meant to be reviewed one by one, sequentially. Every example is accompanied
-by a tutorial text (see links below). To review examples you install and run app and inspect app files.
+by a tutorial text (see links below). To review examples, install and run app and inspect app files.
 The best way of learning is comparison. And to compare you just diff files.
 
-## Description
+## Notes
 
 This project will provide frontend-only examples of CycleJS apps.
 Examples with a backend would be an overkill for beginners and would require much more complex build
 processes to support. Additional projects will be created to cover such cases.
+
+Make sure you read through [official documentation](http://cycle.js.org/getting-started.html) at least once.
 
 ## Install
 
@@ -27,15 +29,18 @@ $ npm install; bower install; bin/install
 This repo uses [Webpack](http://webpack.github.io/) for builds and development, and
 [Babel](babeljs.io) for ES6 -> ES5 convertions.
 
-Rebuild examples.
-```
-$ npm run build
-```
-
 Run in dev mode (with live reload). Files are served from memory.
 ```
 $ npm run dev
 ```
+See dev.html
+
+Rebuild examples.
+```
+$ npm run build
+```
+See index.html
+
 
 ## Lint
 
