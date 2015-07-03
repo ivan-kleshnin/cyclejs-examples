@@ -3,11 +3,11 @@
   "version": "2.0.0",
   "private": true,
   "scripts": {
-    "lint": "eslint .",
+    "eslint": "eslint .",
     "build": "webpack --config webpack.config-prod.js --progress --colors",
     "dev": "webpack-dev-server --config webpack.config-dev.js --progress --colors --port 2992 --inline",
-    "test": "mocha --opts specs/mocha.opts specs",
-    "test-watch": "mocha --opts specs/mocha.opts -w specs"
+    "mocha": "mocha --opts specs/mocha.opts specs",
+    "test": "npm run eslint -s && npm run mocha -s"
   },
   "dependencies": {
     "babel": "^5.4.7",

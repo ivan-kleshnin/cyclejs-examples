@@ -40,7 +40,7 @@ $ npm run dev
 ## Lint
 
 ```
-$ npm run lint -s (mute node output)
+$ npm run eslint -s (mute node output)
 ```
 
 ## Lessons
