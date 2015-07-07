@@ -9,15 +9,15 @@ export default {
   // Entry files http://webpack.github.io/docs/configuration.html#entry
   entry: {
     "1.0-hello-cycle": "./1.0-hello-cycle/scripts/app",
-    "1.1-hello-components": "./1.1-hello-components/scripts/app",
-    "1.2-hello-nodes": "./1.2-hello-nodes/scripts/app",
+    "1.1-hello-nodes": "./1.1-hello-nodes/scripts/app",
+    "1.2-hello-components": "./1.2-hello-components/scripts/app",
     "1.3-hello-apps": "./1.3-hello-apps/scripts/app",
-    "2.00-timer-basic": "./2.00-timer-basic/scripts/app",
-    "2.01-timer-control": "./2.01-timer-control/scripts/app",
-    "2.02-timer-control2": "./2.02-timer-control2/scripts/app",
-    "2.03-timer-stopwatch": "./2.03-timer-stopwatch/scripts/app",
-    "2.10-menu-stateless": "./2.10-menu-stateless/scripts/app",
-    "2.11-menu-stateful": "./2.11-menu-stateful/scripts/app",
+    //"2.00-timer-basic": "./2.00-timer-basic/scripts/app",
+    //"2.01-timer-control": "./2.01-timer-control/scripts/app",
+    //"2.02-timer-control2": "./2.02-timer-control2/scripts/app",
+    //"2.03-timer-stopwatch": "./2.03-timer-stopwatch/scripts/app",
+    //"2.10-menu-stateless": "./2.10-menu-stateless/scripts/app",
+    //"2.11-menu-stateful": "./2.11-menu-stateful/scripts/app",
   },
 
   // Output files http://webpack.github.io/docs/configuration.html#output
@@ -36,7 +36,7 @@ export default {
   module: {
     loaders: [ // http://webpack.github.io/docs/loaders.html
       // JS
-      {test: /\.js$/, loaders: ["babel?stage=0", "jsx-webpack?ignoreDocblock&jsx=Cycle.h&docblockUnknownTags"], exclude: /node_modules/},
+      {test: /\.js$/, loaders: ["babel?stage=0", "jsx-webpack?ignoreDocblock&jsx=h&docblockUnknownTags"], exclude: /node_modules/},
     ],
   },
 
@@ -58,16 +58,6 @@ export default {
   plugins: [
     new Webpack.IgnorePlugin(/^vertx$/),
     new Webpack.NoErrorsPlugin(),
+    new Webpack.ProvidePlugin({h: "virtual-dom/h"})
   ],
 };
-
-//let jsxOptions = {
-//  //ignoreDocblock: true,
-//  //passUnknownTagsToFactory: true,
-//  //unknownTagsAsString: true,
-//  factory: "Cycle.h", // Cycle.h
-//  //renameAttrs: {
-//  //  "for": "htmlFor",
-//  //  "class": "className",
-//  //}
-//};

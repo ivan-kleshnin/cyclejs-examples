@@ -5,16 +5,24 @@ let {Rx} = Cycle;
 let Observable = Rx.Observable;
 
 // APP =============================================================================================
-function main({DOM}) {
-  let firstName$ = DOM.get("#first-name", "input")
-    .map(event => event.target.value)
-    .startWith("");
-  let lastName$ = DOM.get("#last-name", "input")
-    .map(event => event.target.value)
-    .startWith("");
+function intent({DOM}) {
+  return {
+    firstName$: DOM.get("#first-name", "input").map(event => event.target.value),
+    lastName$: DOM.get("#last-name", "input").map(event => event.target.value),
+  };
+}
+
+function model(actions) {
+  return {
+    firstName$: actions.firstName$.startWith(""),
+    lastName$: actions.lastName$.startWith(""),
+  };
+}
+
+function view(state) {
   return {
     DOM: Observable.combineLatest(
-      firstName$, lastName$,
+      state.firstName$, state.lastName$,
       function (firstName, lastName) {
         return (
           <div>
@@ -30,8 +38,12 @@ function main({DOM}) {
             <h3>Hello {firstName} {lastName}</h3>
           </div>
         );
-      })
+      }),
   };
+}
+
+function main(responses) {
+  return view(model(intent(responses)));
 }
 
 Cycle.run(main, {
