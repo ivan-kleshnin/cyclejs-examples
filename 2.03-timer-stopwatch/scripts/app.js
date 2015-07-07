@@ -9,14 +9,14 @@ const TICK_MS = 500;
 const MINUTE_MS = 60000;
 
 // APP =============================================================================================
-function Intent(interactions) {
+function intent(interactions) {
   return {
     // TODO: debounce without delay
     trigger$: interactions.get(".btn.trigger", "click").map(true)
   };
 }
 
-function Model(intentions) {
+function model(actions) {
   function seedState() {
     return {
       watch: 0,            // state: 0 = stopped, 1 = running, 2 = paused
@@ -25,7 +25,7 @@ function Model(intentions) {
     };
   }
 
-  let trigger$ = intentions.trigger$.map(() => {
+  let trigger$ = actions.trigger$.map(() => {
     return function (state) {
       if (state.watch == 2) {
         state = assoc("valueBeforeReset", state.value, state);
@@ -64,7 +64,7 @@ function Model(intentions) {
   };
 }
 
-function View(state) {
+function view(state) {
   function mSecToSec(value) {
     return (value / 1000).toFixed(1);
   }
@@ -99,4 +99,4 @@ function View(state) {
   });
 }
 
-Cycle.applyToDOM("#app", interactions => View(Model(Intent(interactions))));
+Cycle.applyToDOM("#app", interactions => view(model(intent(interactions))));

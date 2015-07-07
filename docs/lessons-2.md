@@ -4,16 +4,16 @@
 
 Let's reimplement the simplest timer example from [TutorialZine](http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/)
 
-Two nodes are enough here: Model and View.
-Model exposes the stream of timedeltas.
+Two nodes are enough here: `model` and `view`.
+`model` exposes the stream of timedeltas.
 
 ```js
 Observable.interval(100)
   .map(() => Date.now() - started)
 ```
 
-View renders this value in a human readable way.
-We don't need Intent cause there is no interaction with the DOM (yet).
+`view` renders this value in a human readable way.
+We don't need `intent` cause there is no interaction with the DOM (yet).
 
 ## 2.01: Timer Control
 
@@ -70,7 +70,7 @@ let timerIdle$ = run$
   .filter(data => !data) // pass only true => false transitions (timer is stopped)
   .timeInterval()
   .pluck("interval")
-  .sample(intentions.resume$)
+  .sample(actions.resume$)
   .startWith(0);
 ```
 
@@ -121,10 +121,10 @@ can express almost any business logic case.
 
 ```js
 let transform$ = Rx.Observable.merge(
-  addModel$, removeModel$, ...
+  addItem$, removeItem$, ...
 );
 
-let state$ = transform$.scan(initialModels, (state, transform) => transform(state));
+let state$ = transform$.scan(initialItems, (state, transform) => transform(state));
 ```
 
 Note that only variable names were changed!
@@ -208,7 +208,7 @@ While it's an overkill it's probably good for learning purposes.
 The interesting point here is the usage of `shareReplay` operator.
 
 ```js
-function Model(intentions, props) {
+function model(actions, props) {
   return {
     items$: props.get("items")
       .startWith([])

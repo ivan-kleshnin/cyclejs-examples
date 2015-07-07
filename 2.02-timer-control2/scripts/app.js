@@ -4,7 +4,7 @@ let {Rx} = Cycle;
 let Observable = Rx.Observable;
 
 // APP =============================================================================================
-function Intent(interactions) {
+function intent(interactions) {
   return {
     pause$: interactions.get(".btn.pause", "click").map(() => true),
     resume$: interactions.get(".btn.resume", "click").map(() => true),
@@ -13,20 +13,20 @@ function Intent(interactions) {
   };
 }
 
-function Model(intentions) {
+function model(actions) {
   let run$ = Observable.merge(
-    intentions.resume$,
-    intentions.continue$,
-    intentions.pause$.map(() => false)
+    actions.resume$,
+    actions.continue$,
+    actions.pause$.map(() => false)
   ).distinctUntilChanged();
 
-  let stop$ = intentions.stop$;
+  let stop$ = actions.stop$;
 
   let timerIdle$ = run$
     .filter(data => !data) // pass only true => false transitions (timer is stopped)
     .timeInterval()
     .pluck("interval")
-    .sample(intentions.resume$)
+    .sample(actions.resume$)
     .startWith(0);
 
   return {
@@ -41,7 +41,7 @@ function Model(intentions) {
   };
 }
 
-function View(state) {
+function view(state) {
   return Observable.combineLatest(
     state.msSinceStart$, state.stopped$,
     function (msSinceStart, stopped) {
@@ -63,4 +63,4 @@ function View(state) {
   );
 }
 
-Cycle.applyToDOM("#app", interactions => View(Model(Intent(interactions))));
+Cycle.applyToDOM("#app", interactions => view(model(intent(interactions))));

@@ -3,7 +3,7 @@ let {Rx} = Cycle;
 let Observable = Rx.Observable;
 
 // APP =============================================================================================
-function Model() {
+function model() {
   let started = Date.now();
 
   return {
@@ -12,7 +12,7 @@ function Model() {
   };
 }
 
-function View(state) {
+function view(state) {
   return state.msSinceStart$.map(msSinceStart => {
     let timeDelta = (msSinceStart / 1000).toFixed(1);
     return (
@@ -23,4 +23,4 @@ function View(state) {
   });
 }
 
-Cycle.applyToDOM("#app", () => View(Model()));
+Cycle.applyToDOM("#app", () => view(model()));
