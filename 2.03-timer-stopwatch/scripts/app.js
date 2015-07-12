@@ -1,6 +1,8 @@
 import {assoc} from "ramda";
 import Class from "classnames";
-import Cycle from "cyclejs";
+import Cycle from "@cycle/core";
+import CycleWeb from "@cycle/web";
+
 let {Rx} = Cycle;
 let {Observable} = Rx;
 
@@ -73,30 +75,39 @@ function view(state) {
     return (second % 60) * 6;
   }
 
-  return state.state$.map(state => {
-    let secondBeforeReset = mSecToSec(state.valueBeforeReset);
-    let second = mSecToSec(state.value);
-    let angle = secondToAngle(second);
-    let stopped = state.watch == 0;
-    return (
-      <div>
-        <div className="stopWatch frame">
-          <div className={Class("stopWatch", "arrow")} style={{
-            "transform": `rotate(${angle}deg)`,
-            "transform-origin": "bottom",
-            "transition-property": "transform",
-            "transition-timing-function": stopped ? "ease-out" : "cubic-bezier(.4, 2, .55, .44)",
-            "transition-duration": stopped ? `${secondBeforeReset / 30}s` : `${TICK_MS / 1000}s`,
-          }}>
-            {second}
+  return {
+    DOM: state.state$.map(state => {
+      let secondBeforeReset = mSecToSec(state.valueBeforeReset);
+      let second = mSecToSec(state.value);
+      let angle = secondToAngle(second);
+      let stopped = state.watch == 0;
+      return (
+        <div>
+          <div className="stopWatch frame">
+            <div className={Class("stopWatch", "arrow")} style={{
+              "transform": `rotate(${angle}deg)`,
+              "transform-origin": "bottom",
+              "transition-property": "transform",
+              "transition-timing-function": stopped ? "ease-out" : "cubic-bezier(.4, 2, .55, .44)",
+              "transition-duration": stopped ? `${secondBeforeReset / 30}s` : `${TICK_MS / 1000}s`,
+            }}>
+              {second}
+            </div>
+          </div>
+          <div className="stopWatch trigger">
+            <button className="btn btn-default trigger">Trigger</button>
           </div>
         </div>
-        <div className="stopWatch trigger">
-          <button className="btn btn-default trigger">Trigger</button>
-        </div>
-      </div>
-    );
-  });
+      );
+    })
+  }
 }
 
-Cycle.applyToDOM("#app", interactions => view(model(intent(interactions))));
+
+function main({DOM}) {
+  return view(model(intent(DOM)));
+}
+
+Cycle.run(main, {
+  DOM: CycleWeb.makeDOMDriver('#app'),
+});

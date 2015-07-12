@@ -1,5 +1,7 @@
 import Class from "classnames";
-import Cycle from "cyclejs";
+import Cycle from "@cycle/core";
+import CycleWeb from "@cycle/web";
+
 let {Rx} = Cycle;
 let Observable = Rx.Observable;
 
@@ -33,24 +35,32 @@ function model(actions) {
 }
 
 function view(state) {
-  return Observable.combineLatest(
-    state.msSinceStart$, state.stopped$,
-    function (msSinceStart, stopped) {
-      let timeDelta = (msSinceStart / 1000).toFixed(1);
-      return (
-        <div>
-          <p className={Class({muted: stopped})}>
-            Started {timeDelta} seconds ago {stopped ? "(Timer stopped)" : ""}
-          </p>
-          <div className="btn-group">
-            <button className="btn btn-default pause" disabled={stopped}>Pause</button>
-            <button className="btn btn-default resume" disabled={stopped}>Resume</button>
-            <button className="btn btn-default stop" disabled={stopped}>Stop</button>
+  return {
+    DOM: Observable.combineLatest(
+      state.msSinceStart$, state.stopped$,
+      function (msSinceStart, stopped) {
+        let timeDelta = (msSinceStart / 1000).toFixed(1);
+        return (
+          <div>
+            <p className={Class({muted: stopped})}>
+              Started {timeDelta} seconds ago {stopped ? "(Timer stopped)" : ""}
+            </p>
+            <div className="btn-group">
+              <button className="btn btn-default pause" disabled={stopped}>Pause</button>
+              <button className="btn btn-default resume" disabled={stopped}>Resume</button>
+              <button className="btn btn-default stop" disabled={stopped}>Stop</button>
+            </div>
           </div>
-        </div>
-      );
-    }
-  );
+        );
+      }
+    )
+  }
 }
 
-Cycle.applyToDOM("#app", interactions => view(model(intent(interactions))));
+function main({DOM}) {
+  return view(model(intent(DOM)));
+}
+
+Cycle.run(main, {
+  DOM: CycleWeb.makeDOMDriver('#app'),
+});
