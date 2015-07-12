@@ -1,5 +1,7 @@
-import Cycle from "cyclejs";
+import Cycle from "@cycle/core";
+import CycleWeb from "@cycle/web";
 import Menu from "./menu";
+
 let {Rx} = Cycle;
 let Observable = Rx.Observable;
 
@@ -7,19 +9,23 @@ let Observable = Rx.Observable;
 let items = ["Home", "Services", "About", "Contact us"];
 let active = "Services";
 
-function Computer(interactions) {
-  interactions.get(".menu", "active")
+function main({DOM}) {
+  DOM.get(".menu", "active")
     .map(data => data.detail)
     .subscribe(active => {
       console.log("active:", active);
     });
-  return Observable.return(
-    <div>
-      <app-menu items={items} active={active} key="1"/>
-    </div>
-  );
+  return {
+    DOM: Observable.return(
+      <div>
+        <app-menu items={items} active={active} key="1"/>
+      </div>
+    )
+  }
 }
 
-Cycle.registerCustomElement("app-menu", Menu);
-
-Cycle.applyToDOM("#app", interactions => Computer(interactions));
+Cycle.run(main, {
+  DOM: CycleWeb.makeDOMDriver('#app', {
+    "app-menu": Menu
+  })
+});

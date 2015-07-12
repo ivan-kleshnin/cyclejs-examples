@@ -1,10 +1,11 @@
-import Cycle from "cyclejs";
+import Cycle from "@cycle/core";
 import Class from "classnames";
+
 let {Rx} = Cycle;
 let Observable = Rx.Observable;
 
 // COMPONENTS ======================================================================================
-export default function Menu(interactions, props) {
+export default function Menu({DOM, props}) {
   function intent(interactions) {
     return {
       selectActive$: interactions.get("nav .item", "click")
@@ -47,10 +48,10 @@ export default function Menu(interactions, props) {
     });
   }
 
-  let actions = intent(interactions);
+  let actions = intent(DOM);
   let state = model(actions, props);
   let vtree$ = view(state);
   let active$ = state.active$;
 
-  return {vtree$, active$};
+  return {DOM: vtree$, events: { active: active$ } };
 }

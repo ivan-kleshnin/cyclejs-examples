@@ -1,12 +1,13 @@
-import Cycle from "cyclejs";
+import Cycle from "@cycle/core";
 import Class from "classnames";
+
 let {Rx} = Cycle;
 let Observable = Rx.Observable;
 
 // COMPONENTS ======================================================================================
-export default function Menu(interactions, props) {
+export default function Menu({DOM, props}) {
   return {
-    vtree$: Observable.combineLatest(
+    DOM: Observable.combineLatest(
       props.get("items"), props.get("active"),
       function (items, active) {
       return (
@@ -26,7 +27,9 @@ export default function Menu(interactions, props) {
       );
     }),
 
-    active$: interactions.get("nav .item", "click")
-      .map(event => event.currentTarget.dataset.name),
+    events: {
+      active: DOM.get("nav .item", "click")
+        .map(event => event.currentTarget.dataset.name)
+    }
   };
 }
