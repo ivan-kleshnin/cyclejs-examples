@@ -42,8 +42,6 @@ $ npm run eslint -s (mute node output)
 
 ### [1. Gentle Introduction](docs/lessons-1.md)
 
-Covers **CycleJS@1.0**
-
 #### 1.1: Hello Nodes
 
 #### 1.2: Hello Components
@@ -51,8 +49,6 @@ Covers **CycleJS@1.0**
 #### 1.3: Hello Apps
 
 ### [2. Reimplementing React examples](docs/lessons-2.md)
-
-Covers previous **CycleJS@0.24** version. Gonna be updated soon.
 
 #### 2.00: Timer Basic
 
