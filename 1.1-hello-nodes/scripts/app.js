@@ -47,5 +47,5 @@ function main(responses) {
 }
 
 Cycle.run(main, {
-  DOM: CycleWeb.makeDOMDriver('#app'),
+  DOM: CycleWeb.makeDOMDriver("#app"),
 });

@@ -18,9 +18,9 @@ function main2({DOM}) {
 }
 
 Cycle.run(main1, {
-  DOM: CycleWeb.makeDOMDriver('#app-1'),
+  DOM: CycleWeb.makeDOMDriver("#app-1"),
 });
 
 Cycle.run(main2, {
-  DOM: CycleWeb.makeDOMDriver('#app-2'),
+  DOM: CycleWeb.makeDOMDriver("#app-2"),
 });

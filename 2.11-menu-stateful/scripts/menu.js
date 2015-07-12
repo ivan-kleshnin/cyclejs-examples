@@ -53,5 +53,10 @@ export default function Menu({DOM, props}) {
   let vtree$ = view(state);
   let active$ = state.active$;
 
-  return {DOM: vtree$, events: { active: active$ } };
+  return {
+    DOM: vtree$,
+    events: {
+      active: active$
+    }
+  };
 }

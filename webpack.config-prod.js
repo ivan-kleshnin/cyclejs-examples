@@ -12,12 +12,12 @@ export default {
     "1.1-hello-nodes": "./1.1-hello-nodes/scripts/app",
     "1.2-hello-components": "./1.2-hello-components/scripts/app",
     "1.3-hello-apps": "./1.3-hello-apps/scripts/app",
-    //"2.00-timer-basic": "./2.00-timer-basic/scripts/app",
-    //"2.01-timer-control": "./2.01-timer-control/scripts/app",
-    //"2.02-timer-control2": "./2.02-timer-control2/scripts/app",
-    //"2.03-timer-stopwatch": "./2.03-timer-stopwatch/scripts/app",
-    //"2.10-menu-stateless": "./2.10-menu-stateless/scripts/app",
-    //"2.11-menu-stateful": "./2.11-menu-stateful/scripts/app",
+    "2.00-timer-basic": "./2.00-timer-basic/scripts/app",
+    "2.01-timer-control": "./2.01-timer-control/scripts/app",
+    "2.02-timer-control2": "./2.02-timer-control2/scripts/app",
+    "2.03-timer-stopwatch": "./2.03-timer-stopwatch/scripts/app",
+    "2.10-menu-stateless": "./2.10-menu-stateless/scripts/app",
+    "2.11-menu-stateful": "./2.11-menu-stateful/scripts/app",
   },
 
   // Output files http://webpack.github.io/docs/configuration.html#output
