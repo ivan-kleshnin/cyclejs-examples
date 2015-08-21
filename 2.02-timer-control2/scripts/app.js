@@ -1,6 +1,6 @@
 import Class from "classnames";
 import Cycle from "@cycle/core";
-import CycleWeb from "@cycle/web";
+import CycleDOM from "@cycle/dom";
 
 let {Rx} = Cycle;
 let Observable = Rx.Observable;
@@ -36,7 +36,7 @@ function model(actions) {
       .pausable(run$.startWith(true))
       .map(() => 0)
       .merge(timerIdle$, (_, idle) => idle)
-      .scan(0, (delta, idle) => delta + 100 + idle)
+      .scan((delta, idle) => delta + 100 + idle, 0)
       .takeUntil(stop$),
 
     stopped$: stop$.startWith(false),
@@ -72,5 +72,5 @@ function main({DOM}) {
 }
 
 Cycle.run(main, {
-  DOM: CycleWeb.makeDOMDriver("#app"),
+  DOM: CycleDOM.makeDOMDriver("#app"),
 });

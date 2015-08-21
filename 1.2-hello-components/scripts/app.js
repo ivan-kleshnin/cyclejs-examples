@@ -1,5 +1,5 @@
 import Cycle from "@cycle/core";
-import CycleWeb from "@cycle/web";
+import CycleDOM from "@cycle/dom";
 
 let {Rx} = Cycle;
 let Observable = Rx.Observable;
@@ -56,7 +56,7 @@ function main(responses) {
 }
 
 Cycle.run(main, {
-  DOM: CycleWeb.makeDOMDriver("#app", {
+  DOM: CycleDOM.makeDOMDriver("#app", {
     "app-footer": footer,
   }),
 });

@@ -1,5 +1,5 @@
 import Cycle from "@cycle/core";
-import CycleWeb from "@cycle/web";
+import CycleDOM from "@cycle/dom";
 import Menu from "./menu";
 
 let {Rx} = Cycle;
@@ -24,7 +24,7 @@ function main({DOM}) {
 }
 
 Cycle.run(main, {
-  DOM: CycleWeb.makeDOMDriver("#app", {
+  DOM: CycleDOM.makeDOMDriver("#app", {
   	"app-menu": Menu
   })
 });

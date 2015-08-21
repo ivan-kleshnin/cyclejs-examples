@@ -1,5 +1,5 @@
 import Cycle from "@cycle/core";
-import CycleWeb from "@cycle/web";
+import CycleDOM from "@cycle/dom";
 
 let {Rx} = Cycle;
 let Observable = Rx.Observable;
@@ -18,9 +18,9 @@ function main2({DOM}) {
 }
 
 Cycle.run(main1, {
-  DOM: CycleWeb.makeDOMDriver("#app-1"),
+  DOM: CycleDOM.makeDOMDriver("#app-1"),
 });
 
 Cycle.run(main2, {
-  DOM: CycleWeb.makeDOMDriver("#app-2"),
+  DOM: CycleDOM.makeDOMDriver("#app-2"),
 });
