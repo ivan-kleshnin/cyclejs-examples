@@ -1,8 +1,10 @@
 import Cycle from "@cycle/core";
-import CycleDOM from "@cycle/dom";
+import CycleDOM, {h} from "@cycle/dom";
+import HH from "hyperscript-helpers";
 
+let {div} = HH(h);
 let {Rx} = Cycle;
-let Observable = Rx.Observable;
+let {Observable} = Rx;
 
 // APP =============================================================================================
 function model() {
@@ -18,11 +20,7 @@ function view(state) {
   return {
     DOM: state.msSinceStart$.map(msSinceStart => {
       let timeDelta = (msSinceStart / 1000).toFixed(1);
-      return (
-        <div>
-          Started {timeDelta} seconds ago
-        </div>
-      );
+      return div(`Started ${timeDelta} seconds ago`);
     })
   };
 }

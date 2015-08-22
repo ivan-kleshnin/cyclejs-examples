@@ -1,9 +1,11 @@
 import Cycle from "@cycle/core";
-import CycleDOM from "@cycle/dom";
+import CycleDOM, {h} from "@cycle/dom";
+import HH from "hyperscript-helpers";
 import Menu from "./menu";
 
+let {div} = HH(h);
 let {Rx} = Cycle;
-let Observable = Rx.Observable;
+let {Observable} = Rx;
 
 // APP =============================================================================================
 let items = ["Home", "Services", "About", "Contact us"];
@@ -14,17 +16,15 @@ function main({DOM}) {
     .map(event => event.detail);
   return {
   	DOM: active$.startWith(active).map(active => {
-	    return (
-	      <div>
-	        <app-menu items={items} active={active} key="1"/>
-	      </div>
-	    );
-	  })
+	    return div(
+        h("app-menu", {items: items, active: active, key: "1"})
+      );
+	  }),
   }
 }
 
 Cycle.run(main, {
   DOM: CycleDOM.makeDOMDriver("#app", {
-  	"app-menu": Menu
+    "app-menu": Menu
   })
 });

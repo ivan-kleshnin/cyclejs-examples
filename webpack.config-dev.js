@@ -51,7 +51,7 @@ export default {
   module: {
     loaders: [ // http://webpack.github.io/docs/loaders.html
       // JS
-      {test: /\.js$/, loaders: ["babel?stage=0", "jsx-webpack?ignoreDocblock&jsx=h&docblockUnknownTags"], exclude: /node_modules/},
+      {test: /\.js$/, loaders: ["babel?stage=0"], exclude: /node_modules/},
     ],
   },
 

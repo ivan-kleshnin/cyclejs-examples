@@ -1,19 +1,21 @@
 import Cycle from "@cycle/core";
-import CycleDOM from "@cycle/dom";
+import CycleDOM, {h} from "@cycle/dom";
+import HH from "hyperscript-helpers";
 
+let {div} = HH(h);
 let {Rx} = Cycle;
-let Observable = Rx.Observable;
+let {Observable} = Rx;
 
 // APP =============================================================================================
 function main1({DOM}) {
   return {
-    DOM: Observable.just(<div>App-1 rendered!</div>)
+    DOM: Observable.just(div("App-1 rendered!"))
   };
 }
 
 function main2({DOM}) {
   return {
-    DOM: Observable.just(<div>App-2 rendered!</div>),
+    DOM: Observable.just(div("App-2 rendered!")),
   };
 }
 

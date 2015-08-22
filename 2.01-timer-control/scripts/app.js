@@ -1,9 +1,11 @@
 import Class from "classnames";
 import Cycle from "@cycle/core";
-import CycleDOM from "@cycle/dom";
+import CycleDOM, {h} from "@cycle/dom";
+import HH from "hyperscript-helpers";
 
+let {div, p, button} = HH(h);
 let {Rx} = Cycle;
-let Observable = Rx.Observable;
+let {Observable} = Rx;
 
 // APP =============================================================================================
 function intent(interactions) {
@@ -40,18 +42,16 @@ function view(state) {
       state.msSinceStart$, state.stopped$,
       function (msSinceStart, stopped) {
         let timeDelta = (msSinceStart / 1000).toFixed(1);
-        return (
-          <div>
-            <p className={Class({muted: stopped})}>
-              Started {timeDelta} seconds ago {stopped ? "(Timer stopped)" : ""}
-            </p>
-            <div className="btn-group">
-              <button className="btn btn-default pause" disabled={stopped}>Pause</button>
-              <button className="btn btn-default resume" disabled={stopped}>Resume</button>
-              <button className="btn btn-default stop" disabled={stopped}>Stop</button>
-            </div>
-          </div>
-        );
+        return div([
+          p({className: Class({muted: stopped})},
+            `Started ${timeDelta} seconds ago ${stopped ? "(Timer stopped)" : ""}`
+          ),
+          div({className: "btn-group"}, [
+            button({className: "btn btn-default pause", disabled: stopped}, "Pause"),
+            button({className: "btn btn-default resume", disabled: stopped}, "Resume"),
+            button({className: "btn btn-default stop", disabled : stopped}, "Stop"),
+          ])
+        ]);
       }
     )
   }

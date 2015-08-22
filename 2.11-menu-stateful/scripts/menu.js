@@ -1,8 +1,10 @@
 import Cycle from "@cycle/core";
 import Class from "classnames";
+import HH from "hyperscript-helpers";
 
+let {div, nav, p, b} = HH(h);
 let {Rx} = Cycle;
-let Observable = Rx.Observable;
+let {Observable} = Rx;
 
 // COMPONENTS ======================================================================================
 export default function Menu({DOM, props}) {
@@ -30,21 +32,15 @@ export default function Menu({DOM, props}) {
     return Observable.combineLatest(
       state.items$, state.active$,
       function (items, active) {
-      return (
-        <div className="menu">
-          <nav>
-            {items.map(item =>
-              <div attributes={{"data-name": item}} key={item}
-                className={Class("item", {active: item == active})}>
-                {item}
-              </div>
-            )}
-          </nav>
-          <p>
-            Selected: <b>{active}</b>
-          </p>
-        </div>
-      );
+        return div({className: "menu"}, [
+          nav(
+            items.map(item => div(
+              {attributes: {"data-name": item}, key: item, className: Class("item", {active: item == active})},
+              item
+            ))
+          ),
+          p(["Selected: ", b(active)])
+        ]);
     });
   }
 
