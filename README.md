@@ -32,6 +32,14 @@ $ npm run build
 ```
 See index.html
 
+## JSX
+
+Earlier versions of this repo used JSX but now we believe that [hyperscript](https://github.com/dominictarr/hyperscript) with [hyperscript-helpers](https://github.com/ohanhi/hyperscript-helpers)
+provide better experience. Benetifs are: no additional language, no additional transpilation target,
+no hacks to make external tools believe this is not a React JSX, much better IDE support (common JS) and you can comment single lines again!
+The number of brackes is even lower and readability is subjectively at the very same level.
+So JSX is just does not worth it.
+
 ## Lint
 
 ```
