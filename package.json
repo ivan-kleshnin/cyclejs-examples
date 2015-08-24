@@ -27,6 +27,7 @@
     "ramda": "^0.15.1",
     "readable-stream": "^2.0.1",
     "run-sequence": "^1.1.1",
+    "serialize-javascript": "^1.0.0",
     "virtual-dom": "^2.0.1",
     "webpack": "^1.10.1",
     "webpack-dev-server": "^1.10.1"
@@ -35,6 +36,7 @@
     "babel-eslint": "^3.1.20",
     "chai": "^3.0.0",
     "eslint": "^0.24.0",
-    "mocha": "^2.2.5"
+    "mocha": "^2.2.5",
+    "nodemon": "^1.4.1"
   }
 }

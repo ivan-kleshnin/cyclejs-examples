@@ -70,7 +70,9 @@ $ npm run eslint -s (mute node output)
 
 #### 2.11: Menu Stateful
 
-### 3. [Tetris Game](https://github.com/ivan-kleshnin/tetris-cyclejs)
+### 10. [Isomorphic App](docs/lessons-10.md)
+
+### 99. [Tetris Game](https://github.com/ivan-kleshnin/tetris-cyclejs)
 
 There will be more.
 

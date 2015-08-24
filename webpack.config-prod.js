@@ -18,6 +18,7 @@ export default {
     "2.03-timer-stopwatch": "./2.03-timer-stopwatch/scripts/app",
     "2.10-menu-stateless": "./2.10-menu-stateless/scripts/app",
     "2.11-menu-stateful": "./2.11-menu-stateful/scripts/app",
+    "10-isomorphic": "./10-isomorphic/frontend/client",
   },
 
   // Output files http://webpack.github.io/docs/configuration.html#output
