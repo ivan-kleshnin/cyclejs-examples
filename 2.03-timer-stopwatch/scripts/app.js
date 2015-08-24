@@ -1,8 +1,8 @@
 import {assoc} from "ramda";
 import Class from "classnames";
+import HH from "hyperscript-helpers";
 import Cycle from "@cycle/core";
 import CycleDOM, {h} from "@cycle/dom";
-import HH from "hyperscript-helpers";
 
 let {div, p, button} = HH(h);
 let {Rx} = Cycle;

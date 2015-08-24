@@ -1,6 +1,6 @@
+import HH from "hyperscript-helpers";
 import Cycle from "@cycle/core";
 import CycleDOM, {h} from "@cycle/dom";
-import HH from "hyperscript-helpers";
 
 let {div, h3, hr, label, input} = HH(h);
 let {Rx} = Cycle;

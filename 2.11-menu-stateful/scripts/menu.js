@@ -1,6 +1,6 @@
-import Cycle from "@cycle/core";
-import Class from "classnames";
 import HH from "hyperscript-helpers";
+import Class from "classnames";
+import Cycle from "@cycle/core";
 
 let {div, nav, p, b} = HH(h);
 let {Rx} = Cycle;
