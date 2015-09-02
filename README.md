@@ -6,7 +6,7 @@ Examples are grouped into lessons and placed in narrative order.
 They are meant to be reviewed one by one, sequentially. The best way of learning is comparison.
 And to compare you just diff files.
 
-There is a [./docs](documentation).
+There is a [documentation](./docs).
 
 ## Install
 
