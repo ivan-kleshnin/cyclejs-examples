@@ -8,10 +8,10 @@ let {Observable} = Rx;
 
 // APP =============================================================================================
 function main({DOM}) {
-  let firstName$ = DOM.get("#first-name", "input")
+  let firstName$ = DOM.select("#first-name").events("input")
     .map(event => event.target.value)
     .startWith("");
-  let lastName$ = DOM.get("#last-name", "input")
+  let lastName$ = DOM.select("#last-name").events("input")
     .map(event => event.target.value)
     .startWith("");
   return {

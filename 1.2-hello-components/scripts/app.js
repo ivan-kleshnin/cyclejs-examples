@@ -10,15 +10,15 @@ let {Observable} = Rx;
 function footer(responses) {
   return {
     DOM: Observable.return(
-      <div>=== footer ===</div>
+      div("=== footer ===")
     )
   };
 }
 
 function intent({DOM}) {
   return {
-    firstName$: DOM.get("#first-name", "input").map(event => event.target.value),
-    lastName$: DOM.get("#last-name", "input").map(event => event.target.value),
+    firstName$: DOM.select("#first-name").events("input").map(event => event.target.value),
+    lastName$: DOM.select("#last-name").events("input").map(event => event.target.value),
   };
 }
 

@@ -9,8 +9,8 @@ let {Observable} = Rx;
 // APP =============================================================================================
 function intent({DOM}) {
   return {
-    firstName$: DOM.get("#first-name", "input").map(event => event.target.value),
-    lastName$: DOM.get("#last-name", "input").map(event => event.target.value),
+    firstName$: DOM.select("#first-name").events("input").map(event => event.target.value),
+    lastName$: DOM.select("#last-name").events("input").map(event => event.target.value),
   };
 }
 
