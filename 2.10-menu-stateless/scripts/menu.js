@@ -1,9 +1,9 @@
 import HH from "hyperscript-helpers";
-import Cycle from "@cycle/core";
+import Cycle, {Rx} from "@cycle/core";
+import {h} from "@cycle/dom";
 import Class from "classnames";
 
 let {div, nav, p, b} = HH(h);
-let {Rx} = Cycle;
 let {Observable} = Rx;
 
 // COMPONENTS ======================================================================================
@@ -24,7 +24,7 @@ export default function Menu({DOM, props}) {
     }),
 
     events: {
-      active: DOM.get("nav .item", "click")
+      active: DOM.select("nav .item").events("click")
         .map(event => event.currentTarget.dataset.name)
     }
   };

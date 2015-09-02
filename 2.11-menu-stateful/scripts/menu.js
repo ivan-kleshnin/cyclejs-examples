@@ -1,9 +1,8 @@
 import HH from "hyperscript-helpers";
 import Class from "classnames";
-import Cycle from "@cycle/core";
+import Cycle, {Rx} from "@cycle/core";
 
 let {div, nav, p, b} = HH(h);
-let {Rx} = Cycle;
 let {Observable} = Rx;
 
 // COMPONENTS ======================================================================================

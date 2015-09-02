@@ -1,10 +1,9 @@
 import Class from "classnames";
 import HH from "hyperscript-helpers";
-import Cycle from "@cycle/core";
+import Cycle, {Rx} from "@cycle/core";
 import CycleDOM, {h} from "@cycle/dom";
 
 let {div, p, button} = HH(h);
-let {Rx} = Cycle;
 let {Observable} = Rx;
 
 // APP =============================================================================================
