@@ -3,9 +3,10 @@
 A practical matherial for those who succeeded with [official documentation](http://cycle.js.org/getting-started.html).
 
 Examples are grouped into lessons and placed in narrative order.
-They are meant to be reviewed one by one, sequentially. Every example is accompanied
-by a tutorial text (see links below). To review examples, install and run app and inspect app files.
-The best way of learning is comparison. And to compare you just diff files.
+They are meant to be reviewed one by one, sequentially. The best way of learning is comparison.
+And to compare you just diff files.
+
+There is a [./docs](documentation).
 
 ## Install
 
@@ -24,13 +25,9 @@ Run in dev mode (with live reload). Files are served from memory.
 ```
 $ npm run dev
 ```
-See dev.html
+See index.html in example folders.
 
-Rebuild examples.
-```
-$ npm run build
-```
-See index.html
+For examples with backend (since \#10) issue `$ babel-node xx-xx/backend/server.js` to run server.
 
 ## JSX
 
@@ -69,8 +66,6 @@ $ npm run eslint -s (mute node output)
 #### 2.10: Menu Stateless
 
 #### 2.11: Menu Stateful
-
-### 10. [Isomorphic App](docs/lessons-10.md)
 
 ### 99. [Tetris Game](https://github.com/ivan-kleshnin/tetris-cyclejs)
 
