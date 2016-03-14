@@ -10,19 +10,20 @@ The best way of learning is comparison. And to compare you just diff files.
 ## Install
 
 1. Download and unzip repo
-2. `$ npm install http-server -g`
-3. `$ npm install`
+2. Install static server with `$ npm install http-server -g`
+3. Install packages with `$ npm install`
 
 ## Run
 
 This repo uses single webpack config and single `node_modules` folder to simplify project management.
 
 1. Uncomment an example line in `entry` section of `webpack.config.js`.
-2. `$ npm run dev`
-3. `$ http-server {example-folder}`
+2. Run webpack with `$ npm run dev`
+3. Run static server with `$ http-server {example-folder}`
+4. See `localhost:8080`
 
-We recommend to serve `index.html` from HTTP like described above rather that just open them as files.
-Many things in browser (history, CORS support) are blocked / unavailable for `file://` protocol.
+We recommend to open `index.html` with `http://` rather than `file://` (as described above) because
+many things in browser just don't work for `file://` (history, CORS, etc.).
 
 ## Learn
 
