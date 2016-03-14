@@ -1,79 +1,29 @@
 # CycleJS examples
 
-A practical matherial for those who succeeded with [official documentation](http://cycle.js.org/getting-started.html).
+Mostly incremental examples for those who finished an [official documentation](http://cycle.js.org/getting-started.html)
+or [EggHead course](https://egghead.io/lessons/rxjs-overview-of-cycle-js) and wants more.
 
 Examples are grouped into lessons and placed in narrative order.
-They are meant to be reviewed one by one, sequentially. The best way of learning is comparison.
-And to compare you just diff files.
-
-There is a [documentation](./docs).
+They are meant to be reviewed one by one, sequentially.
+The best way of learning is comparison. And to compare you just diff files.
 
 ## Install
 
-```
-$ wget https://github.com/ivan-kleshnin/cyclejs-examples/archive/master.zip; unzip master.zip -d cyclejs-examples; rm master.zip
-$ cd cyclejs-examples
-$ npm install; bower install; bin/install
-```
+1. Download and unzip repo
+2. `$ npm install http-server -g`
+3. `$ npm install`
 
 ## Run
 
-This repo uses [Webpack](http://webpack.github.io/) for builds and development, and
-[Babel](babeljs.io) for ES6 -> ES5 convertions.
+This repo uses single webpack config and single `node_modules` folder to simplify project management.
 
-Run in dev mode (with live reload). Files are served from memory.
-```
-$ npm run dev
-```
-See index.html in example folders.
+1. Uncomment an example line in `entry` section of `webpack.config.js`.
+2. `$ npm run dev`
+3. `$ http-server {example-folder}`
 
-For examples with backend (since \#10) issue `$ babel-node xx-xx/backend/server.js` to run server.
+We recommend to serve `index.html` from HTTP like described above rather that just open them as files.
+Many things in browser (history, CORS support) are blocked / unavailable for `file://` protocol.
 
-## JSX
+## Learn
 
-Earlier versions of this repo used JSX but now we believe that [hyperscript](https://github.com/dominictarr/hyperscript) with [hyperscript-helpers](https://github.com/ohanhi/hyperscript-helpers)
-provide better experience. Benetifs are: no additional language, no additional transpilation target,
-no hacks to make external tools believe this is not a React JSX, much better IDE support (common JS) and you can comment single lines again!
-The number of brackes is even lower and readability is subjectively at the very same level.
-So JSX is just does not worth it.
-
-## Lint
-
-```
-$ npm run eslint -s (mute node output)
-```
-
-## Lessons
-
-### [1. Gentle Introduction](docs/lessons-1.md)
-
-#### 1.1: Hello Nodes
-
-#### 1.2: Hello Components
-
-#### 1.3: Hello Apps
-
-### [2. Reimplementing React examples](docs/lessons-2.md)
-
-#### 2.00: Timer Basic
-
-#### 2.01: Timer Control
-
-#### 2.02: Timer Control 2
-
-#### 2.03: Timer Stopwatch
-
-#### 2.10: Menu Stateless
-
-#### 2.11: Menu Stateful
-
-### 99. [Tetris Game](https://github.com/ivan-kleshnin/tetris-cyclejs)
-
-There will be more.
-
-## Useful links
-
-* [Marble diagrams of Rx operators](http://rxmarbles.com/)
-* [RxJS documentation](https://github.com/Reactive-Extensions/RxJS/tree/master/doc)
-* [Web app dataflows](https://github.com/Paqmind/dataflows)
-
+:turtle:
