@@ -10,8 +10,9 @@ The best way of learning is comparison. And to compare you just diff files.
 ## Install
 
 1. Download and unzip repo
-2. Install static server with `$ npm install http-server -g`
-3. Install packages with `$ npm install`
+2. Go to unzipped folder
+3. Install static server with `$ npm install http-server -g`
+4. Install packages with `$ npm install`
 
 ## Run
 
