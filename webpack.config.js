@@ -9,7 +9,7 @@ module.exports = {
 
   // Entry files http://webpack.github.io/docs/configuration.html#entry
   entry: {
-    "1.0-hello-cycle": "./1.0-hello-cycle/scripts/app",
+    "1.0-hello-cycle": "./1.0-hello-cycle/src/app",
     //"1.1-hello-nodes": "./1.1-hello-nodes/scripts/app",
     //"1.2-hello-components": "./1.2-hello-components/scripts/app",
     //"1.3-hello-apps": "./1.3-hello-apps/scripts/app",

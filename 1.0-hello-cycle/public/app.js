@@ -44,17 +44,17 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	let {Observable} = __webpack_require__(1);
-	let Cycle = __webpack_require__(4);
-	let {div, h3, hr, label, input, makeDOMDriver} = __webpack_require__(5);
+	let {Observable} = __webpack_require__(1)
+	let Cycle = __webpack_require__(4)
+	let {div, h3, hr, label, input, makeDOMDriver} = __webpack_require__(5)
 
 	function main({DOM}) {
 	  let firstName$ = DOM.select("#first-name").events("input")
 	    .map(event => event.target.value)
-	    .startWith("");
+	    .startWith("")
 	  let lastName$ = DOM.select("#last-name").events("input")
 	    .map(event => event.target.value)
-	    .startWith("");
+	    .startWith("")
 	  return {
 	    DOM: Observable.combineLatest(
 	      firstName$, lastName$,
@@ -70,15 +70,15 @@
 	          ]),
 	          hr(),
 	          h3(`Hello ${firstName} ${lastName}`),
-	        ]);
+	        ])
 	      }
 	    )
-	  };
+	  }
 	}
 
 	Cycle.run(main, {
 	  DOM: makeDOMDriver("#app"),
-	});
+	})
 
 
 /***/ },
