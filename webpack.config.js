@@ -31,7 +31,7 @@ module.exports = {
     path: __dirname,
 
     // Filename of an entry chunk http://webpack.github.io/docs/configuration.html#output-filename
-    filename: "[name]/public/app.js",
+    filename: "[name]/public/bundle.js",
 
     // Web path (used to prefix URLs) http://webpack.github.io/docs/configuration.html#output-publicpath
     publicPath: "http://localhost:2992/",
