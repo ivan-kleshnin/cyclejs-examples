@@ -1,5 +1,7 @@
 # CycleJS examples
 
+*Full repo reboot in progress* :turtle:
+
 Mostly incremental examples for those who finished an [official documentation](http://cycle.js.org/getting-started.html)
 or [EggHead course](https://egghead.io/lessons/rxjs-overview-of-cycle-js) and wants more.
 
@@ -25,10 +27,6 @@ This repo uses single webpack config and single `node_modules` folder to simplif
 
 We recommend to open `index.html` with `http://` rather than `file://` (as described above) because
 many things in browser just don't work for `file://` (history, CORS, etc.).
-
-## Learn
-
-:turtle:
 
 ## Table of Contents
 
