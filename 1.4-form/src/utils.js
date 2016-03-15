@@ -23,7 +23,6 @@ let scanFn = curry((state, updateFn) => {
 let inputReader = curry((element) => {
   return element
     .events("input")
-    .debounce(500)
     .map((event) => event.target.value)
     .map(value => value.trim()) // remove leading and trailing whitespace (sane default behavior)
     .startWith("")
@@ -34,7 +33,6 @@ let inputReader = curry((element) => {
 let clickReader = curry((element) => {
   return element
     .events("click")
-    .throttle(500)
     .map((event) => true)
     .share()
 })
