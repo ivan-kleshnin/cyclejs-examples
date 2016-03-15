@@ -29,3 +29,25 @@ many things in browser just don't work for `file://` (history, CORS, etc.).
 ## Learn
 
 :turtle:
+
+## Table of Contents
+
+### 1.0-form
+
+Implement basic registration form
+
+### 1.1-form
+
+Structure dataflow
+
+### 1.2-form
+
+Implement submit
+
+### 1.3-form
+
+Refactoring
+
+### 1.4-form
+
+Implement [naive] validation
