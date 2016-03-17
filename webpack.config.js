@@ -10,10 +10,11 @@ module.exports = {
   // webpack.github.io/docs/configuration.html#entry
   entry: {
     "1.0-form": "./1.0-form/src/app",
-    "1.1-form": "./1.1-form/src/app",
-    "1.2-form": "./1.2-form/src/app",
-    "1.3-form": "./1.3-form/src/app",
-    "1.4-form": "./1.4-form/src/app",
+    // "1.1-form": "./1.1-form/src/app",
+    // "1.2-form": "./1.2-form/src/app",
+    // "1.3-form": "./1.3-form/src/app",
+    // "1.4-form": "./1.4-form/src/app",
+    // "1.5-form": "./1.5-form/src/app",
   },
 
   output: {
@@ -21,13 +22,10 @@ module.exports = {
     path: __dirname,
 
     // webpack.github.io/docs/configuration.html#output-filename
-    filename: "[name]/public/bundle.js",
+    filename: "public/bundle.js",
 
     // webpack.github.io/docs/configuration.html#output-publicpath
     publicPath: "http://localhost:2992/",
-
-    // webpack.github.io/docs/configuration.html#output-sourcemapfilename
-    // sourceMapFilename: "debugging/[file].map",
 
     // webpack.github.io/docs/configuration.html#output-pathinfo
     pathinfo: true,
@@ -63,7 +61,6 @@ module.exports = {
 
   // webpack.github.io/docs/list-of-plugins.html
   // plugins: [
-  //   //new Webpack.HotModuleReplacementPlugin(),
   //   new Webpack.NoErrorsPlugin(),
   //   new Webpack.IgnorePlugin(/^vertx$/),
   // ],

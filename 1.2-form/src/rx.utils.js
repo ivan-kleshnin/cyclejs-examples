@@ -1,8 +1,5 @@
 let {curry} = require("ramda")
 
-// always :: a -> b -> a
-let always = curry((x, y) => x)
-
 // scanFn :: s -> (s -> s) -> s
 let scanFn = curry((state, updateFn) => {
   if (typeof updateFn != "function" || updateFn.length != 1) {
@@ -12,5 +9,4 @@ let scanFn = curry((state, updateFn) => {
   }
 })
 
-exports.always = always
 exports.scanFn = scanFn

@@ -3,17 +3,19 @@
   "version": "3.0.0",
   "private": true,
   "scripts": {
-    "dev": "webpack --watch"
+    "dev": "webpack-dev-server --port 2992 --inline"
   },
   "dependencies": {
     "@cycle/core": "^6.0.3",
     "@cycle/dom": "^9.1.0",
     "@cycle/isolate": "^1.2.0",
-    "flat": "^2.0.0",
     "node-uuid": "^1.4.7",
     "ramda": "^0.19.1",
     "rx": "^4.1.0",
-    "webpack": "^1.12.14"
+    "tcomb": "^3.0.0",
+    "tcomb-validation": "^3.0.0",
+    "webpack": "^1.12.14",
+    "webpack-dev-server": "^1.14.1"
   },
   "author": "Ivan Kleshnin",
   "license": "MIT"

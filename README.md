@@ -22,7 +22,7 @@ This repo uses single webpack config and single `node_modules` folder to simplif
 
 1. Uncomment an example line in `entry` section of `webpack.config.js`.
 2. Run webpack with `$ npm run dev`
-3. Run static server with `$ http-server {example-folder}`
+3. Run static server with `$ http-server {x.x-example-folder}`
 4. See `localhost:8080`
 
 We recommend to open `index.html` with `http://` rather than `file://` (as described above) because
@@ -40,12 +40,16 @@ Structure dataflow
 
 ### 1.2-form
 
-Implement submit
+Implement actions
 
 ### 1.3-form
 
-Refactoring
+Refactor
 
 ### 1.4-form
 
-Implement [naive] validation
+From models to types
+
+### 1.5-form
+
+Implement validation

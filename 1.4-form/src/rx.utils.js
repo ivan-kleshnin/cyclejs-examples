@@ -1,14 +1,6 @@
-let {assoc, curry, props, range, reduce} = require("ramda")
-let flat = require("flat")
+let {assoc, curry, keys, props, range, reduce, values} = require("ramda")
 let {Observable} = require("rx")
-
-// always :: a -> b -> a
-let always = curry((x, y) => x)
-
-// flattenObject :: {} -> {}
-let flattenObject = curry((object) => {
-  return flat(object, {safe: true})
-})
+let {isPlainObject, flattenObject, unflattenObject} = require("./helpers")
 
 // scanFn :: s -> (s -> s) -> s
 let scanFn = curry((state, updateFn) => {
@@ -24,8 +16,7 @@ let inputReader = curry((element) => {
   return element
     .events("input")
     .map((event) => event.target.value)
-    .map(value => value.trim()) // remove leading and trailing whitespace (sane default behavior)
-    .startWith("")
+    .map(value => value.trim()) // cut extra whitespace (most often required)
     .share()
 })
 
@@ -46,22 +37,22 @@ let store = curry((seed, update) => {
     .distinctUntilChanged()
 })
 
-// storeUnion :: [String] -> {Observable *} -> Observable {*}
-let storeUnion = curry((keys, state) => { // naive one-level implementation
+// storeUnion :: {Observable *} -> Observable {*}
+let storeUnion = curry((state) => {
+  let flatState = flattenObject(state)
+  let names = keys(flatState)
   return Observable.combineLatest(
-    ...props(keys, state),
+    ...values(flatState),
     (...args) => {
-      return reduce((memo, i) => {
-        return assoc(keys[i], args[i], memo)
-      }, {}, range(0, keys.length))
+      return unflattenObject(reduce((memo, i) => {
+        return assoc(names[i], args[i], memo)
+      }, {}, range(0, names.length)))
     }
   )
     .shareReplay(1)
     .distinctUntilChanged()
 })
 
-exports.always = always
-exports.flattenObject = flattenObject
 exports.scanFn = scanFn
 exports.inputReader = inputReader
 exports.clickReader = clickReader

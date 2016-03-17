@@ -1,7 +1,5 @@
 /ignore/
 /node_modules/
-/*/public/*.js
-/*/public/*.css
 npm-debug.log
 .idea
 .DS_Store

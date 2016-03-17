@@ -4,28 +4,33 @@ let {br, button, div, h1, h2, hr, input, label, makeDOMDriver, p, pre} = require
 
 // main :: {Observable *} -> {Observable *}
 function main({DOM}) {
-  // Actions
-  let actions = {
-    changeUsername: DOM.select("#username")
-      .events("input")
-      .map((event) => event.target.value)
-      .startWith(""),
+  // Intents
+  let intents = {
+    form: {
+      changeUsername: DOM.select("#username")
+        .events("input")
+        .map((event) => event.target.value)
+        .share(),
 
-    changeEmail: DOM.select("#email")
-      .events("input")
-      .map((event) => event.target.value)
-      .startWith(""),
+      changeEmail: DOM.select("#email")
+        .events("input")
+        .map((event) => event.target.value)
+        .share(),
+    },
   }
 
   // State
   let state = {
-    username: actions.changeUsername,
-    email: actions.changeEmail,
+    form: {
+      username: intents.form.changeUsername.startWith(""),
+      email: intents.form.changeEmail.startWith(""),
+    }
   }
 
+  // View
   return {
     DOM: Observable.combineLatest(
-      state.username, state.email,
+      state.form.username, state.form.email,
       (username, email) => {
         return div([
           h1("Registration"),
