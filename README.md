@@ -58,11 +58,11 @@ Implement validation
 
 ### No trailing `$`
 
-I used that convention previously but I've changed my mind since then.
+Convention of `obs$` was used here previously but I've changed my mind since then.
 
 Four reasons to discard it:
 
-1. It's inconsistent inside CycleJS. `vtree$` vs `DOM` – both are streams but named differently.
+1. It's inconsistent inside CycleJS. `vtree$` vs `DOM` – both are streams but named differently.<br/>
    There is a strong reason why `DOM` has no `$` (filename...) but it's still inconsistent.
 
 2. Related projects (RxJS, Elm, etc.) does not follow this convention.
@@ -92,9 +92,10 @@ Four reasons to discard it:
 
    *Simple rule: do not mix static and observable keys in records*.
 
-   You may hit troubles only using "forbid shadowing" rule (IDE or linter)
-   but it's stupid anyway IMO. The whole idea of namespacing is to allow repeating names.
-   They are "inevitable" in other words.
+   You will hit troubles using "forbid shadowing" rule (IDE or linter)
+   but the latter is stupid anyway IMO.<br/>
+   The whole idea of namespacing is to allow repeating names.<br/>
+   In other words they are *inevitable*.
 
 So for now I'm sticking with "repeat names" rule:
 
