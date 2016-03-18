@@ -62,6 +62,10 @@ Minimal working example. Router, pages, not-found page.
 
 Menu. Highlight "current" menu item.
 
+### 2.2-menu
+
+Refactor.
+
 ## Notes
 
 ### No trailing `$`
