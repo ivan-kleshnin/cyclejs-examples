@@ -58,7 +58,7 @@ Implement validation
 
 ### No trailing `$`
 
-Convention of `obs$` was used here previously but I've changed my mind since then.
+Convention of `obs$` was used here previously but we've changed my mind since then.
 
 Four reasons to discard it:
 
@@ -87,17 +87,16 @@ Four reasons to discard it:
   )
   ```
 
-4. No confusion between static and observable variables were confirmed in practice.
+4. No confusion between static and observable variables were confirmed in practice.<br/>
    Variables tend to be either first or second type in every particular (flat) namespace.
 
    *Simple rule: do not mix static and observable keys in records*.
 
    You will hit troubles using "forbid shadowing" rule (IDE or linter)
-   but the latter is stupid anyway IMO.<br/>
-   The whole idea of namespacing is to allow repeating names.<br/>
-   In other words they are *inevitable*.
+   but it's stupid anyway IMO.<br/>
+   The whole idea of namespacing is to allow repeating names. In other words they are *inevitable*.
 
-So for now I'm sticking with "repeat names" rule:
+So for now we're sticking with "repeat names" rule:
 
 ```js
 Observable.combineLatest(
@@ -106,5 +105,13 @@ Observable.combineLatest(
     ...
   }
 )
- ```
+```
 
+### Curry
+
+We use `curry` (with `=>`) as a replacement for `function` word everywhere.<br/>
+It's just a matter of reading / writing habits.
+
+We're pretty convinced that currying leads to pretty APIs while named args lead to ugliness.<br/>
+Our experience with Python (ubiquitous named args), Haskell (ubiquitous currying)<br/>
+and other langs makes a strong evidence for that.
