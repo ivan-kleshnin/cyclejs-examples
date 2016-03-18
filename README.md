@@ -52,7 +52,15 @@ From models to types.
 
 ### 1.5-form
 
-Implement validation
+Implement validation.
+
+### 2.0-routing
+
+Minimal working example. Router, pages, not-found page.
+
+### 2.1-menu
+
+Menu. Highlight "current" menu item.
 
 ## Notes
 

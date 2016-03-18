@@ -9,6 +9,7 @@
     "@cycle/core": "^6.0.3",
     "@cycle/dom": "^9.1.0",
     "@cycle/isolate": "^1.2.0",
+    "classnames": "^2.2.3",
     "node-uuid": "^1.4.7",
     "ramda": "^0.19.1",
     "rx": "^4.1.0",
