@@ -31,7 +31,7 @@ function flattenObject(target) {
 }
 
 // ported from (npm install flat) TODO refactor
-function unflattenObject(target, opts) {
+let unflattenObject = curry((target) => {
   let result = {}
 
   if (!isPlainObject(target)) {
@@ -63,7 +63,7 @@ function unflattenObject(target, opts) {
       }
     }
 
-    recipient[key1] = unflattenObject(target[key], opts)
+    recipient[key1] = unflattenObject(target[key])
   })
 
   return result
