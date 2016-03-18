@@ -58,11 +58,11 @@ Implement validation.
 
 Minimal working example. Router, pages, not-found page.
 
-### 2.1-menu
+### 2.1-routing
 
 Menu. Highlight "current" menu item.
 
-### 2.2-menu
+### 2.2-routing
 
 Refactor.
 
