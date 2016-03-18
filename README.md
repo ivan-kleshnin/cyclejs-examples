@@ -95,7 +95,7 @@ I discarded `observable$` naming convention for 4 reasons.
 
  So for now I'm sticking with "repeat names" rule:
 
- ```js
+```js
 Observable.combineLatest(
   foo, bar,        // observable vars
   (foo, bar) => {  // static vars
