@@ -53,3 +53,54 @@ From models to types
 ### 1.5-form
 
 Implement validation
+
+## Notes
+
+### No trailing `$`
+
+I discarded `observable$` naming convention for 4 reasons.
+
+1. It's inconsistent inside CycleJS. `vtree$` vs `DOM` – both are streams but named differently.
+   There is a strong reason why `DOM` has no `$` (filename...) but it's still inconsistent.
+
+2. Other reactive implementations (Elm, etc.) does not follow this convention.
+
+3. It turned out to be **harder to read**. Observables nested in records look especially ugly.
+
+  Compare:
+
+  ```js
+  Observable.merge(
+    intents.form.changeUsername.map(...),
+    intents.form.changeEmail.map(...),
+    intents.form.register.map(...)
+  )
+
+  // vs
+
+  Observable.merge(
+    intents.form.changeUsername$.map(...),
+    intents.form.changeEmail$.map(...),
+    intents.form.register$.map(...)
+  )
+  ```
+
+4. No confusion between static and observable variables were confirmed in practice.
+   Variables tend to be either first or second type in every particular (flat) namespace.
+
+   *Simple rule: do not mix static and observable keys in records*.
+
+   You may hit troubles only using "forbid shadowing" rule (IDE or linter)
+   but it's stupid anyway IMO.
+
+ So for now I'm sticking with "repeat names" rule:
+
+ ```js
+Observable.combineLatest(
+  foo, bar,        // observable vars
+  (foo, bar) => {  // static vars
+    ...
+  }
+)
+ ```
+
