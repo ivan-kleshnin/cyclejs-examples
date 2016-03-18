@@ -117,9 +117,15 @@ Observable.combineLatest(
 
 ### Curry
 
-We use `curry` (with `=>`) as a replacement for `function` word everywhere.<br/>
+We use `curry` (with `=>`) as a replacement for `function` word almost everywhere.<br/>
 It's just a matter of reading / writing habits.
 
-We're pretty convinced that currying leads to pretty APIs while named args lead to ugliness.<br/>
-Our experience with Python (ubiquitous named args), Haskell (ubiquitous currying)<br/>
+We're pretty convinced that enforced currying leads to pretty APIs while "named args" are for composability hell.<br/>
+Our experience with Python (ubiquitous "named args"), Haskell (ubiquitous currying)<br/>
 and other langs makes a strong evidence for that.
+
+Once you stop writing functions with non-intuitive arguments you'll never want
+to specify their "names" at call time again. And once you start typing functions with "named args" API
+you'll never want to go that way.
+
+Rule of thumb: "named args" are for kids.
