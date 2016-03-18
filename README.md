@@ -58,12 +58,14 @@ Implement validation
 
 ### No trailing `$`
 
-I discarded `observable$` naming convention for 4 reasons.
+I used that convention previously but I've changed my mind since then.
+
+Four reasons to discard it:
 
 1. It's inconsistent inside CycleJS. `vtree$` vs `DOM` – both are streams but named differently.
    There is a strong reason why `DOM` has no `$` (filename...) but it's still inconsistent.
 
-2. Other reactive implementations (Elm, etc.) does not follow this convention.
+2. Related projects (RxJS, Elm, etc.) does not follow this convention.
 
 3. It turned out to be **harder to read**. Observables nested in records look especially ugly.
 
@@ -91,9 +93,10 @@ I discarded `observable$` naming convention for 4 reasons.
    *Simple rule: do not mix static and observable keys in records*.
 
    You may hit troubles only using "forbid shadowing" rule (IDE or linter)
-   but it's stupid anyway IMO.
+   but it's stupid anyway IMO. The whole idea of namespacing is to allow repeating names.
+   They are "inevitable" in other words.
 
- So for now I'm sticking with "repeat names" rule:
+So for now I'm sticking with "repeat names" rule:
 
 ```js
 Observable.combineLatest(
