@@ -9,10 +9,10 @@ let isPlainObject = curry((value) => {
 })
 
 // ported from (npm install flat) TODO refactor
-function flattenObject(target) {
+let flattenObject = curry((target) => {
   let result = {}
 
-  function step(object, prev) {
+  let step = function (object, prev) {
     Object.keys(object).forEach((key) => {
       let value = object[key]
       let newKey = prev ? prev + "." + key : key
@@ -28,7 +28,7 @@ function flattenObject(target) {
   step(target)
 
   return result
-}
+})
 
 // ported from (npm install flat) TODO refactor
 let unflattenObject = curry((target) => {
@@ -38,7 +38,7 @@ let unflattenObject = curry((target) => {
     return target
   }
 
-  function getkey(key) {
+  let getkey = function (key) {
     let parsedKey = Number(key)
     return (isNaN(parsedKey) || key.indexOf('.') !== -1) ? key : parsedKey
   }
@@ -67,7 +67,7 @@ let unflattenObject = curry((target) => {
   })
 
   return result
-}
+})
 
 exports.always = always
 exports.isPlainObject = isPlainObject

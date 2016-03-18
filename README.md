@@ -32,23 +32,23 @@ many things in browser just don't work for `file://` (history, CORS, etc.).
 
 ### 1.0-form
 
-Implement basic registration form
+Implement basic registration form.
 
 ### 1.1-form
 
-Structure dataflow
+Structure dataflow.
 
 ### 1.2-form
 
-Implement actions
+Implement actions. State loop technique (experimental).
 
 ### 1.3-form
 
-Refactor
+Refactor.
 
 ### 1.4-form
 
-From models to types
+From models to types.
 
 ### 1.5-form
 
