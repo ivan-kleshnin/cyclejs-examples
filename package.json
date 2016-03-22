@@ -6,7 +6,7 @@
     "dev": "webpack-dev-server --port 2992 --inline"
   },
   "dependencies": {
-    "@cycle/core": "^6.0.3",
+    "@cycle/core": "git@github.com:ivan-kleshnin/core.git",
     "@cycle/dom": "^9.1.0",
     "@cycle/isolate": "^1.2.0",
     "classnames": "^2.2.3",
