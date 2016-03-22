@@ -1,89 +1,77 @@
 let {curry, identity, map, pipe} = require("ramda")
+let Class = require("classnames")
 let {Observable} = require("rx")
 let Cycle = require("@cycle/core")
 let {a, div, li, makeDOMDriver, h1, html, p, section, ul} = require("@cycle/dom")
-let {always} = require("./helpers")
-let {store, storeUnion} = require("./rx.utils")
-let Class = require("classnames")
+let {makeURLDriver} = require("./drivers")
+let {storeUnion} = require("./rx.utils")
 
-let Menu = function () {
-  let isActive = function (url) {
-    if (window.location.pathname == "/") {
-      return url == window.location.pathname
-    } else {
-      return url.startsWith(window.location.pathname) // TODO handle trailing slashes, etc.
-    }
+let isActiveURL = curry((currentUrl, url) => {
+  if (currentUrl == "/") {
+    return url == currentUrl
+  } else {
+    return url.startsWith(currentUrl) // TODO handle trailing slashes, etc.
   }
+})
 
+let Menu = function (state) {
+  return state.map((state) => {
+    let isActive = isActiveURL(state.navigation.url)
+    return div([
+      div(a({href: "/", className: Class({active: isActive("/")})}, "Home")),
+      div(a({href: "/about", className: Class({active: isActive("/about")})}, "About")),
+      div(a({href: "/users", className: Class({active: isActive("/users")})}, "Users")),
+      div(a({href: "/broken", className: Class({active: isActive("/broken")})}, "Broken")),
+    ])
+  })
+}
+
+let Home = function ({state}) {
   return {
-    DOM: Observable.of(
-      div([
-        div([
-          div(a({href: "/", className: Class({active: isActive("/")})}, "Home")),
-          div(a({href: "/about", className: Class({active: isActive("/about")})}, "About")),
-          div(a({href: "/users", className: Class({active: isActive("/users")})}, "Users")),
-        ]),
+    DOM: Menu(state).map((menu) => {
+      return div([
+        h1("Home"),
+        menu,
+        p(["[home content]"])
       ])
-    )
+    })
   }
 }
 
-let Home = function () {
+let About = function ({state}) {
   return {
-    DOM: Observable.combineLatest(
-      Menu().DOM,
-      (menu) => {
-        return div([
-          h1("Home"),
-          menu,
-          p(["[home content]"])
-        ])
-      }
-    )
+    DOM: Menu(state).map((menu) => {
+      return div([
+        h1("About"),
+        menu,
+        p(["[about content]"]),
+        p(a({href: "http://twitter.com"}, "External link (real)")),
+        p(a({href: "/foobar", rel: "external"}, "External link (other app)")),
+      ])
+    })
   }
 }
 
-let About = function () {
+let Users = function ({state}) {
   return {
-    DOM: Observable.combineLatest(
-      Menu().DOM,
-      (menu) => {
-        return div([
-          h1("About"),
-          menu,
-          p(["[about content]"])
-        ])
-      }
-    )
+    DOM: Menu(state).map((menu) => {
+      return div([
+        h1("Users"),
+        menu,
+        p(["[users content]"])
+      ])
+    })
   }
 }
 
-let Users = function () {
+let NotFound = function ({state}) {
   return {
-    DOM: Observable.combineLatest(
-      Menu().DOM,
-      (menu) => {
-        return div([
-          h1("Users"),
-          menu,
-          p(["[users content]"])
-        ])
-      }
-    )
-  }
-}
-
-let NotFound = function () {
-  return {
-    DOM: Observable.combineLatest(
-      Menu().DOM,
-      (menu) => {
-        return div([
-          h1("NotFound"),
-          div(a({href: "/"}, "Home"))
-        ])
-      }
-    )
+    DOM: Menu(state).map((menu) => {
+      return div([
+        h1("NotFound"),
+        div(a({href: "/"}, "Home"))
+      ])
+    })
   }
 }
 
@@ -92,6 +80,8 @@ let route = function (url) {
     return Home
   } else if (url == "/about") {
     return About
+  } else if (url == "/users") {
+    return Users
   } else {
     return NotFound
   }
@@ -101,17 +91,15 @@ let route = function (url) {
 let main = function ({DOM}) {
   let intents = {
     navigation: {
-      changeUrl: DOM.select("a:not([rel=external])") // not bullet-proof check...
+      changeUrl: DOM.select("a:not([rel=external])")
         .events("click")
+        .filter((event) => {
+          return !(/:\/\//.test(event.target.attributes.href.value)) // filter protocol-less links
+        })
         .do((event) => {
           event.preventDefault()
         })
         .map((event) => event.target.attributes.href.value)
-        .do((url) => {
-          if (window !== undefined) {
-            window.history.pushState(null, "", url) // no associated state, no title
-          }
-        })
         .share(),
     },
   }
@@ -122,14 +110,18 @@ let main = function ({DOM}) {
     }
   }
 
+  let stateSink = storeUnion(state)
+
   return {
     DOM: state.navigation.url
       .map((url) => route(url))
-      .flatMap((page) => page().DOM),
+      .flatMap((page) => page({state: stateSink}).DOM),
+
+    URL: state.navigation.url,
   }
 }
 
 Cycle.run(main, {
   DOM: makeDOMDriver("#app"),
-  state: identity
+  URL: makeURLDriver(),
 })

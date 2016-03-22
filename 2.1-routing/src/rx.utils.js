@@ -24,7 +24,7 @@ let inputReader = curry((element) => {
 let clickReader = curry((element) => {
   return element
     .events("click")
-    .map((event) => event.target)
+    .map((event) => true)
     .share()
 })
 

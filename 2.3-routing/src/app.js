@@ -1,25 +1,44 @@
-let {map, pipe} = require("ramda")
+let {curry, identity, map, pipe} = require("ramda")
+let Class = require("classnames")
 let {Observable} = require("rx")
 let Cycle = require("@cycle/core")
 let {a, div, li, makeDOMDriver, h1, html, p, section, ul} = require("@cycle/dom")
+let {always} = require("./helpers")
+let {store, storeUnion} = require("./rx.utils")
 let {makeURLDriver} = require("./drivers")
 
-let Menu = function () {
-  return Observable.of(
-    div([
+let Menu = function ({state}) {
+  let isActive = function (url) {
+    if (window.location.pathname == "/") {
+      return url == window.location.pathname
+    } else {
+      return url.startsWith(window.location.pathname) // TODO handle trailing slashes, etc.
+    }
+  }
+
+  let aa = function (...args) {
+    let vnode = a(...args)
+    let {href, className} = vnode.properties
+    vnode.properties.className = Class(className, {active: isActive(href)})
+    return vnode
+  }
+
+  return {
+    DOM: Observable.of(
       div([
-        div(a({href: "/"}, "Home")),
-        div(a({href: "/about"}, "About")),
-        div(a({href: "/users"}, "Users")),
-        div(a({href: "/broken"}, "Broken")),
-      ]),
-    ])
-  )
+        div([
+          div(aa({href: "/"}, "Home")),
+          div(aa(".foo", {href: "/about"}, "About")),
+          div(aa({href: "/users", className: "bar"}, "Users")),
+        ]),
+      ])
+    )
+  }
 }
 
-let Home = function () {
+let Home = function ({state}) {
   return {
-    DOM: Menu().map((menu) => {
+    DOM: Menu({state}).map((menu) => {
       return div([
         h1("Home"),
         menu,
@@ -29,9 +48,9 @@ let Home = function () {
   }
 }
 
-let About = function () {
+let About = function ({state}) {
   return {
-    DOM: Menu().map((menu) => {
+    DOM: Menu({state}).map((menu) => {
       return div([
         h1("About"),
         menu,
@@ -43,9 +62,9 @@ let About = function () {
   }
 }
 
-let Users = function () {
+let Users = function ({state}) {
   return {
-    DOM: Menu().map((menu) => {
+    DOM: Menu({state}).map((menu) => {
       return div([
         h1("Users"),
         menu,
@@ -55,9 +74,9 @@ let Users = function () {
   }
 }
 
-let NotFound = function () {
+let NotFound = function ({state}) {
   return {
-    DOM: Menu().map((menu) => {
+    DOM: Menu({state}).map((menu) => {
       return div([
         h1("NotFound"),
         div(a({href: "/"}, "Home"))
@@ -71,8 +90,6 @@ let route = function (url) {
     return Home
   } else if (url == "/about") {
     return About
-  } else if (url == "/users") {
-    return Users
   } else {
     return NotFound
   }
@@ -106,11 +123,12 @@ let main = function ({DOM}) {
       .map((url) => route(url))
       .flatMap((page) => page().DOM),
 
-    URL: state.navigation.url,
+    URL: intents.navigation.changeUrl,
   }
 }
 
 Cycle.run(main, {
   DOM: makeDOMDriver("#app"),
   URL: makeURLDriver(),
+  state: identity
 })
