@@ -1,0 +1,6 @@
+{
+  "plugins": [
+    "syntax-function-bind",
+    "transform-function-bind"
+  ]
+}

@@ -9,6 +9,8 @@
     "@cycle/core": "git@github.com:ivan-kleshnin/core.git",
     "@cycle/dom": "^9.1.0",
     "@cycle/isolate": "^1.2.0",
+    "babel-core": "^6.7.4",
+    "babel-loader": "^6.2.4",
     "classnames": "^2.2.3",
     "node-uuid": "^1.4.7",
     "ramda": "^0.19.1",

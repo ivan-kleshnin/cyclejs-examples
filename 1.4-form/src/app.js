@@ -3,12 +3,12 @@ let {Observable} = require("rx")
 let Cycle = require("@cycle/core")
 let {br, button, div, h1, h2, hr, input, label, makeDOMDriver, p, pre} = require("@cycle/dom")
 let {always} = require("./helpers")
-let {clickReader, inputReader, store, storeUnion} = require("./rx.utils")
+let {clickReader, inputReader, lensOver, lensSet, lensTo, lensView, pluck, store, withDerived} = require("./rx.utils")
 let {User} = require("./types")
 let {makeUser} = require("./makers")
 
 // main :: {Observable *} -> {Observable *}
-let main = function ({DOM, state: stateSource}) {
+function main({DOM, state: stateSource}) {
   // Intents
   let intents = {
     form: {
@@ -23,19 +23,13 @@ let main = function ({DOM, state: stateSource}) {
     users: {
       create: stateSource
         .sample(intents.form.register)
-        .map((state) => state.form.output) 
-        .filter(identity) // ---User(...)---User(...)--->
+        ::pluck("form.output")
+        .filter(identity)
     },
   }
 
   // Seeds
   let seeds = {
-    // Persistent
-    users: {
-      data: [],
-    },
-
-    // Fluid
     form: {
       input: {
         username: "",
@@ -43,45 +37,22 @@ let main = function ({DOM, state: stateSource}) {
       },
       output: null,
     },
+    users: [],
   }
 
-  // Updates
-  let updates = {
-    // Persistent
-    users: {
-      data: Observable.merge(
-        actions.users.create.map((user) => append(user))
-      ),
-    },
-
-    // Fluid
-    form: {
-      input: Observable.merge(
-        intents.form.changeUsername.map(username => assoc("username", username)), // can't just assoc("username") here because RxJS drops index as a second argument...
-        intents.form.changeEmail.map(email => assoc("email", email)),             // --//--
-        intents.form.register.map((_) => always(seeds.form.input)) // reset `form`
-      ),
-    },
-  }
+  // Update
+  let update = Observable.merge(
+    intents.form.changeUsername::lensTo("form.input.username"),
+    intents.form.changeEmail::lensTo("form.input.email"),
+    intents.form.register.delay(1)::lensSet("form.input", always(seeds.form.input)),
+    actions.users.create::lensOver("users", (u) => append(u))
+  )
 
   // State
-  let state = {
-    // Persistent
-    users: {
-      data: store(seeds.users.data, updates.users.data),
-    },
-
-    // Fluid
-    form: {
-      input: store(seeds.form.input, updates.form.input),
-    },
-  }
-
-  // Derived state
-  state.form.output = state.form.input
-    .map((form) => {
+  let stateSink = store(seeds, update)
+    ::withDerived("form.output", (state) => {
       try {
-        return makeUser(form)
+        return makeUser(state.form.input)
       } catch (err) {
         if (err instanceof TypeError) {
           return null
@@ -90,9 +61,6 @@ let main = function ({DOM, state: stateSource}) {
         }
       }
     })
-    .startWith(null)
-
-  let stateSink = storeUnion(state) // we don't need to draw ALL state usually, but here we want to SPY
 
   // View
   return {

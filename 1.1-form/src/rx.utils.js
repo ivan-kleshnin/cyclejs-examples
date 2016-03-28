@@ -11,12 +11,6 @@ let scanFn = curry((state, updateFn) => {
 })
 
 // <this> --> String -> Observable
-let pluck = function (path) {
-  let lens = R.lensPath(path.split("."))
-  return this.map((v) => R.view(lens, v))
-}
-
-// <this> --> String -> Observable
 let lensView = function (path) {
   let lens = R.lensPath(path.split("."))
   return this.map((v) => (s) => R.view(lens, s))
@@ -41,7 +35,6 @@ let lensTo = function (path) {
 
 exports.scanFn = scanFn
 
-exports.pluck = pluck
 exports.lensView = lensView
 exports.lensOver = lensOver
 exports.lensSet = lensSet

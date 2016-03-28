@@ -1,18 +1,15 @@
-let {append, assoc, assocPath, curry, identity, merge} = require("ramda")
-let {Observable, Subject} = require("rx")
+let {append, assoc, curry, identity} = require("ramda")
+let {Observable} = require("rx")
 let {validate} = require("tcomb-validation")
 let Cycle = require("@cycle/core")
 let {br, button, div, h1, h2, hr, input, label, makeDOMDriver, p, pre} = require("@cycle/dom")
 let {always} = require("./helpers")
-let {clickReader, inputReader, store, scanFn} = require("./rx.utils")
+let {clickReader, inputReader, store, storeUnion} = require("./rx.utils")
 let {User} = require("./types")
 let {makeUser} = require("./makers")
 
 // main :: {Observable *} -> {Observable *}
-let main = function ({DOM}) {
-  let stateS = new Subject();
-  let state = stateS.map(x => x)
-
+function main({DOM, state: stateSource}) {
   // Intents
   let intents = {
     form: {
@@ -25,20 +22,14 @@ let main = function ({DOM}) {
   // Actions
   let actions = {
     users: {
-      create: state.map(state => state.form.output)
+      create: stateSource.form.output
         .sample(intents.form.register)
-        .filter(identity) // ---User(...)---User(...)---> TODO Maybe
+        .filter(identity) 
     },
   }
 
   // Seeds
   let seeds = {
-    // Persistent
-    users: {
-      data: [],
-    },
-
-    // Fluid
     form: {
       input: {
         username: "",
@@ -50,50 +41,42 @@ let main = function ({DOM}) {
       },
       output: null,
     },
+    users: [],
   }
 
   // Updates
-  let updates = { // Worse #1 complicated operations
-    // Persistent
-    users: {
-      data: Observable.merge(
-        actions.users.create.map((user) => (state) => assocPath(["users", "data"], append(user, state.users.data), state))
-      ),
-    },
-
-    // Fluid
+  let updates = {
     form: {
       input: Observable.merge(
-        // Without lenses
-        intents.form.changeUsername.map(username => assocPath(["form", "input", "username"], username)),
-        intents.form.changeEmail.map(email => assocPath(["form", "input", "email"], email)),
-        intents.form.register.map((_) => assocPath(["form", "input"], seeds.form.input))
+        intents.form.changeUsername.map(username => assoc("username", username)), // can't just assoc("username") here because RxJS drops index as a second argument...
+        intents.form.changeEmail.map(email => assoc("email", email)),             // --//--
+        intents.form.register.map((_) => always(seeds.form.input)) // reset `form`
       ),
       errors: Observable.merge(
         intents.form.changeUsername.debounce(500)
           .map(username => validate(username, User.meta.props.username).firstError())
-          .map(error => assocPath(["form", "errors", "username"], error && error.message || null)),
+          .map(error => assoc("username", error && error.message || null)), // TODO simplify?
         intents.form.changeEmail.debounce(500)
           .map(email => validate(email, User.meta.props.email).firstError())
-          .map(error => assocPath(["form", "errors", "email"], error && error.message || null)),
-        intents.form.register.map((_) => assocPath(["form", "errors"], seeds.form.errors))
+          .map(error => assoc("email", error && error.message || null)), // TODO simplify?
+        intents.form.register.map((_) => always(seeds.form.errors)) // reset `form.errors`
       ),
     },
+    users: actions.users.create.map((user) => append(user)),
   }
 
-  // Worse #2. Manual update combining
-  let update = Observable.merge(updates.users.data, updates.form.input, updates.form.errors)
-
-  // State Better #1. No DRY violation (seeds vs streams vs driver)
-  let preState = update // Worse #3. does not correspond to updates (1-stream vs N-streams)
-    .startWith(seeds)
-    .scan(scanFn)
-    .shareReplay(1)
-
-  // Derived state. Worse #4. make var name
-  let formOutput = preState.map(state => {  
+  // State
+  let stateSink = {
+    form: {
+      input: store(seeds.form.input, updates.form.input),
+      errors: store(seeds.form.errors, updates.form.errors),
+    },
+    users: store(seeds.users.data, updates.users.data),
+  }
+  stateSink.form.output = stateSink.form.input
+    .map((form) => {
       try {
-        return makeUser(state.form.input)
+        return makeUser(form)
       } catch (err) {
         if (err instanceof TypeError) {
           return null
@@ -104,18 +87,11 @@ let main = function ({DOM}) {
     })
     .startWith(null)
 
-  // # Worse #5 Manual reassign (or make var name)
-  preState = Observable.combineLatest(preState, formOutput, (state, formOutput) => { // Worse #2. stream op instead of a static op
-    return assocPath(["form", "output"], formOutput, state)
-  })
-
-  preState.shareReplay(1).subscribe(state => {
-    stateS.onNext(state)
-  })
+  let stateUnion = storeUnion(stateSink) 
 
   // View
   return {
-    DOM: preState.map((state) => { // Better #1. no need for storeUnion
+    DOM: stateUnion.map((state) => {
       return div([
         h1("Registration"),
         div(".form-element", [
@@ -136,9 +112,18 @@ let main = function ({DOM}) {
         pre(JSON.stringify(state, null, 2)),
       ])
     }),
+    state: stateSink,
   }
 }
 
 Cycle.run(main, {
   DOM: makeDOMDriver("#app"),
+  state: {
+    form: {
+      input: identity,
+      errors: identity,
+      output: identity,
+    },
+    users: identity,
+  },
 })

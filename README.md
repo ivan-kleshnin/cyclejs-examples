@@ -36,23 +36,23 @@ Implement basic registration form.
 
 ### 1.1-form
 
-Structure dataflow.
+State. Dataflow.
 
 ### 1.2-form
 
-Implement actions. State loop technique (experimental).
+Actions. State loop.
 
 ### 1.3-form
 
-Refactor.
+Refactoring (fix DRY violations).
 
 ### 1.4-form
 
-From models to types.
+From models to types (implicit validation).
 
 ### 1.5-form
 
-Implement validation.
+Implement (explicit) validation.
 
 ### 2.0-routing
 

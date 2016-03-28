@@ -14,10 +14,8 @@ module.exports = {
     // "1.2-form": "./1.2-form/src/app",
     // "1.3-form": "./1.3-form/src/app",
     // "1.4-form": "./1.4-form/src/app",
-    // "1.5-form": "./1.5-form/src/app",
-    // "x.x-form": "./x.x-form/src/app",
-    // "x.y-form": "./x.y-form/src/app",
-    // "x.z-form": "./x.z-form/src/app",
+    "1.5-form": "./1.5-form/src/app",
+    // "x.c-form": "./x.c-form/src/app",
     // "2.0-routing": "./2.0-routing/src/app",
     // "2.1-routing": "./2.1-routing/src/app",
     // "2.2-routing": "./2.2-routing/src/app",
@@ -45,12 +43,12 @@ module.exports = {
   devtool: "source-map",
 
   // webpack.github.io/docs/configuration.html#module
-  // module: {
-  //   loaders: [ // webpack.github.io/docs/loaders.html
-  //     // JS
-  //     {test: /\.js$/, loaders: ["babel?stage=0"], exclude: /node_modules/},
-  //   ],
-  // },
+  module: {
+    loaders: [ // webpack.github.io/docs/loaders.html
+      // JS
+      {test: /\.js$/, loaders: ["babel"], exclude: /node_modules/},
+    ],
+  },
 
   // webpack.github.io/docs/configuration.html#resolve
   // resolve: {
