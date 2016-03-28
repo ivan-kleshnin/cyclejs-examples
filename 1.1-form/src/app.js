@@ -1,7 +1,7 @@
 let {Observable} = require("rx")
 let Cycle = require("@cycle/core")
 let {br, button, div, h1, h2, hr, input, label, makeDOMDriver, p, pre} = require("@cycle/dom")
-let {lensTo, scanFn} = require("./rx.utils")
+let {scanFn, toState} = require("./rx.utils")
 
 // main :: {Observable *} -> {Observable *}
 function main({DOM}) {
@@ -26,16 +26,16 @@ function main({DOM}) {
 
   // Update
   let update = Observable.merge(
-    intents.changeUsername::lensTo("username"),
-    intents.changeEmail::lensTo("email"),
+    intents.changeUsername::toState("username"),
+    intents.changeEmail::toState("email"),
   )
 
   // State
   let state = update
     .startWith(seeds)
     .scan(scanFn)
-    .shareReplay(1)
     .distinctUntilChanged()
+    .shareReplay(1)
 
   // View
   return {

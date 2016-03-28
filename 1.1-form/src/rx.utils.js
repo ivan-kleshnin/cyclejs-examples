@@ -11,31 +11,31 @@ let scanFn = curry((state, updateFn) => {
 })
 
 // <this> --> String -> Observable
-let lensView = function (path) {
+let pluck = function (path) {
   let lens = R.lensPath(path.split("."))
-  return this.map((v) => (s) => R.view(lens, s))
+  return this.map((v) => R.view(lens, v))
 }
 
 // <this> --> String, (a -> (b -> c)) -> Observable
-let lensOver = function (path, fn) {
+let overState = function (path, fn) {
   let lens = R.lensPath(path.split("."))
   return this.map((v) => (s) => R.over(lens, fn(v), s))
 }
 
 // <this> --> String, (a -> b) -> Observable
-let lensSet = function (path, fn) {
+let setState = function (path, fn) {
   let lens = R.lensPath(path.split("."))
   return this.map((v) => (s) => R.set(lens, fn(v), s))
 }
 
 // <this> --> String -> Observable
-let lensTo = function (path) {
-  return this::lensSet(path, R.identity)
+let toState = function (path) {
+  return this::setState(path, R.identity)
 }
 
 exports.scanFn = scanFn
 
-exports.lensView = lensView
-exports.lensOver = lensOver
-exports.lensSet = lensSet
-exports.lensTo = lensTo
+exports.pluck = pluck
+exports.overState = overState
+exports.setState = setState
+exports.toState = toState

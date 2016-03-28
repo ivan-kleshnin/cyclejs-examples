@@ -3,7 +3,7 @@ let {Observable} = require("rx")
 let Cycle = require("@cycle/core")
 let {br, button, div, h1, h2, hr, input, label, makeDOMDriver, p, pre} = require("@cycle/dom")
 let {always} = require("./helpers")
-let {clickReader, inputReader, lensOver, lensSet, lensTo, lensView, pluck, store, withDerived} = require("./rx.utils")
+let {clickReader, inputReader, overState, pluck, setState, store, toState, withDerived} = require("./rx.utils")
 let {User} = require("./types")
 let {makeUser} = require("./makers")
 
@@ -42,10 +42,10 @@ function main({DOM, state: stateSource}) {
 
   // Update
   let update = Observable.merge(
-    intents.form.changeUsername::lensTo("form.input.username"),
-    intents.form.changeEmail::lensTo("form.input.email"),
-    intents.form.register.delay(1)::lensSet("form.input", always(seeds.form.input)),
-    actions.users.create::lensOver("users", (u) => append(u))
+    intents.form.changeUsername::toState("form.input.username"),
+    intents.form.changeEmail::toState("form.input.email"),
+    intents.form.register::setState("form.input", always(seeds.form.input)),
+    actions.users.create::overState("users", (u) => append(u))
   )
 
   // State

@@ -4,7 +4,7 @@ let {validate} = require("tcomb-validation")
 let Cycle = require("@cycle/core")
 let {br, button, div, h1, h2, hr, input, label, makeDOMDriver, p, pre} = require("@cycle/dom")
 let {always} = require("./helpers")
-let {clickReader, inputReader, lensOver, lensSet, lensTo, lensView, pluck, store, withDerived} = require("./rx.utils")
+let {clickReader, inputReader, overState, pluck, setState, store, toState, withDerived} = require("./rx.utils")
 let {User} = require("./types")
 let {makeUser} = require("./makers")
 
@@ -47,21 +47,21 @@ function main({DOM, state: stateSource}) {
 
   // Update
   let update = Observable.merge(
-    intents.form.changeUsername::lensTo("form.input.username"),
+    intents.form.changeUsername::toState("form.input.username"),
     intents.form.changeUsername
       .debounce(500)
       .map((username) => validate(username, User.meta.props.username).firstError())
       .map((error) => error && error.message || null)
-      ::lensTo("form.errors.username"),
-    intents.form.changeEmail::lensTo("form.input.email"),
+      ::toState("form.errors.username"),
+    intents.form.changeEmail::toState("form.input.email"),
     intents.form.changeEmail
       .debounce(500)
       .map((email) => validate(email, User.meta.props.email).firstError())
       .map((error) => error && error.message || null)
-      ::lensTo("form.errors.email"),
-    intents.form.register.delay(1)::lensSet("form.input", always(seeds.form.input)),
-    intents.form.register.delay(1)::lensSet("form.errors", always(seeds.form.errors)),
-    actions.users.create::lensOver("users", (u) => append(u))
+      ::toState("form.errors.email"),
+    intents.form.register::setState("form.input", always(seeds.form.input)),
+    intents.form.register::setState("form.errors", always(seeds.form.errors)),
+    actions.users.create::overState("users", (u) => append(u))
   )
 
   // State

@@ -16,33 +16,27 @@ let pluck = function (path) {
   return this.map((v) => R.view(lens, v))
 }
 
-// <this> --> String -> Observable
-let lensView = function (path) {
-  let lens = R.lensPath(path.split("."))
-  return this.map((v) => (s) => R.view(lens, s))
-}
-
 // <this> --> String, (a -> (b -> c)) -> Observable
-let lensOver = function (path, fn) {
+let overState = function (path, fn) {
   let lens = R.lensPath(path.split("."))
   return this.map((v) => (s) => R.over(lens, fn(v), s))
 }
 
 // <this> --> String, (a -> b) -> Observable
-let lensSet = function (path, fn) {
+let setState = function (path, fn) {
   let lens = R.lensPath(path.split("."))
   return this.map((v) => (s) => R.set(lens, fn(v), s))
 }
 
 // <this> --> String -> Observable
-let lensTo = function (path) {
-  return this::lensSet(path, R.identity)
+let toState = function (path) {
+  return this::setState(path, R.identity)
 }
 
 // <this> --> String,  -> Observable
 let withDerived = function (path, deriveFn) {
   let lens = R.lensPath(path.split("."))
-  return this.map((state) => {
+  return this.debounce(10).map((state) => {
     let derivedStateFragment = deriveFn(state)
     return R.set(lens, derivedStateFragment, state)
   })
@@ -79,10 +73,9 @@ let store = curry((seed, update) => {
 exports.scanFn = scanFn
 
 exports.pluck = pluck
-exports.lensView = lensView
-exports.lensOver = lensOver
-exports.lensSet = lensSet
-exports.lensTo = lensTo
+exports.overState = overState
+exports.setState = setState
+exports.toState = toState
 exports.withDerived = withDerived
 
 exports.inputReader = inputReader
