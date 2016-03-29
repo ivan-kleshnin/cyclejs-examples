@@ -1,15 +1,77 @@
-let {assoc, curry, keys, props, range, reduce, values} = require("ramda")
+let R = require("ramda")
+let {curry, is, map, split} = require("ramda")
 let {Observable} = require("rx")
-let {isPlainObject, flattenObject, unflattenObject} = require("./helpers")
 
 // scanFn :: s -> (s -> s) -> s
 let scanFn = curry((state, updateFn) => {
-  if (typeof updateFn != "function" || updateFn.length != 1) {
+  if (!is(Function, updateFn) || updateFn.length != 1) {
     throw Error("updateFn must be a function with arity 1, got " + updateFn)
   } else {
     return updateFn(state)
   }
 })
+
+// <this> --> String -> Observable
+let pluck = function (path) {
+  let lens = R.lensPath(path.split("."))
+  return this.map((v) => R.view(lens, v))
+}
+
+// <this> --> String, (a -> (b -> c)) -> Observable
+let overState = function (path, fn) {
+  let lens = R.lensPath(path.split("."))
+  return this.map((v) => (s) => R.over(lens, fn(v), s))
+}
+
+// <this> --> String, (a -> b) -> Observable
+let setState = function (path, fn) {
+  let lens = R.lensPath(path.split("."))
+  return this.map((v) => (s) => R.set(lens, fn(v), s))
+}
+
+// <this> --> String -> Observable
+let toState = function (path) {
+  return this::setState(path, R.identity)
+}
+
+// <this> --> [String], [String], (s -> a) -> Observable
+let derive = function (sourcePaths, targetPath, deriveFn) {
+  if (!is(Array, sourcePaths)) {
+    throw Error("sourcePath must be an Array, got " + sourcePaths)
+  }
+  if (!is(String, targetPath)) {
+    throw Error("targetPath must be a String, got " + targetPath)
+  }
+  if (!is(Function, deriveFn)) {
+    throw Error("deriveFn must be a Function, got " + deriveFn)
+  }
+  let sourceLenses = map((path) => R.lensPath(split(".", path)), sourcePaths)
+  let targetLens = R.lensPath(split(".", targetPath))
+  let sourceStreams = map((lens) => {
+    return this.map((state) => R.view(lens, state)).distinctUntilChanged()
+  }, sourceLenses)
+  let targetStream = Observable.combineLatest(...sourceStreams, (...args) => {
+    return deriveFn(...args)
+  }).distinctUntilChanged()
+  return this.combineLatest(targetStream, (state, stateFragment) => {
+    return R.set(targetLens, stateFragment, state)
+  })
+    .distinctUntilChanged()
+    .shareReplay(1)
+    .debounce(1) // suppress glitches (tradeoff: squash sync updates)
+}
+
+// <this> --> String, (s -> a) -> Observable
+let deriveAll = function (path, deriveFn) {
+  let lens = R.lensPath(path.split("."))
+  return this.map((state) => {
+    let stateFragment = deriveFn(state)
+    return R.set(lens, stateFragment, state)
+  })
+    .distinctUntilChanged()
+    .shareReplay(1)
+    .debounce(1) // suppress glitches (tradeoff: squash sync updates)
+}
 
 // store :: SelectedElement -> Observable String
 let inputReader = curry((element) => {
@@ -24,7 +86,7 @@ let inputReader = curry((element) => {
 let clickReader = curry((element) => {
   return element
     .events("click")
-    .map((event) => event.target)
+    .map((event) => true)
     .share()
 })
 
@@ -33,28 +95,19 @@ let store = curry((seed, update) => {
   return update
     .startWith(seed)
     .scan(scanFn)
-    .shareReplay(1)
     .distinctUntilChanged()
-})
-
-// storeUnion :: {Observable *} -> Observable {*}
-let storeUnion = curry((state) => {
-  let flatState = flattenObject(state)
-  let names = keys(flatState)
-  return Observable.combineLatest(
-    ...values(flatState),
-    (...args) => {
-      return unflattenObject(reduce((memo, i) => {
-        return assoc(names[i], args[i], memo)
-      }, {}, range(0, names.length)))
-    }
-  )
     .shareReplay(1)
-    .distinctUntilChanged()
 })
 
 exports.scanFn = scanFn
+
+exports.pluck = pluck
+exports.overState = overState
+exports.setState = setState
+exports.toState = toState
+exports.derive = derive
+exports.deriveAll = deriveAll
+
 exports.inputReader = inputReader
 exports.clickReader = clickReader
 exports.store = store
-exports.storeUnion = storeUnion

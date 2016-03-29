@@ -1,8 +1,8 @@
-let {map, pipe} = require("ramda")
 let {Observable} = require("rx")
 let Cycle = require("@cycle/core")
 let {a, div, li, makeDOMDriver, h1, html, p, section, ul} = require("@cycle/dom")
 let {makeURLDriver} = require("./drivers")
+let {pluck, store, toState} = require("./rx.utils.js")
 
 let Menu = function () {
   return Observable.of(
@@ -17,7 +17,7 @@ let Menu = function () {
   )
 }
 
-let Home = function () {
+let Home = function ({DOM, state}) {
   return {
     DOM: Menu().map((menu) => {
       return div([
@@ -29,7 +29,7 @@ let Home = function () {
   }
 }
 
-let About = function () {
+let About = function ({DOM, state}) {
   return {
     DOM: Menu().map((menu) => {
       return div([
@@ -43,7 +43,7 @@ let About = function () {
   }
 }
 
-let Users = function () {
+let Users = function ({DOM, state}) {
   return {
     DOM: Menu().map((menu) => {
       return div([
@@ -55,7 +55,7 @@ let Users = function () {
   }
 }
 
-let NotFound = function () {
+let NotFound = function ({DOM, state}) {
   return {
     DOM: Menu().map((menu) => {
       return div([
@@ -95,18 +95,24 @@ let main = function ({DOM}) {
     },
   }
 
-  let state = {
+  let seeds = {
     navigation: {
-      url: intents.navigation.changeUrl.startWith("/").shareReplay(1)
+      url: window.location.pathname,
     }
   }
+  
+  let update = Observable.merge(
+    intents.navigation.changeUrl::toState("navigation.url")
+  )
+
+  let state = store(seeds, update)
 
   return {
-    DOM: state.navigation.url
+    DOM: state::pluck("navigation.url")
       .map((url) => route(url))
-      .flatMap((page) => page().DOM),
+      .flatMap((page) => page({DOM, state}).DOM),
 
-    URL: state.navigation.url,
+    URL: state::pluck("navigation.url"),
   }
 }
 

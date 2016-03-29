@@ -1,10 +1,10 @@
-let {curry, identity, map, pipe} = require("ramda")
+let {curry} = require("ramda")
 let Class = require("classnames")
 let {Observable} = require("rx")
 let Cycle = require("@cycle/core")
 let {a, div, li, makeDOMDriver, h1, html, p, section, ul} = require("@cycle/dom")
 let {makeURLDriver} = require("./drivers")
-let {storeUnion} = require("./rx.utils")
+let {pluck, store, toState} = require("./rx.utils.js")
 
 let isActiveURL = curry((currentUrl, url) => {
   if (currentUrl == "/") {
@@ -26,7 +26,7 @@ let Menu = function (state) {
   })
 }
 
-let Home = function ({state}) {
+let Home = function ({DOM, state}) {
   return {
     DOM: Menu(state).map((menu) => {
       return div([
@@ -38,7 +38,7 @@ let Home = function ({state}) {
   }
 }
 
-let About = function ({state}) {
+let About = function ({DOM, state}) {
   return {
     DOM: Menu(state).map((menu) => {
       return div([
@@ -52,7 +52,7 @@ let About = function ({state}) {
   }
 }
 
-let Users = function ({state}) {
+let Users = function ({DOM, state}) {
   return {
     DOM: Menu(state).map((menu) => {
       return div([
@@ -64,7 +64,7 @@ let Users = function ({state}) {
   }
 }
 
-let NotFound = function ({state}) {
+let NotFound = function ({DOM, state}) {
   return {
     DOM: Menu(state).map((menu) => {
       return div([
@@ -103,21 +103,25 @@ let main = function ({DOM}) {
         .share(),
     },
   }
-
-  let state = {
+  
+  let seeds = {
     navigation: {
-      url: intents.navigation.changeUrl.startWith("/").shareReplay(1)
+      url: window.location.pathname,
     }
   }
+  
+  let update = Observable.merge(
+    intents.navigation.changeUrl::toState("navigation.url")
+  )
 
-  let stateSink = storeUnion(state)
+  let state = store(seeds, update)
 
   return {
-    DOM: state.navigation.url
+    DOM: state::pluck("navigation.url")
       .map((url) => route(url))
-      .flatMap((page) => page({state: stateSink}).DOM),
+      .flatMap((page) => page({DOM, state}).DOM),
 
-    URL: state.navigation.url,
+    URL: state::pluck("navigation.url"),
   }
 }
 
