@@ -4,7 +4,7 @@ let {validate} = require("tcomb-validation")
 let Cycle = require("@cycle/core")
 let {br, button, div, h1, h2, hr, input, label, makeDOMDriver, p, pre} = require("@cycle/dom")
 let {always} = require("./helpers")
-let {clickReader, inputReader, overState, pluck, setState, store, toState, withDerived} = require("./rx.utils")
+let {clickReader, derive, inputReader, overState, pluck, setState, store, toState} = require("./rx.utils")
 let {User} = require("./types")
 let {makeUser} = require("./makers")
 
@@ -66,9 +66,9 @@ function main({DOM, state: stateSource}) {
 
   // State
   let stateSink = store(seeds, update)
-    ::withDerived("form.output", (state) => {
+    ::derive(["form.input"], "form.output", (input) => {
       try {
-        return makeUser(state.form.input)
+        return makeUser(input)
       } catch (err) {
         if (err instanceof TypeError) {
           return null
