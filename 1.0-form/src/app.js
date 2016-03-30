@@ -3,7 +3,7 @@ let Cycle = require("@cycle/core")
 let {br, button, div, h1, h2, hr, input, label, makeDOMDriver, p, pre} = require("@cycle/dom")
 
 // main :: {Observable *} -> {Observable *}
-function main({DOM}) {
+let main = function ({DOM}) {
   let username = DOM.select("#username")
     .events("input")
     .map((event) => event.target.value)

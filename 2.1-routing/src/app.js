@@ -26,7 +26,7 @@ let Menu = function (state) {
   })
 }
 
-let Home = function ({DOM, state}) {
+let Home = function ({state}) {
   return {
     DOM: Menu(state).map((menu) => {
       return div([
@@ -38,7 +38,7 @@ let Home = function ({DOM, state}) {
   }
 }
 
-let About = function ({DOM, state}) {
+let About = function ({state}) {
   return {
     DOM: Menu(state).map((menu) => {
       return div([
@@ -52,7 +52,7 @@ let About = function ({DOM, state}) {
   }
 }
 
-let Users = function ({DOM, state}) {
+let Users = function ({state}) {
   return {
     DOM: Menu(state).map((menu) => {
       return div([
@@ -64,7 +64,7 @@ let Users = function ({DOM, state}) {
   }
 }
 
-let NotFound = function ({DOM, state}) {
+let NotFound = function ({state}) {
   return {
     DOM: Menu(state).map((menu) => {
       return div([

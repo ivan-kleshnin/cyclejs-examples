@@ -4,7 +4,7 @@ let {br, button, div, h1, h2, hr, input, label, makeDOMDriver, p, pre} = require
 let {scanFn, toState} = require("./rx.utils")
 
 // main :: {Observable *} -> {Observable *}
-function main({DOM}) {
+let main = function ({DOM}) {
   // Intents
   let intents = {
     changeUsername: DOM.select("#username")

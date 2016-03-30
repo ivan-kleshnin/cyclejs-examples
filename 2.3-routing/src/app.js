@@ -64,7 +64,7 @@ let main = function ({DOM}) {
       ::pluck("navigation.url")
       .map((url) => appRoute(url))
       .flatMap(([params, page]) => {
-        return page({DOM, state, params: Observable.of(params)}).DOM
+        return page({state, params: Observable.of(params)}).DOM
       }),
 
     URL: state::pluck("navigation.url"),

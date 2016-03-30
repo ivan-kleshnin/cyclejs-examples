@@ -17,7 +17,7 @@ let Menu = function () {
   )
 }
 
-let Home = function ({DOM, state}) {
+let Home = function ({state}) {
   return {
     DOM: Menu().map((menu) => {
       return div([
@@ -29,7 +29,7 @@ let Home = function ({DOM, state}) {
   }
 }
 
-let About = function ({DOM, state}) {
+let About = function ({state}) {
   return {
     DOM: Menu().map((menu) => {
       return div([
@@ -43,7 +43,7 @@ let About = function ({DOM, state}) {
   }
 }
 
-let Users = function ({DOM, state}) {
+let Users = function ({state}) {
   return {
     DOM: Menu().map((menu) => {
       return div([
@@ -55,7 +55,7 @@ let Users = function ({DOM, state}) {
   }
 }
 
-let NotFound = function ({DOM, state}) {
+let NotFound = function ({state}) {
   return {
     DOM: Menu().map((menu) => {
       return div([
@@ -94,7 +94,7 @@ let main = function ({DOM}) {
         .share(),
     },
   }
-
+  
   let seeds = {
     navigation: {
       url: window.location.pathname,

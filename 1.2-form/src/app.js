@@ -7,7 +7,7 @@ let {overState, pluck, scanFn, setState, toState} = require("./rx.utils")
 let {User} = require("./models")
 
 // main :: {Observable *} -> {Observable *}
-function main({DOM, state: stateSource}) {
+let main = function ({DOM, state: stateSource}) {
   // Intents
   let intents = {
     form: {

@@ -9,7 +9,7 @@ let {User} = require("./types")
 let {makeUser} = require("./makers")
 
 // main :: {Observable *} -> {Observable *}
-function main({DOM, state: stateSource}) {
+let main = function ({DOM, state: stateSource}) {
   // Intents
   let intents = {
     form: {

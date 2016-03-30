@@ -7,7 +7,7 @@ let {clickReader, inputReader, overState, pluck, scanFn, setState, store, toStat
 let {User} = require("./models")
 
 // main :: {Observable *} -> {Observable *}
-function main({DOM, state: stateSource}) {
+let main = function ({DOM, state: stateSource}) {
   // Intents
   let intents = {
     form: {
