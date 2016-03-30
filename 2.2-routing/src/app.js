@@ -7,10 +7,10 @@ let {makeURLDriver} = require("./drivers")
 let {derive, pluck, store, toState} = require("./rx.utils.js")
 
 let isActiveURL = curry((currentUrl, url) => {
-  if (currentUrl == "/") {
-    return url == currentUrl
+  if (url == "/") {
+    return url == currentUrl 
   } else {
-    return url.startsWith(currentUrl) // TODO handle trailing slashes, etc.
+    return currentUrl.startsWith(url) // TODO handle trailing slashes, etc.
   }
 })
 
