@@ -64,7 +64,11 @@ Menu. Highlight "current" menu item.
 
 ### 2.2-routing
 
-Refactor.
+Refactor. Use `derive` to produce functions & components.
+
+### 2.3-routing
+
+Restructure project. Use route matching library. Use URL params in page.
 
 ## Notes
 

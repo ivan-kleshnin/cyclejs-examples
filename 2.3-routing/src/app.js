@@ -2,90 +2,21 @@ let {curry} = require("ramda")
 let Class = require("classnames")
 let {Observable} = require("rx")
 let Cycle = require("@cycle/core")
-let {a, div, li, makeDOMDriver, h1, html, p, section, ul} = require("@cycle/dom")
+let {a, makeDOMDriver} = require("@cycle/dom")
 let {makeURLDriver} = require("./drivers")
 let {derive, pluck, store, toState} = require("./rx.utils.js")
+let routes = require("./routes")
+let route = require("./route")
+
+let appRoute = route(routes)
 
 let isActiveURL = curry((currentUrl, url) => {
   if (url == "/") {
-    return url == currentUrl 
+    return url == currentUrl
   } else {
     return currentUrl.startsWith(url) // TODO handle trailing slashes, etc.
   }
 })
-
-let Menu = function (state) {
-  return state.map((state) => {
-    let {aa} = state.hyperscript
-    return div([
-      div(aa({href: "/"}, "Home")),
-      div(aa({href: "/about"}, "About")),
-      div(aa({href: "/users"}, "Users")),
-      div(aa({href: "/broken"}, "Broken")),
-    ])
-  })
-}
-
-let Home = function ({DOM, state}) {
-  return {
-    DOM: Menu(state).map((menu) => {
-      return div([
-        h1("Home"),
-        menu,
-        p(["[home content]"])
-      ])
-    })
-  }
-}
-
-let About = function ({DOM, state}) {
-  return {
-    DOM: Menu(state).map((menu) => {
-      return div([
-        h1("About"),
-        menu,
-        p(["[about content]"]),
-        p(a({href: "http://twitter.com"}, "External link (real)")),
-        p(a({href: "/foobar", rel: "external"}, "External link (other app)")),
-      ])
-    })
-  }
-}
-
-let Users = function ({DOM, state}) {
-  return {
-    DOM: Menu(state).map((menu) => {
-      return div([
-        h1("Users"),
-        menu,
-        p(["[users content]"])
-      ])
-    })
-  }
-}
-
-let NotFound = function ({DOM, state}) {
-  return {
-    DOM: Menu(state).map((menu) => {
-      return div([
-        h1("NotFound"),
-        div(a({href: "/"}, "Home"))
-      ])
-    })
-  }
-}
-
-let route = function (url) {
-  if (url == "/") {
-    return Home
-  } else if (url == "/about") {
-    return About
-  } else if (url == "/users") {
-    return Users
-  } else {
-    return NotFound
-  }
-}
 
 // main :: {Observable *} -> {Observable *}
 let main = function ({DOM}) {
@@ -103,7 +34,7 @@ let main = function ({DOM}) {
         .share(),
     },
   }
-  
+
   let seeds = {
     navigation: {
       url: window.location.pathname,
@@ -112,7 +43,7 @@ let main = function ({DOM}) {
       // ...
     }
   }
-  
+
   let update = Observable.merge(
     intents.navigation.changeUrl::toState("navigation.url")
   )
@@ -131,8 +62,10 @@ let main = function ({DOM}) {
   return {
     DOM: state
       ::pluck("navigation.url")
-      .map((url) => route(url))
-      .flatMap((page) => page({DOM, state}).DOM),
+      .map((url) => appRoute(url))
+      .flatMap(([params, page]) => {
+        return page({DOM, state, params: Observable.of(params)}).DOM
+      }),
 
     URL: state::pluck("navigation.url"),
   }

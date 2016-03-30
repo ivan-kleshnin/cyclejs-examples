@@ -117,7 +117,8 @@ let main = function ({DOM}) {
   let state = store(seeds, update)
 
   return {
-    DOM: state::pluck("navigation.url")
+    DOM: state
+      ::pluck("navigation.url")
       .map((url) => route(url))
       .flatMap((page) => page({DOM, state}).DOM),
 
