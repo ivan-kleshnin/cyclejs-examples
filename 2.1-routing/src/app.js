@@ -119,7 +119,7 @@ let main = function ({DOM}) {
   return {
     DOM: state
       ::pluck("navigation.url")
-      .map((url) => route(url))
+      .map(route)
       .flatMapLatest((page) => page({state}).DOM),
 
     URL: state::pluck("navigation.url"),

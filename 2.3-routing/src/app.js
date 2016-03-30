@@ -3,25 +3,19 @@ let Class = require("classnames")
 let {Observable} = require("rx")
 let Cycle = require("@cycle/core")
 let {a, makeDOMDriver} = require("@cycle/dom")
+let {isActiveURL, route, unroute} = require("./helpers")
 let {makeURLDriver} = require("./drivers")
 let {derive, pluck, store, toState} = require("./rx.utils.js")
 let routes = require("./routes")
-let route = require("./route")
 
-let appRoute = route(routes)
-
-let isActiveURL = curry((currentUrl, url) => {
-  if (url == "/") {
-    return url == currentUrl
-  } else {
-    return currentUrl.startsWith(url) // TODO handle trailing slashes, etc.
-  }
-})
+// `route` / `unroute` fns and components are always in cyc-dep. Solvable through global var (here) or proxies
+window.route = route(routes)
+window.unroute = unroute(routes)
 
 // main :: {Observable *} -> {Observable *}
 let main = function ({DOM}) {
   let intents = {
-    navigation: {
+    navi: {
       changeUrl: DOM.select("a:not([rel=external])")
         .events("click")
         .filter((event) => {
@@ -36,21 +30,21 @@ let main = function ({DOM}) {
   }
   
   let seeds = {
-    navigation: {
+    navi: {
       url: window.location.pathname,
     },
-    hyperscript: {
+    hs: {
       // ...
-    }
+    },
   }
   
   let update = Observable.merge(
-    intents.navigation.changeUrl::toState("navigation.url")
+    intents.navi.changeUrl::toState("navi.url")
   )
 
   let state = store(seeds, update)
-    ::derive(["navigation.url"], "navigation.isActive", isActiveURL)
-    ::derive(["navigation.isActive"], "hyperscript.aa", (isActive) => {
+    ::derive(["navi.url"], "navi.isActive", isActiveURL)
+    ::derive(["navi.isActive"], "hs.aa", (isActive) => {
       return function aa(...args) {
         let vnode = a(...args)
         let {href, className} = vnode.properties
@@ -61,13 +55,13 @@ let main = function ({DOM}) {
 
   return {
     DOM: state
-      ::pluck("navigation.url")
-      .map((url) => appRoute(url))
+      ::pluck("navi.url")
+      .map(window.route)
       .flatMapLatest(([params, page]) => {
         return page({state, params: Observable.of(params)}).DOM
       }),
 
-    URL: state::pluck("navigation.url"),
+    URL: state::pluck("navi.url"),
   }
 }
 

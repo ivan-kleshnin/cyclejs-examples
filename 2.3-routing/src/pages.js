@@ -3,7 +3,7 @@ let {a, div, li, h1, html, p, section, ul} = require("@cycle/dom")
 
 let Menu = function (state) {
   return state.map((state) => {
-    let {aa} = state.hyperscript
+    let {aa} = state.hs
     return div([
       div(aa({href: "/"}, "Home")),
       div(aa({href: "/about"}, "About")),
