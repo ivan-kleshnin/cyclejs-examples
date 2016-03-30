@@ -34,7 +34,7 @@ let main = function ({DOM}) {
         .share(),
     },
   }
-
+  
   let seeds = {
     navigation: {
       url: window.location.pathname,
@@ -43,7 +43,7 @@ let main = function ({DOM}) {
       // ...
     }
   }
-
+  
   let update = Observable.merge(
     intents.navigation.changeUrl::toState("navigation.url")
   )
@@ -63,7 +63,7 @@ let main = function ({DOM}) {
     DOM: state
       ::pluck("navigation.url")
       .map((url) => appRoute(url))
-      .flatMap(([params, page]) => {
+      .flatMapLatest(([params, page]) => {
         return page({state, params: Observable.of(params)}).DOM
       }),
 
