@@ -16,7 +16,7 @@ let isActiveURL = curry((currentUrl, url) => {
 
 let Menu = function (state) {
   return state.map((state) => {
-    let {aa} = state.hyperscript
+    let {aa} = state.hs
     return div([
       div(aa({href: "/"}, "Home")),
       div(aa({href: "/about"}, "About")),
@@ -90,7 +90,7 @@ let route = function (url) {
 // main :: {Observable *} -> {Observable *}
 let main = function ({DOM}) {
   let intents = {
-    navigation: {
+    navi: {
       changeUrl: DOM.select("a:not([rel=external])")
         .events("click")
         .filter((event) => {
@@ -105,21 +105,21 @@ let main = function ({DOM}) {
   }
   
   let seeds = {
-    navigation: {
+    navi: {
       url: window.location.pathname,
     },
-    hyperscript: {
+    hs: {
       // ...
     }
   }
   
   let update = Observable.merge(
-    intents.navigation.changeUrl::toState("navigation.url")
+    intents.navi.changeUrl::toState("navi.url")
   )
 
   let state = store(seeds, update)
-    ::derive(["navigation.url"], "navigation.isActive", isActiveURL)
-    ::derive(["navigation.isActive"], "hyperscript.aa", (isActive) => {
+    ::derive(["navi.url"], "navi.isActive", isActiveURL)
+    ::derive(["navi.isActive"], "hs.aa", (isActive) => {
       return function aa(...args) {
         let vnode = a(...args)
         let {href, className} = vnode.properties
@@ -130,11 +130,11 @@ let main = function ({DOM}) {
 
   return {
     DOM: state
-      ::pluck("navigation.url")
+      ::pluck("navi.url")
       .map(route)
       .flatMapLatest((page) => page({state}).DOM),
 
-    URL: state::pluck("navigation.url"),
+    URL: state::pluck("navi.url"),
   }
 }
 

@@ -16,7 +16,7 @@ let isActiveURL = curry((currentUrl, url) => {
 
 let Menu = function (state) {
   return state.map((state) => {
-    let isActive = isActiveURL(state.navigation.url)
+    let isActive = isActiveURL(state.navi.url)
     return div([
       div(a({href: "/", className: Class({active: isActive("/")})}, "Home")),
       div(a({href: "/about", className: Class({active: isActive("/about")})}, "About")),
@@ -90,7 +90,7 @@ let route = function (url) {
 // main :: {Observable *} -> {Observable *}
 let main = function ({DOM}) {
   let intents = {
-    navigation: {
+    navi: {
       changeUrl: DOM.select("a:not([rel=external])")
         .events("click")
         .filter((event) => {
@@ -105,24 +105,24 @@ let main = function ({DOM}) {
   }
   
   let seeds = {
-    navigation: {
+    navi: {
       url: window.location.pathname,
     }
   }
   
   let update = Observable.merge(
-    intents.navigation.changeUrl::toState("navigation.url")
+    intents.navi.changeUrl::toState("navi.url")
   )
 
   let state = store(seeds, update)
 
   return {
     DOM: state
-      ::pluck("navigation.url")
+      ::pluck("navi.url")
       .map(route)
       .flatMapLatest((page) => page({state}).DOM),
 
-    URL: state::pluck("navigation.url"),
+    URL: state::pluck("navi.url"),
   }
 }
 

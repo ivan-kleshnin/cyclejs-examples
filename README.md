@@ -32,7 +32,7 @@ many things in browser just don't work for `file://` (history, CORS, etc.).
 
 ### 1.0-form
 
-Implement basic registration form.
+Basic registration form.
 
 ### 1.1-form
 
