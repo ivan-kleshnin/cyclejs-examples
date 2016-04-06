@@ -44,7 +44,9 @@ let main = function (src) {
         route,     // :: String
         component, // :: {Observable *} -> {Observable *}
       }
-    }).distinctUntilChanged().shareReplay(1).delay(1) // suppress bug-prone sync behavior
+    })
+    .distinctUntilChanged().shareReplay(1)
+    .delay(1) // shift to the next tick (navi <- routing: immediate)
 
   return {
     navi: navi,

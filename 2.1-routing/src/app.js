@@ -53,7 +53,9 @@ let main = function (src) {
         isActiveUrl: isActiveUrl(url), // :: String -> Boolean
         aa,
       }
-    }).distinctUntilChanged().shareReplay(1).delay(1) // suppress bug-prone sync behavior
+    })
+    .distinctUntilChanged().shareReplay(1)
+    .delay(1) // shift to the next tick (navi <- routing: immediate)
 
   return {
     navi: navi,

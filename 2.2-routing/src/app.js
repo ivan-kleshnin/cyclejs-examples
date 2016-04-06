@@ -56,7 +56,9 @@ let main = function (src) {
         isActiveRoute: isActiveRoute(route), // :: String -> Boolean
         aa,
       }
-    }).distinctUntilChanged().shareReplay(1).delay(1) // suppress bug-prone sync behavior
+    })
+    .distinctUntilChanged().shareReplay(1)
+    .delay(1) // shift to the next tick (navi <- routing: immediate)
 
   // STATE
   let state = store(seeds, Observable.never())
