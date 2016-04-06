@@ -54,6 +54,10 @@ From models to types (implicit validation).
 
 Implement (explicit) validation.
 
+### 1.5-form.alt
+
+Experimental version with n-stream state.
+
 ### 2.0-routing
 
 Minimal working example. Router, pages, not-found page.
@@ -68,7 +72,14 @@ Refactor. Use `derive` to produce functions & components.
 
 ### 2.3-routing
 
-Restructure project. Use route matching library. Use URL params in page.
+Restructure project. Use [route-parser](https://github.com/rcs/route-parser) library.<br/>
+Show URL params support.
+
+### 20.0-tetris-game
+
+[See here](https://github.com/ivan-kleshnin/tetris-cyclejs)
+
+There will be more.
 
 ## Notes
 
@@ -117,14 +128,14 @@ Five reasons to discard it:
    users$s - array of array streams :: [Observable [User]]
    ```
 
-   kinda work. Until you hit an exceptions:
+   kinda work. Until you hit a special word:
 
    ```
    ...
    peopl$e ? @_@
    ```
 
-   What about records of streams?
+   What about records of streams? Clear enough, I hope.
 
 5. No confusion between static and observable variables were confirmed in practice.<br/>
    Variables tend to be either first or second type in every particular (flat) namespace.
