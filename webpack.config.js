@@ -18,6 +18,7 @@ module.exports = {
     // "2.0-routing": "./2.0-routing/src/app",
     // "2.1-routing": "./2.1-routing/src/app",
     // "2.2-routing": "./2.2-routing/src/app",
+    // "3.0-crud": "./3.0-crud/src/app",
   },
 
   output: {

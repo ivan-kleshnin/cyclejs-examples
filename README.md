@@ -64,6 +64,10 @@ Refactoring. Highlight "current" menu item.
 Use [route-parser](https://github.com/rcs/route-parser) library.<br/>
 Models and URL params.
 
+### 3.0-crud
+
+Basic CRUD + Index example. Types, forms, validation, navigation, and state management at once.
+
 ### 20.0-tetris-game
 
 [See here](https://github.com/ivan-kleshnin/tetris-cyclejs)
