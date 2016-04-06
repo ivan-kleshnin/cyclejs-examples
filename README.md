@@ -76,16 +76,14 @@ Restructure project. Use route matching library. Use URL params in page.
 
 Convention of `obs$` was used here previously but we've changed my mind since then.
 
-Four reasons to discard it:
+Five reasons to discard it:
 
 1. It's inconsistent inside CycleJS. `vtree$` vs `DOM` – both are streams but named differently.<br/>
    There is a strong reason why `DOM` has no `$` (filename...) but it's still inconsistent.
 
 2. Related projects (RxJS, Elm, etc.) does not follow this convention.
 
-3. It turned out to be **harder to read**. Observables nested in records look especially ugly.
-
-  Compare:
+3. It turns out to be **harder to read**. Nested streams look especially ugly:
 
   ```js
   Observable.merge(
@@ -103,14 +101,37 @@ Four reasons to discard it:
   )
   ```
 
-4. No confusion between static and observable variables were confirmed in practice.<br/>
+4. It fails to represent all the cases:
+
+   ```
+   user - single model      :: User
+   users - array of models  :: [User]
+   user$ - model stream     :: Observable User
+   users$ - array stream    :: Observable [User]
+   ```
+
+   So far so good. Even
+
+   ```
+   user$s - array of model streams  :: [Observable User]
+   users$s - array of array streams :: [Observable [User]]
+   ```
+
+   kinda work. Until you hit an exceptions:
+
+   ```
+   ...
+   peopl$e ? @_@
+   ```
+
+   What about records of streams?
+
+5. No confusion between static and observable variables were confirmed in practice.<br/>
    Variables tend to be either first or second type in every particular (flat) namespace.
 
    *Simple rule: do not mix static and observable keys in records*.
 
-   You will hit troubles using "forbid shadowing" rule (IDE or linter)
-   but it's stupid anyway IMO.<br/>
-   The whole idea of namespacing is to allow repeating names. In other words they are *inevitable*.
+   Caution: you may hit troubles with "forbid shadowing" rule in IDE or linter.
 
 So for now we're sticking with "repeat names" rule:
 
