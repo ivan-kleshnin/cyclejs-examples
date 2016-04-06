@@ -1,6 +1,8 @@
 let R = require("ramda")
 let {curry, is, map, split} = require("ramda")
+let V = require("tcomb-validation")
 let {Observable} = require("rx")
+let {always} = require("./helpers")
 
 // scanFn :: s -> (s -> s) -> s
 let scanFn = curry((state, updateFn) => {
@@ -11,86 +13,19 @@ let scanFn = curry((state, updateFn) => {
   }
 })
 
-// <this> --> String -> Observable
+// pluck :: (Observable a ->) String -> Observable b
 let pluck = function (path) {
-  let lens = R.lensPath(path.split("."))
-  return this.map((v) => R.view(lens, v))
+  let lens = R.lensPath(split(".", path))
+  return this.map((v) => R.view(lens, v)).share()
 }
 
-// <this> --> String, (a -> (b -> c)) -> Observable
-let overState = function (path, fn) {
-  let lens = R.lensPath(path.split("."))
-  return this.map((v) => (s) => R.over(lens, fn(v), s))
+// pluckN :: (Observable a ->) [String] -> Observable b
+let pluckN = function (paths) {
+  let lenses = map(R.lensPath, map(split("."), paths))
+  return this.map((v) => map((lens) => R.view(lens, v), lenses)).share()
 }
 
-// <this> --> String, (a -> b) -> Observable
-let setState = function (path, fn) {
-  let lens = R.lensPath(path.split("."))
-  return this.map((v) => (s) => R.set(lens, fn(v), s))
-}
-
-// <this> --> String -> Observable
-let toState = function (path) {
-  return this::setState(path, R.identity)
-}
-
-// <this> --> [String], [String], (s -> a) -> Observable
-let derive = function (sourcePaths, targetPath, deriveFn) {
-  if (!is(Array, sourcePaths)) {
-    throw Error("sourcePath must be an Array, got " + sourcePaths)
-  }
-  if (!is(String, targetPath)) {
-    throw Error("targetPath must be a String, got " + targetPath)
-  }
-  if (!is(Function, deriveFn)) {
-    throw Error("deriveFn must be a Function, got " + deriveFn)
-  }
-  let sourceLenses = map((path) => R.lensPath(split(".", path)), sourcePaths)
-  let targetLens = R.lensPath(split(".", targetPath))
-  let sourceStreams = map((lens) => {
-    return this.map((state) => R.view(lens, state)).distinctUntilChanged()
-  }, sourceLenses)
-  let targetStream = Observable.combineLatest(...sourceStreams, (...args) => {
-    return deriveFn(...args)
-  }).distinctUntilChanged()
-  return this.combineLatest(targetStream, (state, stateFragment) => {
-    return R.set(targetLens, stateFragment, state)
-  })
-    .distinctUntilChanged()
-    .shareReplay(1)
-    .debounce(1) // suppress glitches (tradeoff: squash sync updates)
-}
-
-// <this> --> String, (s -> a) -> Observable
-let deriveAll = function (path, deriveFn) {
-  let lens = R.lensPath(path.split("."))
-  return this.map((state) => {
-    let stateFragment = deriveFn(state)
-    return R.set(lens, stateFragment, state)
-  })
-    .distinctUntilChanged()
-    .shareReplay(1)
-    .debounce(1) // suppress glitches (tradeoff: squash sync updates)
-}
-
-// store :: SelectedElement -> Observable String
-let inputReader = curry((element) => {
-  return element
-    .events("input")
-    .map((event) => event.target.value)
-    .map(value => value.trim()) // cut extra whitespace (most often required)
-    .share()
-})
-
-// store :: SelectedElement -> Observable Boolean
-let clickReader = curry((element) => {
-  return element
-    .events("click")
-    .map((event) => true)
-    .share()
-})
-
-// store :: s -> Observable (s -> s)
+// store :: s -> Observable (s -> s) -> Observable s
 let store = curry((seed, update) => {
   return update
     .startWith(seed)
@@ -99,15 +34,81 @@ let store = curry((seed, update) => {
     .shareReplay(1)
 })
 
+// view :: (Observable a ->) String -> Observable b
+let view = function (path) {
+  let lens = R.lensPath(split(".", path))
+  return this
+    .map((v) => R.view(lens, v))
+    .distinctUntilChanged()
+    .shareReplay(1)
+}
+
+// viewN :: (Observable a ->) [String] -> Observable b
+let viewN = function (paths) {
+  let lenses = map(R.lensPath, map(split("."), paths))
+  return this
+    .map((v) => map((lens) => R.view(lens, v), lenses))
+    .distinctUntilChanged()
+    .shareReplay(1)
+}
+
+// overState :: (Observable a ->) String, (a -> (b -> c)) -> Observable c
+let overState = function (path, fn) {
+  let lens = R.lensPath(split(".", path))
+  return this.map((v) => (s) => R.over(lens, fn(v), s))
+}
+
+// setState :: (Observable a ->) String, (a -> b) -> Observable b
+let setState = function (path, fn) {
+  let lens = R.lensPath(split(".", path))
+  return this.map((v) => (s) => R.set(lens, fn(v), s))
+}
+
+// toState :: (Observable a ->) String -> Observable a
+let toState = function (path) {
+  return this::setState(path, R.identity)
+}
+
+// validateToState :: (Observable a ->) String, Type -> Observable (String | null)
+let validateToState = function (path, type) {
+  return this
+    .debounce(500)
+    .map((v) => V.validate(v, type).firstError())
+    .map((e) => e && e.message || null)
+    ::toState(path)
+}
+
+// samplePluck :: (Observable a ->) String -> Observable b
+let samplePluck = function (path) {
+  return this.sample(this::pluck(path))
+}
+
+// sampleView :: (Observable a ->) String -> Observable b
+let sampleView = function (path) {
+  return this.sample(this::view(path))
+}
+
+// derive :: [Observable *] -> (* -> Observable a) -> Observable a
+let derive = function (os, deriveFn) {
+  return Observable.combineLatest(...os, deriveFn).distinctUntilChanged().shareReplay(1)
+}
+
 exports.scanFn = scanFn
 
 exports.pluck = pluck
+exports.pluckN = pluckN
+
+exports.store = store
+
+exports.view = view
+exports.viewN = viewN
 exports.overState = overState
 exports.setState = setState
 exports.toState = toState
-exports.derive = derive
-exports.deriveAll = deriveAll
 
-exports.inputReader = inputReader
-exports.clickReader = clickReader
-exports.store = store
+exports.validateToState = validateToState
+
+exports.samplePluck = samplePluck
+exports.sampleView = sampleView
+
+exports.derive = derive

@@ -15,10 +15,10 @@ module.exports = {
     // "1.3-form": "./1.3-form/src/app",
     // "1.4-form": "./1.4-form/src/app",
     // "1.5-form": "./1.5-form/src/app",
+    // "1.5-form.alt": "./1.5-form.alt/src/app",
     // "2.0-routing": "./2.0-routing/src/app",
     // "2.1-routing": "./2.1-routing/src/app",
     // "2.2-routing": "./2.2-routing/src/app",
-    // "2.3-routing": "./2.3-routing/src/app",
   },
 
   output: {

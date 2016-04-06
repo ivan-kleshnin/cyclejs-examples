@@ -60,20 +60,16 @@ Experimental version with n-stream state.
 
 ### 2.0-routing
 
-Minimal working example. Router, pages, not-found page.
+Minimal working example. Router, pages, menu, not-found.
 
 ### 2.1-routing
 
-Menu. Highlight "current" menu item.
+Refactoring. Highlight "current" menu item.
 
 ### 2.2-routing
 
-Refactor. Use `derive` to produce functions & components.
-
-### 2.3-routing
-
-Restructure project. Use [route-parser](https://github.com/rcs/route-parser) library.<br/>
-Show URL params support.
+Use [route-parser](https://github.com/rcs/route-parser) library.<br/>
+Models and URL params.
 
 ### 20.0-tetris-game
 
