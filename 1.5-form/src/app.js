@@ -1,111 +1,99 @@
-let {append, assoc, curry, identity} = require("ramda")
+let {assoc, identity} = require("ramda")
 let {Observable} = require("rx")
-let {validate} = require("tcomb-validation")
 let Cycle = require("@cycle/core")
 let {br, button, div, h1, h2, hr, input, label, makeDOMDriver, p, pre} = require("@cycle/dom")
 let {always} = require("./helpers")
-let {clickReader, derive, inputReader, overState, pluck, setState, store, toState} = require("./rx.utils")
+let {derive, overState, pluck, setState, store, toState, validateToState, view} = require("./rx.utils")
 let {User} = require("./types")
+let seeds = require("./seeds")
 let {makeUser} = require("./makers")
 
 // main :: {Observable *} -> {Observable *}
-let main = function ({DOM, state: stateSource}) {
-  // Intents
+let main = function (src) {
+  let textFrom = (s) => src.DOM.select(s).events("input")::pluck("target.value").share()
+  let clickFrom = (s) => src.DOM.select(s).events("click").map((e) => true).share()
+
+  let formModel = derive(
+    [src.state::view("form.data").debounce(100)],
+    (data) => {
+      try {
+        return makeUser(data)
+      } catch (err) {
+        if (err instanceof TypeError) { return null }
+        else                          { throw err }
+      }
+    }
+  ).distinctUntilChanged().shareReplay(1)
+  
+  // INTENTS
   let intents = {
-    form: {
-      changeUsername: inputReader(DOM.select("#username")),
-      changeEmail: inputReader(DOM.select("#email")),
-      register: clickReader(DOM.select("#register")),
-    },
+    changeUsername: textFrom("#username"),
+    changeEmail: textFrom("#email"),
+    createUser: clickFrom("#submit").debounce(100),
   }
 
-  // Actions
+  // ACTIONS
   let actions = {
-    users: {
-      create: stateSource
-        .sample(intents.form.register)
-        ::pluck("form.output")
-        .filter(identity)
-    },
+    createUser: formModel
+      .sample(intents.createUser)
+      .filter(identity)
+      .share(),
   }
 
-  // Seeds
-  let seeds = {
-    form: {
-      input: {
-        username: "",
-        email: "",
-      },
-      errors: {
-        username: null,
-        email: null,
-      },
-      output: null,
-    },
-    users: [],
-  }
+  let Username = User.meta.props.username
+  let Email = User.meta.props.email
 
-  // Update
+  // UPDATE
   let update = Observable.merge(
-    intents.form.changeUsername::toState("form.input.username"),
-    intents.form.changeUsername
-      .debounce(500)
-      .map((username) => validate(username, User.meta.props.username).firstError())
-      .map((error) => error && error.message || null)
-      ::toState("form.errors.username"),
-    intents.form.changeEmail::toState("form.input.email"),
-    intents.form.changeEmail
-      .debounce(500)
-      .map((email) => validate(email, User.meta.props.email).firstError())
-      .map((error) => error && error.message || null)
-      ::toState("form.errors.email"),
-    intents.form.register::setState("form.input", always(seeds.form.input)),
-    intents.form.register::setState("form.errors", always(seeds.form.errors)),
-    actions.users.create::overState("users", (u) => append(u))
+    // TODO intents.createUser <- validate form
+
+    // Reset form after valid submit
+    actions.createUser.delay(1)::setState("form", always(seeds.form)),
+    
+    // Track fields
+    intents.changeUsername::toState("form.data.username"),
+    intents.changeUsername::validateToState("form.errors.username", Username),
+
+    intents.changeEmail::toState("form.data.email"),
+    intents.changeEmail::validateToState("form.errors.email", Email),
+
+    // Create user
+    actions.createUser::overState("users", (u) => assoc(u.id, u))
   )
 
-  // State
-  let stateSink = store(seeds, update)
-    ::derive(["form.input"], "form.output", (input) => {
-      try {
-        return makeUser(input)
-      } catch (err) {
-        if (err instanceof TypeError) {
-          return null
-        } else {
-          throw err
-        }
-      }
-    })
+  // STATE
+  let state = store(seeds, update)
 
-  // View
   return {
-    DOM: stateSink.map((state) => {
+    DOM: formModel.combineLatest(state, (formModel, state) => {
+      let {form} = state
       return div([
         h1("Registration"),
         div(".form-element", [
           label({htmlFor: "username"}, "Username:"),
           br(),
-          input("#username", {type: "text", value: state.form.input.username, autocomplete: "off"}),
-          p(state.form.errors.username),
+          input("#username", {type: "text", value: form.data.username, autocomplete: "off"}),
+          p(form.errors.username),
         ]),
         div(".form-element", [
           label({htmlFor: "email"}, "Email:"),
           br(),
-          input("#email", {type: "text", value: state.form.input.email, autocomplete: "off"}),
-          p(state.form.errors.email),
+          input("#email", {type: "text", value: form.data.email, autocomplete: "off"}),
+          p(form.errors.email),
         ]),
-        button("#register.form-element", {type: "submit", disabled: !state.form.output}, "Register"),
+        button("#submit.form-element", {type: "submit", disabled: !formModel}, "Register"),
         hr(),
         h2("State SPY"),
         pre(JSON.stringify(state, null, 2)),
       ])
     }),
-    state: stateSink,
+    
+    state,
   }
 }
 
 Cycle.run(main, {
-  DOM: makeDOMDriver("#app"),
   state: identity,
+
+  DOM: makeDOMDriver("#app"),
 })

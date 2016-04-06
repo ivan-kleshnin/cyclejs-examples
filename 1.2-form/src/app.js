@@ -1,93 +1,88 @@
-let {append, assoc, curry, identity} = require("ramda")
+let {assoc, assocPath, identity, prop} = require("ramda")
 let {Observable} = require("rx")
 let Cycle = require("@cycle/core")
 let {br, button, div, h1, h2, hr, input, label, makeDOMDriver, p, pre} = require("@cycle/dom")
-let {always} = require("./helpers")
-let {overState, pluck, scanFn, setState, toState} = require("./rx.utils")
+let {scanFn} = require("./rx.utils")
 let {User} = require("./models")
+let seeds = require("./seeds")
 
 // main :: {Observable *} -> {Observable *}
-let main = function ({DOM, state: stateSource}) {
-  // Intents
+let main = function (src) {
+  // INTENTS
   let intents = {
-    form: {
-      changeUsername: DOM.select("#username")
-        .events("input")
-        .map((event) => event.target.value)
-        .share(),
+    changeUsername: src.DOM.select("#username")
+      .events("input")
+      .map((event) => event.target.value)
+      .share(),
 
-      changeEmail: DOM.select("#email")
-        .events("input")
-        .map((event) => event.target.value)
-        .share(),
+    changeEmail: src.DOM.select("#email")
+      .events("input")
+      .map((event) => event.target.value)
+      .share(),
 
-      register: DOM.select("#register")
-        .events("click")
-        .map((event) => true)
-        .share(),
-    },
+    createUser: src.DOM.select("#submit")
+      .events("click")
+      .map((event) => true)
+      .debounce(100)
+      .share(),
   }
 
-  // Actions
+  // ACTIONS
   let actions = {
-    users: {
-      create: stateSource
-        .sample(intents.form.register)
-        ::pluck("form")
-        .map((input) => User(input))
-    },
+    createUser: src.state.map(prop("form"))
+      .sample(intents.createUser)
+      .map((input) => User(input))
+      .share(),
   }
 
-  // Seeds
-  let seeds = {
-    form: {
-      username: "",
-      email: "",
-    },
-    users: [],
-  }
-
-  // Update
+  // UPDATE
   let update = Observable.merge(
-    intents.form.changeUsername::toState("form.username"),
-    intents.form.changeEmail::toState("form.email"),
-    intents.form.register.delay(1)::setState("form", always(seeds.form)),
-    actions.users.create::overState("users", (u) => append(u))
+    // Reset form after submit
+    actions.createUser.delay(1).map((_) => assoc("form", seeds.form)),
+    
+    // Track fields
+    intents.changeUsername.map((v) => assocPath(["form", "username"], v)),
+    intents.changeEmail.map((v) => assocPath(["form", "email"], v)),
+    
+    // Create user
+    actions.createUser.map((u) => (s) => assocPath(["users", u.id], u, s))
   )
 
-  // State
-  let stateSink = update
+  // STATE
+  let state = update
     .startWith(seeds)
     .scan(scanFn)
     .distinctUntilChanged()
     .shareReplay(1)
 
-  // View
   return {
-    DOM: stateSink.map((state) => {
+    DOM: state.map((state) => {
+      let {form} = state
       return div([
         h1("Registration"),
         div(".form-element", [
           label({htmlFor: "username"}, "Username:"),
           br(),
-          input("#username", {type: "text", value: state.form.username}),
+          input("#username", {type: "text", value: form.username, autocomplete: "off"}),
         ]),
         div(".form-element", [
           label({htmlFor: "email"}, "Email:"),
           br(),
-          input("#email", {type: "text", value: state.form.email}),
+          input("#email", {type: "text", value: form.email, autocomplete: "off"}),
         ]),
-        button("#register.form-element", {type: "submit"}, "Register"),
+        button("#submit.form-element", {type: "submit"}, "Register"),
         hr(),
         h2("State SPY"),
         pre(JSON.stringify(state, null, 2)),
       ])
     }),
-    state: stateSink,
+    
+    state,
   }
 }
 
 Cycle.run(main, {
-  DOM: makeDOMDriver("#app"),
   state: identity,
+
+  DOM: makeDOMDriver("#app"),
 })

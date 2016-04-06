@@ -1,56 +1,30 @@
 let R = require("ramda")
-let {curry} = require("ramda")
+let {curry, is, map, split} = require("ramda")
+let {Observable} = require("rx")
+let {always} = require("./helpers")
 
 // scanFn :: s -> (s -> s) -> s
 let scanFn = curry((state, updateFn) => {
-  if (typeof updateFn != "function" || updateFn.length != 1) {
+  if (!is(Function, updateFn) || updateFn.length != 1) {
     throw Error("updateFn must be a function with arity 1, got " + updateFn)
   } else {
     return updateFn(state)
   }
 })
 
-// <this> --> String -> Observable
+// pluck :: (Observable a ->) String -> Observable b
 let pluck = function (path) {
-  let lens = R.lensPath(path.split("."))
-  return this.map((v) => R.view(lens, v))
+  let lens = R.lensPath(split(".", path))
+  return this.map((v) => R.view(lens, v)).share()
 }
 
-// <this> --> String, (a -> (b -> c)) -> Observable
-let overState = function (path, fn) {
-  let lens = R.lensPath(path.split("."))
-  return this.map((v) => (s) => R.over(lens, fn(v), s))
+// pluckN :: (Observable a ->) [String] -> Observable b
+let pluckN = function (paths) {
+  let lenses = map(R.lensPath, map(split("."), paths))
+  return this.map((v) => map((lens) => R.view(lens, v), lenses)).share()
 }
 
-// <this> --> String, (a -> b) -> Observable
-let setState = function (path, fn) {
-  let lens = R.lensPath(path.split("."))
-  return this.map((v) => (s) => R.set(lens, fn(v), s))
-}
-
-// <this> --> String -> Observable
-let toState = function (path) {
-  return this::setState(path, R.identity)
-}
-
-// store :: SelectedElement -> Observable String
-let inputReader = curry((element) => {
-  return element
-    .events("input")
-    .map((event) => event.target.value)
-    .map(value => value.trim()) // cut extra whitespace (most often required)
-    .share()
-})
-
-// store :: SelectedElement -> Observable Boolean
-let clickReader = curry((element) => {
-  return element
-    .events("click")
-    .map((event) => true)
-    .share()
-})
-
-// store :: s -> Observable (s -> s)
+// store :: s -> Observable (s -> s) -> Observable s
 let store = curry((seed, update) => {
   return update
     .startWith(seed)
@@ -59,13 +33,50 @@ let store = curry((seed, update) => {
     .shareReplay(1)
 })
 
+// view :: (Observable a ->) String -> Observable b
+let view = function (path) {
+  let lens = R.lensPath(split(".", path))
+  return this
+    .map((v) => R.view(lens, v))
+    .distinctUntilChanged()
+    .shareReplay(1)
+}
+
+// viewN :: (Observable a ->) [String] -> Observable b
+let viewN = function (paths) {
+  let lenses = map(R.lensPath, map(split("."), paths))
+  return this
+    .map((v) => map((lens) => R.view(lens, v), lenses))
+    .distinctUntilChanged()
+    .shareReplay(1)
+}
+
+// overState :: (Observable a ->) String, (a -> (b -> c)) -> Observable c
+let overState = function (path, fn) {
+  let lens = R.lensPath(split(".", path))
+  return this.map((v) => (s) => R.over(lens, fn(v), s))
+}
+
+// setState :: (Observable a ->) String, (a -> b) -> Observable b
+let setState = function (path, fn) {
+  let lens = R.lensPath(split(".", path))
+  return this.map((v) => (s) => R.set(lens, fn(v), s))
+}
+
+// toState :: (Observable a ->) String -> Observable a
+let toState = function (path) {
+  return this::setState(path, R.identity)
+}
+
 exports.scanFn = scanFn
 
 exports.pluck = pluck
+exports.pluckN = pluckN
+
+exports.store = store
+
+exports.view = view
+exports.viewN = viewN
 exports.overState = overState
 exports.setState = setState
 exports.toState = toState
-
-exports.inputReader = inputReader
-exports.clickReader = clickReader
-exports.store = store

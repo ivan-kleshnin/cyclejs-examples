@@ -1,43 +1,43 @@
+let {assoc} = require("ramda")
 let {Observable} = require("rx")
 let Cycle = require("@cycle/core")
 let {br, button, div, h1, h2, hr, input, label, makeDOMDriver, p, pre} = require("@cycle/dom")
-let {scanFn, toState} = require("./rx.utils")
+let {scanFn} = require("./rx.utils")
 
 // main :: {Observable *} -> {Observable *}
-let main = function ({DOM}) {
-  // Intents
+let main = function (src) {
+  // INTENTS
   let intents = {
-    changeUsername: DOM.select("#username")
+    changeUsername: src.DOM.select("#username")
       .events("input")
       .map((event) => event.target.value)
       .share(),
 
-    changeEmail: DOM.select("#email")
+    changeEmail: src.DOM.select("#email")
       .events("input")
       .map((event) => event.target.value)
       .share(),
   }
 
-  // Seeds
+  // SEEDS
   let seeds = {
     username: "",
     email: "",
   }
 
-  // Update
+  // UPDATE
   let update = Observable.merge(
-    intents.changeUsername::toState("username"),
-    intents.changeEmail::toState("email"),
+    intents.changeUsername.map((v) => assoc("username", v)),
+    intents.changeEmail.map((v) => assoc("email", v))
   )
 
-  // State
+  // STATE
   let state = update
     .startWith(seeds)
     .scan(scanFn)
     .distinctUntilChanged()
     .shareReplay(1)
 
-  // View
   return {
     DOM: state.map((state) => {
       return div([
@@ -45,18 +45,16 @@ let main = function ({DOM}) {
         div(".form-element", [
           label({htmlFor: "username"}, "Username:"),
           br(),
-          input("#username", {type: "text"}),
+          input("#username", {type: "text", autocomplete: "off"}),
         ]),
         div(".form-element", [
           label({htmlFor: "email"}, "Email:"),
           br(),
-          input("#email", {type: "text"}),
+          input("#email", {type: "text", autocomplete: "off"}),
         ]),
         hr(),
-        h2("Register SPY"),
-        (state.username && state.email) ?
-          pre(JSON.stringify({state})) :
-          null,
+        h2("State SPY"),
+        pre(JSON.stringify(state, null, 2)),
       ])
     })
   }

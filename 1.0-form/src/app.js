@@ -3,13 +3,13 @@ let Cycle = require("@cycle/core")
 let {br, button, div, h1, h2, hr, input, label, makeDOMDriver, p, pre} = require("@cycle/dom")
 
 // main :: {Observable *} -> {Observable *}
-let main = function ({DOM}) {
-  let username = DOM.select("#username")
+let main = function (src) {
+  let username = src.DOM.select("#username")
     .events("input")
     .map((event) => event.target.value)
     .startWith("")
 
-  let email = DOM.select("#email")
+  let email = src.DOM.select("#email")
     .events("input")
     .map((event) => event.target.value)
     .startWith("")
@@ -23,18 +23,16 @@ let main = function ({DOM}) {
           div(".form-element", [
             label({htmlFor: "username"}, "Username:"),
             br(),
-            input("#username", {type: "text"}),
+            input("#username", {type: "text", autocomplete: "off"}),
           ]),
           div(".form-element", [
             label({htmlFor: "email"}, "Email:"),
             br(),
-            input("#email", {type: "text"}),
+            input("#email", {type: "text", autocomplete: "off"}),
           ]),
           hr(),
-          h2("Register SPY"),
-          (username && email) ?
-            pre(JSON.stringify({username, email})) :
-            null,
+          h2("State SPY"),
+          pre(JSON.stringify({username, email}, null, 2)),
         ])
       }
     )
