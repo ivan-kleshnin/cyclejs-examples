@@ -38,10 +38,11 @@ let main = function (src) {
   let updateNavi = Observable.merge(
     intents.redirect,
     page.flatMapLatest(prop("redirect"))
-  ).distinctUntilChanged()
+  )
 
   let navi = updateNavi
     .startWith(window.location.pathname)
+    .distinctUntilChanged()
     .map((url) => {
       let [route, params, component] = window.doroute(url)
 
