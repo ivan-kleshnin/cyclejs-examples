@@ -123,3 +123,27 @@ module.exports = function ({navi, state, DOM}) {
     redirect,
   }
 }
+
+/*
+Observation:
+  extra DOM renders due to diamond case in dataflow
+
+Comment:
+  DOM stream can be also implemented as
+
+  Observable.combineLatest(
+   navi, state::view("userCreateForm").zip(formModel),
+   (navi, [form, formModel]) => { ... }
+  )
+
+  1) To do it, data and derived data should be *strictly* synced (no .distinctUntilChanged(), no .debounce())
+  2) due to 1) formModel will be recalculated much more often
+  3) but DOM won't be rendered (and compared) twice after formModel is ready (not null)
+
+  In other words: we can suppress extra DOM updates at the cost of more brittle architecture
+  and more often formModel updates. I don't think it's worth it.
+
+  Question: are there other working schemes I've overlooked?
+
+  As far as I know, RxJS does not provide any solution against glitches yet... (Bacon does).
+*/

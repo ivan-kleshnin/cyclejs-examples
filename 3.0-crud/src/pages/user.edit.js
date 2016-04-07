@@ -72,9 +72,9 @@ module.exports = function ({navi, state, DOM}) {
   )
   
   return {
-    DOM: formModel.withLatestFrom(
-      navi, user, state::view("userEditForm"),
-      (formModel, navi, user, form) => {
+    DOM: Observable.combineLatest(
+      navi, state::view("userEditForm"), user, formModel,
+      (navi, form, user, formModel) => {
         console.log("render user.edit")
         return div([
           h1("Edit User"),
