@@ -1,15 +1,15 @@
 let T = require("tcomb")
 
-let Id = T.subtype(T.String, (s) => {
-  return /^\d+$/.test(s)
+let Id = T.subtype(T.String, (x) => {
+  return /^\d+$/.test(x)
 }, "Id")
 
-let Username = T.subtype(T.String, (s) => {
-  return /^\w{2,10}$/.test(s)
+let Username = T.subtype(T.String, (x) => {
+  return /^\w{2,10}$/.test(x)
 }, "Username")
 
-let Email = T.subtype(T.String, (s) => {
-  return /^(.+)@(.+){2,}\.(.+){2,}$/.test(s)
+let Email = T.subtype(T.String, (x) => {
+  return /^(.+)@(.+){2,}\.(.+){2,}$/.test(x)
 }, "Email")
 
 let User = T.struct({
