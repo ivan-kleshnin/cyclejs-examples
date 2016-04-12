@@ -78,6 +78,29 @@ Basic CRUD + Index example. Types, forms, validation, navigation, and state mana
 
 ## Notes
 
+### Glitches
+
+Diamond cases in stream topologies will cause unnecessary events called "glitches".
+RxJS does not apply topological sorting to suppress them (as Bacon or Flyd do).
+Performance and memory usage are gradually improved but now without consequences.
+
+Imagine you have a `state` and `derivedState` expressed as stream (as it should be).
+DOM depends from both `state` and `derivedState`.
+
+```js
+Observable.combineLatest(state, derivedState, (state, derivedState) => {...})
+```
+
+Now every time a change in `state` will cause a change in `derivedState` you'll have two DOM rendering instead of one.
+
+There are basically two ways to address this:
+
+1) Use `.withLatestFrom()` and / or `.zip()` to express your dataflow as a set of control and data streams.
+May be surprisingly hard to nail as long as you have a complex stream topology (and especially when it's prone to change).
+
+2) Tolerate glitches. I recommend to start with this until you're confident enough about your dataflows.
+As long as your side effects are relatively safe (DOM diff vs DB write) – it's only a *performance* issue...
+
 ### No trailing `$`
 
 Convention of `obs$` was used here previously but we've changed my mind since then.
