@@ -14,9 +14,9 @@ let main = function (src) {
   let page = src.navi
     .sample(src.navi::view("route"))  // remount only when page *type* changes...
     .map(({component}) => merge({
-        redirect: Observable.never(), // affects navi
-        update: Observable.never(),   // affects state
-        DOM: Observable.never(),      // affects DOM
+        redirect: Observable.empty(), // affects navi
+        update: Observable.empty(),   // affects state
+        DOM: Observable.empty(),      // affects DOM
       }, component(src))
     ).shareReplay(1)
 

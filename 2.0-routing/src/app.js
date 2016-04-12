@@ -13,7 +13,7 @@ let main = function (src) {
   let page = src.navi
     .sample(src.navi::view("route"))  // remount only when page *type* changes...
     .map(({component}) => merge({
-        DOM: Observable.never(),      // affects DOM
+        DOM: Observable.empty(), // affects DOM
       }, component(src))
     ).shareReplay(1)
 

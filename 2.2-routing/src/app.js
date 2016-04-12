@@ -14,7 +14,7 @@ let main = function (src) {
   let page = src.navi
     .sample(src.navi::view("route"))  // remount only when page *type* changes...
     .map(({component}) => merge({
-        DOM: Observable.never(),      // affects DOM
+        DOM: Observable.empty(), // affects DOM
       }, component(src))
     ).shareReplay(1)
 
@@ -61,7 +61,7 @@ let main = function (src) {
     .delay(1) // shift to the next tick (navi <- routing: immediate)
 
   // STATE
-  let state = store(seeds, Observable.never())
+  let state = store(seeds, Observable.empty())
 
   return {
     navi: navi,
