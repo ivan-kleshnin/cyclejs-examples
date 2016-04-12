@@ -68,11 +68,13 @@ Models and URL params.
 
 Basic CRUD + Index example. Types, forms, validation, navigation, and state management at once.
 
-### 20.0-tetris-game
+### 20.0-memory-game
 
-[See here](https://github.com/ivan-kleshnin/tetris-cyclejs)
+[See here](https://github.com/ivan-kleshnin/memory-game)
 
-There will be more.
+### 20.1-tetris-game
+
+[See here](https://github.com/ivan-kleshnin/tetris-game)
 
 ## Notes
 
