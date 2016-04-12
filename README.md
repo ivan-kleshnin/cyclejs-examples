@@ -82,13 +82,14 @@ Basic CRUD + Index example. Types, forms, validation, navigation, and state mana
 
 Diamond cases in stream topologies will cause unnecessary events called "glitches".
 RxJS does not apply topological sorting to suppress them (as Bacon or Flyd do).
-Performance and memory usage are gradually improved but now without consequences.
+Performance and memory usage are gradually improved but not without consequences.
 
-Imagine you have a `state` and `derivedState` expressed as stream (as it should be).
+Imagine you have a `state` and `derivedState` streams.
 DOM depends from both `state` and `derivedState`.
 
 ```js
-Observable.combineLatest(state, derivedState, (state, derivedState) => {...})
+let derivedState = state.map(...)
+let DOM = Observable.combineLatest(state, derivedState, (state, derivedState) => {...})
 ```
 
 Now every time a change in `state` will cause a change in `derivedState` you'll have two DOM rendering instead of one.
