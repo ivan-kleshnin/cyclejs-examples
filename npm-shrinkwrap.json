@@ -907,11 +907,6 @@
       "from": "escape-string-regexp@>=1.0.2 <2.0.0",
       "resolved": "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz"
     },
-    "eslint-config-cycle": {
-      "version": "3.0.0",
-      "from": "eslint-config-cycle@3.0.0",
-      "resolved": "https://registry.npmjs.org/eslint-config-cycle/-/eslint-config-cycle-3.0.0.tgz"
-    },
     "esprima-fb": {
       "version": "15001.1001.0-dev-harmony-fb",
       "from": "esprima-fb@>=15001.1001.0-dev-harmony-fb <15001.1002.0",

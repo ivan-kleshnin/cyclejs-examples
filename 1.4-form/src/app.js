@@ -63,26 +63,29 @@ let main = function (src) {
   let state = store(seeds, update)
 
   return {
-    DOM: formModel.combineLatest(state, (formModel, state) => {
-      let {form} = state
-      return div([
-        h1("Registration"),
-        div(".form-element", [
-          label({htmlFor: "username"}, "Username:"),
-          br(),
-          input("#username", {type: "text", value: form.username, autocomplete: "off"}),
-        ]),
-        div(".form-element", [
-          label({htmlFor: "email"}, "Email:"),
-          br(),
-          input("#email", {type: "text", value: form.email, autocomplete: "off"}),
-        ]),
-        button("#submit.form-element", {type: "submit", disabled: !formModel}, "Register"),
-        hr(),
-        h2("State SPY"),
-        pre(JSON.stringify(state, null, 2)),
-      ])
-    }),
+    DOM: Observable.combineLatest(
+      state, formModel,
+      (state, formModel) => {
+        let {form} = state
+        return div([
+          h1("Registration"),
+          div(".form-element", [
+            label({htmlFor: "username"}, "Username:"),
+            br(),
+            input("#username", {type: "text", value: form.username, autocomplete: "off"}),
+          ]),
+          div(".form-element", [
+            label({htmlFor: "email"}, "Email:"),
+            br(),
+            input("#email", {type: "text", value: form.email, autocomplete: "off"}),
+          ]),
+          button("#submit.form-element", {type: "submit", disabled: !formModel}, "Register"),
+          hr(),
+          h2("State SPY"),
+          pre(JSON.stringify(state, null, 2)),
+        ])
+      }
+    ),
     
     state,
   }

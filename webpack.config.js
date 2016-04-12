@@ -44,28 +44,8 @@ module.exports = {
   // webpack.github.io/docs/configuration.html#module
   module: {
     loaders: [ // webpack.github.io/docs/loaders.html
-      // JS
+      // JS: github.com/babel/babel-loader
       {test: /\.js$/, loaders: ["babel"], exclude: /node_modules/},
     ],
   },
-
-  // webpack.github.io/docs/configuration.html#resolve
-  // resolve: {
-  //   // node_modules and like that
-  //   modulesDirectories: ["web_modules", "node_modules"],
-  // },
-
-  // webpack.github.io/docs/configuration.html#resolveloader
-  // resolveLoader: {
-  //   // Abs. path with loaders
-  //   root: Path.join(__dirname, "/node_modules"),
-  //
-  //   alias: {},
-  // },
-
-  // webpack.github.io/docs/list-of-plugins.html
-  // plugins: [
-  //   new Webpack.NoErrorsPlugin(),
-  //   new Webpack.IgnorePlugin(/^vertx$/),
-  // ],
 }
