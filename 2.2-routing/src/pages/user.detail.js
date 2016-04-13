@@ -7,8 +7,8 @@ let userCard = require("../chunks/user.card")
 
 module.exports = function ({navi, state}) {
   let user = derive(
-    [navi::view("params"), state::view("users")],
-    (params, users) => users[params.id]
+    (params, users) => users[params.id],
+    [navi::view("params"), state::view("users")]
   )
 
   return {
@@ -21,8 +21,24 @@ module.exports = function ({navi, state}) {
           h1("User Detail"),
           menu({navi}),
           userCard({navi, user}),
+          hr(),
+          a({href: window.unroute("/users/:id", {id: nextId(ids, navi.params.id)})}, "Next User"),
         ])
       }
     )
+  }
+}
+
+function nextId(ids, id) {
+  let n = ids.length
+  if (n) {
+    let i = indexOf(id, ids)
+    if (i == -1) {
+      return ids[0]
+    } else {
+      return ids[(i + 1) % n]
+    }
+  } else {
+    throw Error("ids can't be empty")
   }
 }

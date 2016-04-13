@@ -1,8 +1,8 @@
 let R = require("ramda")
-let {curry, is, map, split} = require("ramda")
+let {assoc, curry, identity, is, keys, map, not, range, reduce, split, values} = require("ramda")
 let V = require("tcomb-validation")
 let {Observable} = require("rx")
-let {always} = require("./helpers")
+let {always, fst, snd, flattenObject, unflattenObject} = require("./helpers")
 
 // scanFn :: s -> (s -> s) -> s
 let scanFn = curry((state, updateFn) => {
@@ -32,6 +32,27 @@ let store = curry((seed, update) => {
     .scan(scanFn)
     .distinctUntilChanged()
     .shareReplay(1)
+})
+
+// storeUnion :: {Observable *} -> Observable {*}
+let storeUnion = curry((state) => {
+  let flatState = flattenObject(state)
+  let names = keys(flatState)
+  return Observable.combineLatest(
+    ...values(flatState),
+    (...args) => {
+      return unflattenObject(reduce((memo, i) => {
+        return assoc(names[i], args[i], memo)
+      }, {}, range(0, names.length)))
+    }
+  )
+    .distinctUntilChanged()
+    .shareReplay(1)
+})
+
+// derive :: (* -> a) -> [Observable *] -> Observable a
+let derive = curry((deriveFn, os) => {
+  return Observable.combineLatest(...os, deriveFn).distinctUntilChanged().shareReplay(1)
 })
 
 // view :: (Observable a ->) String -> Observable b
@@ -64,18 +85,25 @@ let setState = function (path, fn) {
   return this.map((v) => (s) => R.set(lens, fn(v), s))
 }
 
-// toState :: (Observable a ->) String -> Observable a
-let toState = function (path) {
-  return this::setState(path, R.identity)
+// swapState :: (Observable a ->) String, (a -> b) -> Observable a
+let swapState = function (path, fn) {
+  let lens = R.lensPath(split(".", path))
+  return this.map((_) => (s) => R.over(lens, fn, s))
 }
 
-// validateToState :: (Observable a ->) String, Type -> Observable (String | null)
-let validateToState = function (path, type) {
+// toState :: (Observable a ->) String -> Observable a
+let toState = function (path) {
+  return this::setState(path, identity)
+}
+
+// validate :: (Observable a ->) Type -> Observable (String | null)
+let validate = function (type) {
   return this
     .debounce(500)
-    .map((v) => V.validate(v, type).firstError())
+    .map((val) => V.validate(val, type).firstError())
     .map((e) => e && e.message || null)
-    ::toState(path)
+    .distinctUntilChanged()
+    .shareReplay(1)
 }
 
 // samplePluck :: (Observable a ->) String -> Observable b
@@ -88,9 +116,14 @@ let sampleView = function (path) {
   return this.sample(this::view(path))
 }
 
-// derive :: [Observable *] -> (* -> Observable a) -> Observable a
-let derive = function (os, deriveFn) {
-  return Observable.combineLatest(...os, deriveFn).distinctUntilChanged().shareReplay(1)
+// filterBy :: (Observable a ->) Observable Boolean -> Observable a
+let filterBy = function (o) {
+  return this.withLatestFrom(o).filter(snd).map(fst)
+}
+
+// rejectBy :: (Observable a ->) Observable Boolean -> Observable a
+let rejectBy = function (o) {
+  return this::filterBy(o.map(not))
 }
 
 exports.scanFn = scanFn
@@ -99,16 +132,20 @@ exports.pluck = pluck
 exports.pluckN = pluckN
 
 exports.store = store
+exports.storeUnion = storeUnion
+exports.derive = derive
 
 exports.view = view
 exports.viewN = viewN
 exports.overState = overState
 exports.setState = setState
+exports.swapState = swapState
 exports.toState = toState
 
-exports.validateToState = validateToState
+exports.validate = validate
 
 exports.samplePluck = samplePluck
 exports.sampleView = sampleView
 
-exports.derive = derive
+exports.filterBy = filterBy
+exports.rejectBy = rejectBy

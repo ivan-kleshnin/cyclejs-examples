@@ -1,7 +1,7 @@
 let T = require("tcomb")
 
 let Id = T.subtype(T.String, (x) => {
-  return /^\d+$/.test(x)
+  return /^[-\w]+$/.test(x)
 }, "Id")
 
 let Username = T.subtype(T.String, (x) => {
