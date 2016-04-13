@@ -60,6 +60,67 @@ let shuffle = curry((array) => {
   return array
 })
 
+let isPlainObject = curry((value) => {
+  return value && value.constructor.prototype === Object.prototype
+})
+
+let flattenObject = curry((target) => {
+  let result = {}
+
+  function step(object, prev) {
+    Object.keys(object).forEach((key) => {
+      let value = object[key]
+      let newKey = prev ? prev + `.` + key : key
+
+      if (isPlainObject(value) && Object.keys(value).length) {
+        return step(value, newKey)
+      }
+
+      result[newKey] = value
+    })
+  }
+
+  step(target)
+
+  return result
+})
+
+let unflattenObject = curry((target) => {
+  let result = {}
+
+  if (!isPlainObject(target)) {
+    return target
+  }
+
+  function getkey(key) {
+    let parsedKey = Number(key)
+    return isNaN(parsedKey) || key.indexOf(`.`) !== -1 ? key : parsedKey
+  }
+
+  Object.keys(target).forEach((key) => {
+    let split = key.split(`.`)
+    let key1 = getkey(split.shift())
+    let key2 = getkey(split[0])
+    let recipient = result
+
+    while (typeof key2 !== `undefined`) {
+      if (!isPlainObject(recipient[key1])) {
+        recipient[key1] = {}
+      }
+
+      recipient = recipient[key1]
+      if (split.length > 0) {
+        key1 = getkey(split.shift())
+        key2 = getkey(split[0])
+      }
+    }
+
+    recipient[key1] = unflattenObject(target[key])
+  })
+
+  return result
+})
+
 exports.fst = fst
 exports.snd = snd
 
@@ -73,5 +134,8 @@ exports.swap = swap
 
 exports.randomInt = randomInt
 exports.pickRandom = pickRandom
-
 exports.shuffle = shuffle
+
+exports.isPlainObject = isPlainObject
+exports.flattenObject = flattenObject
+exports.unflattenObject = unflattenObject
