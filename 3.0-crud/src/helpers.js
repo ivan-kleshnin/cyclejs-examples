@@ -121,16 +121,15 @@ let unflattenObject = curry((target) => {
   return result
 })
 
+exports.always = always
+
 exports.fst = fst
 exports.snd = snd
-
-exports.always = always
-exports.lens = lens
-
 exports.adjustBy = adjustBy
 exports.updateBy = updateBy
-
 exports.swap = swap
+
+exports.lens = lens
 
 exports.randomInt = randomInt
 exports.pickRandom = pickRandom
