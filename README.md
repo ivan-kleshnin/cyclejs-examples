@@ -94,13 +94,19 @@ let DOM = Observable.combineLatest(state, derivedState, (state, derivedState) =>
 
 Now every time a change in `state` will cause a change in `derivedState` you'll have two DOM rendering instead of one.
 
-There are basically two ways to address this:
+There are basically three ways to address this:
 
 1) Use `.withLatestFrom()` and / or `.zip()` to express your dataflow as a set of control and data streams.
-May be surprisingly hard to nail as long as you have a complex stream topology (and especially when it's prone to change).
+May be surprisingly hard to implement and support.
 
-2) Tolerate glitches. I recommend to start with this until you're confident enough about your dataflows.
-As long as your side effects are relatively safe (DOM diff vs DB write) – it's only a *performance* issue...
+2) Debounce glitches. Derived states are mostly just sync calculations so `debounce(1)` will work like a charm.
+
+```js
+DOM: Observable.combineLatest(...whatever).debounce(1).map(([...]) => ... render DOM)
+```
+
+3) Tolerate glitches. May be a good choice while you're not confident about dataflow.
+As long as side effects are relative painless (DOM diffs are) – it's only a performance issue, man.
 
 ### No trailing `$`
 
