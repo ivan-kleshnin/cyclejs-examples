@@ -1,32 +1,48 @@
-let {assoc, identity} = require("ramda")
+let {assoc, identity, filter, values} = require("ramda")
 let {Observable} = require("rx")
 let {br, button, div, input, label, h1, p} = require("@cycle/dom")
-let {always} = require("../helpers")
+let {always, flattenObject} = require("../helpers")
 let {formatString, formatInteger} = require("../formatters")
-let {derive, pluck, overState, setState, toState, validateToState, view} = require("../rx.utils")
+let {derive, pluck, overState, storeUnion, toState, validate, view} = require("../rx.utils")
 let {User} = require("../types")
 let seeds = require("../seeds")
 let {parseString, parseInteger} = require("../parsers")
-let {draftUser, makeId} = require("../makers")
+let {makeUser} = require("../makers")
 let menu = require("../chunks/menu")
+
+let filterX = filter(identity)
+
+let Username = User.meta.props.username
+let Email = User.meta.props.email
+let Points = User.meta.props.points
+let Bonus = User.meta.props.bonus
 
 module.exports = function ({navi, state, DOM}) {
   let textFrom = (s) => DOM.select(s).events("input")::pluck("target.value").map(parseString).share()
   let numberFrom = (s) => DOM.select(s).events("input")::pluck("target.value").map(parseInteger).share()
   let clickFrom = (s) => DOM.select(s).events("click").map((e) => true).share()
   
-  let formModel = derive(
-    [state::view("userCreateForm.data").debounce(100)],
-    (data) => {
+  let errors = {
+    username: state::view("userCreateForm.username").skip(1)::validate(Username).startWith(null),
+    email: state::view("userCreateForm.email").skip(1)::validate(Email).startWith(null),
+    points: state::view("userCreateForm.points").skip(1)::validate(Points).startWith(null),
+    bonus: state::view("userCreateForm.bonus").skip(1)::validate(Bonus).startWith(null),
+  }
+
+  let allErrors = storeUnion(errors)
+  let hasErrors = derive((es) => Boolean(filterX(values(flattenObject(es))).length), [allErrors])
+
+  let model = state::view("userCreateForm")
+    .map((form) => {
       try {
-        return draftUser(data)
+        return makeUser(form)
       } catch (err) {
         if (err instanceof TypeError) { return null }
         else                          { throw err }
       }
-    }
-  )
-  
+    })
+    .distinctUntilChanged().shareReplay(1)
+
   let intents = {
     changeUsername: textFrom("#username"),
     changeEmail: textFrom("#email"),
@@ -37,54 +53,38 @@ module.exports = function ({navi, state, DOM}) {
   }
   
   let actions = {
-    createUser: formModel
+    createUser: model.filter(identity)
       .sample(intents.createUser)
-      .filter(identity)
-      .map((u) => assoc("id", makeId(), u))
       .share(),
   }
 
-  let Username = User.meta.props.username
-  let Email = User.meta.props.email
-  let Points = User.meta.props.points
-  let Bonus = User.meta.props.bonus
-
   let update = Observable.merge(
-    // TODO intents.createUser <- validate form
-
     // Reset form on page enter
-    navi::view("route")::setState("userCreateForm", always(seeds.userCreateForm)),
-
-    // Reset form after valid submit
-    actions.createUser.delay(1)::setState("userCreateForm", always(seeds.userCreateForm)),
+    Observable.of(seeds.userCreateForm)
+      .sample(navi::view("route").delay(1))
+      ::toState("userCreateForm"),
 
     // Track fields
-    intents.changeUsername::toState("userCreateForm.data.username"),
-    intents.changeUsername::validateToState("userCreateForm.errors.username", Username),
-
-    intents.changeEmail::toState("userCreateForm.data.email"),
-    intents.changeEmail::validateToState("userCreateForm.errors.email", Email),
-
-    intents.changePoints::toState("userCreateForm.data.points"),
-    intents.changePoints::validateToState("userCreateForm.errors.points", Points),
-
-    intents.changeBonus::toState("userCreateForm.data.bonus"),
-    intents.changeBonus::validateToState("userCreateForm.errors.bonus", Bonus),
+    intents.changeUsername::toState("userCreateForm.username"),
+    intents.changeEmail::toState("userCreateForm.email"),
+    intents.changePoints::toState("userCreateForm.points"),
+    intents.changeBonus::toState("userCreateForm.bonus"),
 
     // Create user
     actions.createUser::overState("users", (u) => assoc(u.id, u))
   )
-
+  
   let redirect = Observable.merge(
     // Redirect to edit page after valid submit
     actions.createUser.delay(1).map((user) => window.unroute(`/users/:id`, {id: user.id}))
   )
-  
+
   return {
-    DOM: Observable.combineLatest(
-      navi, state::view("userCreateForm"), formModel,
-      (navi, form, formModel) => {
+    DOM: Observable.combineLatest(navi, state::view("userCreateForm"), allErrors, model)
+      .debounce(1)
+      .map(([navi, form, errors, model]) => {
         console.log("render user.create")
+
         return div([
           h1("Create User"),
           menu({navi}),
@@ -92,28 +92,28 @@ module.exports = function ({navi, state, DOM}) {
           div(".form-element", [
             label({htmlFor: "username"}, "Username:"),
             br(),
-            input("#username", {type: "text", value: formatString(form.data.username), autocomplete: "off"}),
-            p(form.errors.username),
+            input("#username", {type: "text", value: formatString(form.username), autocomplete: "off"}),
+            p(errors.username),
           ]),
           div(".form-element", [
             label({htmlFor: "email"}, "Email:"),
             br(),
-            input("#email", {type: "text", value: formatString(form.data.email), autocomplete: "off"}),
-            p(form.errors.email),
+            input("#email", {type: "text", value: formatString(form.email), autocomplete: "off"}),
+            p(errors.email),
           ]),
           div(".form-element", [
             label({htmlFor: "points"}, "Points:"),
             br(),
-            input("#points", {type: "text", value: formatInteger(form.data.points), autocomplete: "off"}),
-            p(form.errors.points),
+            input("#points", {type: "text", value: formatInteger(form.points), autocomplete: "off"}),
+            p(errors.points),
           ]),
           div(".form-element", [
             label({htmlFor: "bonus"}, "Bonus:"),
             br(),
-            input("#bonus", {type: "text", value: formatInteger(form.data.bonus), autocomplete: "off"}),
-            p(form.errors.bonus),
+            input("#bonus", {type: "text", value: formatInteger(form.bonus), autocomplete: "off"}),
+            p(errors.bonus),
           ]),
-          button("#submit.form-element", {type: "submit", disabled: !formModel}, "Create"),
+          button("#submit.form-element", {type: "submit", disabled: !model}, "Create"),
         ])
       }
     ),
