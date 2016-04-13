@@ -1,19 +1,11 @@
-let {curry, merge} = require("ramda")
+let {merge} = require("ramda")
+let UUID = require("node-uuid")
 let {User} = require("./types")
 
-let c = 0
-
-let makeId = function () {
-  c = c + 1
-  return String(c)
+let makeUser = (data) => {
+  return User(merge({
+    id: UUID.v4(),
+  }, data))
 }
 
-let makeUser = curry((makeId, data) => {
-  return User(merge({
-    id: makeId(),
-  }, data))
-})
-
-exports.makeId = makeId
-exports.makeUser = makeUser(makeId)
-exports.draftUser = makeUser(() => "1")
+exports.makeUser = makeUser
