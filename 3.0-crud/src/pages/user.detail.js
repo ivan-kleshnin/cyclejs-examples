@@ -7,8 +7,8 @@ let userCard = require("../chunks/user.card")
 
 module.exports = function ({navi, state}) {
   let user = derive(
-    [navi::view("params"), state::view("users")],
-    (params, users) => users[params.id]
+    (params, users) => users[params.id],
+    [navi::view("params"), state::view("users")]
   )
 
   return {
