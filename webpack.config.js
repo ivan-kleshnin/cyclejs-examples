@@ -3,33 +3,26 @@
 let Path = require("path")
 let Webpack = require("webpack")
 
+let app = process.argv[3].split("/")[0]
+
 module.exports = {
   // webpack.github.io/docs/configuration.html#target
   target: "web",
 
   // webpack.github.io/docs/configuration.html#entry
   entry: {
-    "1.0-form": "./1.0-form/src/app",
-    // "1.1-form": "./1.1-form/src/app",
-    // "1.2-form": "./1.2-form/src/app",
-    // "1.3-form": "./1.3-form/src/app",
-    // "1.4-form": "./1.4-form/src/app",
-    // "1.5-form": "./1.5-form/src/app",
-    // "2.0-routing": "./2.0-routing/src/app",
-    // "2.1-routing": "./2.1-routing/src/app",
-    // "2.2-routing": "./2.2-routing/src/app",
-    // "3.0-crud": "./3.0-crud/src/app",
+    [app]: `./${app}/src/app`,
   },
 
   output: {
     // webpack.github.io/docs/configuration.html#output-path
-    path: __dirname,
+    path: Path.resolve(__dirname, process.argv[3]),
 
     // webpack.github.io/docs/configuration.html#output-filename
-    filename: "public/bundle.js",
+    filename: "bundle.js",
 
     // webpack.github.io/docs/configuration.html#output-publicpath
-    publicPath: "http://localhost:2992/",
+    publicPath: "/",
 
     // webpack.github.io/docs/configuration.html#output-pathinfo
     pathinfo: true,

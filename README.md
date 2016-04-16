@@ -10,17 +10,12 @@ The best way of learning is comparison. And to compare you just diff files.
 
 1. Download and unzip repo
 2. Go to unzipped folder
-3. Install static server with `$ npm install http-server -g`
-4. Install packages with `$ npm install`
+3. Install packages with `$ npm install`
 
 ## Run
 
-This repo uses single webpack config and single `node_modules` folder to simplify project management.
-
-1. Uncomment an example line in `entry` section of `webpack.config.js`.
-2. Run webpack with `$ npm run dev`
-3. Run static server with `$ http-server {x.x-example-folder}`
-4. See `localhost:8080`
+1. Run dev server with `$ npm run {example-number}`
+2. See `localhost:8080`
 
 We recommend to open `index.html` with `http://` (i.e. serve it as described above) because
 many things in browser simply don't work for `file://` (history, CORS, etc.).
