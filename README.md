@@ -14,7 +14,7 @@ The best way of learning is comparison. And to compare you just diff files.<br/>
 
 ## Run
 
-1. Run dev server with `$ npm run {example-number}`
+1. Run dev server with `$ npm run {example-number}` (only number, no suffix)
 2. See `localhost:8080`
 
 We recommend to open `index.html` with `http://` (i.e. serve it as described above) because
