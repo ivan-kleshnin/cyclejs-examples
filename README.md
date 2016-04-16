@@ -1,10 +1,10 @@
 # CycleJS examples
 
-Subjective followup to an [official repo](https://github.com/cyclejs/examples).
+Subjective followup to the [official repo](https://github.com/cyclejs/examples).
 
-Examples are grouped into lessons and placed in narrative order.
-They are meant to be reviewed one by one, sequentially.
-The best way of learning is comparison. And to compare you just diff files.
+Examples are grouped into lessons and placed in narrative order.<br/>
+They are meant to be reviewed one by one, sequentially.<br/>
+The best way of learning is comparison. And to compare you just diff files.<br/>
 
 ## Install
 
