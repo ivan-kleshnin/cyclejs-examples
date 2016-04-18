@@ -14,12 +14,12 @@ module.exports = function ({navi, user}) {
         ...(
           navi.isActiveRoute("/users/:id") ?
             [] :
-            [span([a({href: window.unroute("/users/:id", {id: user.id})}, "Detail")]), span(" ")]
+            [span(a({href: window.unroute("/users/:id", {id: user.id})}, "Detail")), span(" ")]
         ),
         ...(
           navi.isActiveRoute("/users/:id/edit") ?
             [] :
-            [span([a({href: window.unroute("/users/:id/edit", {id: user.id})}, "Edit")]), span(" ")]
+            [span(a({href: window.unroute("/users/:id/edit", {id: user.id})}, "Edit")), span(" ")]
         ),
       ])
     ])

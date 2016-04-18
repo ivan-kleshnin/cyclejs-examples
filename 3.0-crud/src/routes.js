@@ -1,5 +1,5 @@
 let {curry, find} = require("ramda")
-let Url = require("./url")
+let Url = require("url")
 let Route = require("route-parser")
 let {trailWith} = require("./helpers")
 
@@ -24,7 +24,7 @@ let doroute = curry((routes, url) => {
   }
 })
 
-// unroute :: [[Route, Component]] -> String -> Params -> String TODO better name? (can be read as *route* (verb) to URL)
+// unroute :: [[Route, Component]] -> String -> Params -> String
 let unroute = curry((routes, route, params) => {
   let match = find(([r, _]) => r.spec == route, routes)
   if (match) {

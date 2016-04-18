@@ -13,7 +13,7 @@ module.exports = function ({navi, user}) {
         ...(
           navi.isActiveRoute("/users/:id") ?
             [] :
-            [span([a({href: window.unroute("/users/:id", {id: user.id})}, "Detail")]), span(" ")]
+            [span(a({href: window.unroute("/users/:id", {id: user.id})}, "Detail")), span(" ")]
         ),
       ])
     ])
