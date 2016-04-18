@@ -34,10 +34,11 @@ let main = function (src) {
   }
 
   // NAVI
-  let updateNavi = intents.redirect.distinctUntilChanged()
+  let updateNavi = intents.redirect
 
   let navi = updateNavi
     .startWith(window.location.pathname)
+    .distinctUntilChanged()
     .map((url) => {
       let [route, params, component] = window.doroute(url)
 
