@@ -121,12 +121,12 @@ let unflattenObject = curry((target) => {
   return result
 })
 
-let initWith = curry((s, st) => {
+let withPrefix = curry((s, st) => {
   if (st.startsWith(s)) { return st }
   else                  { return s + st }
 })
 
-let trailWith = curry((s, st) => {
+let withSuffix = curry((s, st) => {
   if (st.endsWith(s)) { return st }
   else                { return st + s }
 })
@@ -149,5 +149,5 @@ exports.isPlainObject = isPlainObject
 exports.flattenObject = flattenObject
 exports.unflattenObject = unflattenObject
 
-exports.initWith = initWith
-exports.trailWith = trailWith
+exports.withPrefix = withPrefix
+exports.withSuffix = withSuffix

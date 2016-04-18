@@ -1,7 +1,7 @@
 let {curry, find} = require("ramda")
 let Url = require("url")
 let Route = require("route-parser")
-let {trailWith} = require("./helpers")
+let {withSuffix} = require("./helpers")
 
 // TODO define document title here?!
 let routes = [
@@ -35,9 +35,9 @@ let unroute = curry((routes, route, params) => {
 
 // isActiveUrl :: String -> String -> Boolean
 let isActiveUrl = curry((baseUrl, currentUrl, url) => {
-  baseUrl = trailWith("/", Url.parse(baseUrl).pathname)
-  currentUrl = trailWith("/", Url.parse(currentUrl).pathname)
-  url = trailWith("/", Url.parse(url).pathname)
+  baseUrl = withSuffix("/", Url.parse(baseUrl).pathname)
+  currentUrl = withSuffix("/", Url.parse(currentUrl).pathname)
+  url = withSuffix("/", Url.parse(url).pathname)
   if (url == baseUrl) {
     return url == currentUrl // link to "home" is active only on "home"
   } else {

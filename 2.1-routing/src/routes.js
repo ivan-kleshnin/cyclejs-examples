@@ -1,6 +1,6 @@
 let {curry, find, takeLast} = require("ramda")
 let Url = require("url")
-let {trailWith} = require("./helpers")
+let {withSuffix} = require("./helpers")
 
 let routes = [
   ["/", require("./pages/home")],
@@ -19,9 +19,9 @@ let doroute = curry((routes, url) => {
 
 // isActiveUrl :: String -> String -> Boolean
 let isActiveUrl = curry((baseUrl, currentUrl, url) => {
-  baseUrl = trailWith("/", Url.parse(baseUrl).pathname)
-  currentUrl = trailWith("/", Url.parse(currentUrl).pathname)
-  url = trailWith("/", Url.parse(url).pathname)
+  baseUrl = withSuffix("/", Url.parse(baseUrl).pathname)
+  currentUrl = withSuffix("/", Url.parse(currentUrl).pathname)
+  url = withSuffix("/", Url.parse(url).pathname)
   if (url == baseUrl) {
     return url == currentUrl // link to "home" is active only on "home"
   } else {
