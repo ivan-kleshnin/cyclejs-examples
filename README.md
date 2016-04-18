@@ -59,6 +59,10 @@ Refactoring. Highlight "current" menu item.
 Use [route-parser](https://github.com/rcs/route-parser) library.<br/>
 Models and URL params.
 
+### 2.3-routing
+
+Implement link-based nested menus.
+
 ### 3.0-crud
 
 Basic CRUD + Index example. Types, forms, validation, navigation, and state management at once.
@@ -173,6 +177,74 @@ Observable.combineLatest(
     ...
   }
 )
+```
+
+### Console driver
+
+Is not a joke. It's really required in rare cases. If you try
+
+```js
+function page1(src) {
+  ...
+  intents.foo.subscribe((...) => {
+    console.log(...)
+  })
+  ...
+}
+
+function page2(src) {
+  ...
+  intents.foo.subscribe((...) => {
+    console.log(...)
+  })
+  ...
+}
+```
+
+you may get an impression that "architecture is broken": page events are repeating, interleaving, etc.
+
+Which is wrong. Multipage architecture works because of `flatMapLatest` which
+disposes subscriptions no longer required. Subscription style shown above is unmanageable and leads
+to memory leaks.
+
+You should use `tap` instead of `subscribe`:
+
+```js
+function page1(src) {
+  ...
+  intents.foo.tap((...) => {
+    console.log(...)
+  })
+  ...
+}
+
+function page2(src) {
+  ...
+  intents.foo.tap((...) => {
+    console.log(...)
+  })
+  ...
+}
+```
+
+or you can utilize console driver:
+
+```js
+function page1(src) {
+  ...
+  return {
+    console: intents.foo.map(...) // convert intent value to string
+    DOM: ...
+  }
+}
+
+function page2(src) {
+  ...
+  return {
+    console: intents.foo.map(...) // convert intent value to string
+    DOM: ...
+  }
+}
 ```
 
 ### Styleguides

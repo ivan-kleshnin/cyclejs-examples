@@ -13,6 +13,7 @@
     "2.0": "webpack-dev-server --content-base 2.0-routing/public/ --inline --progress",
     "2.1": "webpack-dev-server --content-base 2.1-routing/public/ --inline --progress",
     "2.2": "webpack-dev-server --content-base 2.2-routing/public/ --inline --progress",
+    "2.3": "webpack-dev-server --content-base 2.3-routing/public/ --inline --progress",
 
     "3.0": "webpack-dev-server --content-base 3.0-crud/public/ --inline --progress"
   },
