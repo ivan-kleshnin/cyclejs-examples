@@ -1,4 +1,5 @@
 let {identity, merge, prop} = require("ramda")
+let Url = require("url")
 let Class = require("classnames")
 let {Observable} = require("rx")
 let Cycle = require("@cycle/core")
@@ -22,13 +23,10 @@ let main = function (src) {
   let intents = {
     redirect: src.DOM.select("a:not([rel=external])")
       .events("click")
-      .filter((event) => {
-        return !(/:\/\//.test(event.target.attributes.href.value)) // drop links with protocols (as external)
-      })
-      .do((event) => {
-        event.preventDefault()
-      })
-      .map((event) => event.target.attributes.href.value)
+      .filter((event) => !(/:\/\//.test(event.target.getAttribute("href")))) // drop links with protocols (as external)
+      .do((event) => event.preventDefault())
+      .map((event) => event.target.href) // pick normalized property
+      .map((url) => Url.parse(url).path) // keep pathname + querystring only
       .share(),
   }
 
