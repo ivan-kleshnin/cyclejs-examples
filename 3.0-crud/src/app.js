@@ -3,7 +3,7 @@ let Class = require("classnames")
 let {Observable} = require("rx")
 let Cycle = require("@cycle/core")
 let {a, makeDOMDriver} = require("@cycle/dom")
-let {makeURLDriver} = require("./drivers")
+let {makeURLDriver, makeConsoleDriver} = require("./drivers")
 let {pluck, store, view} = require("./rx.utils.js")
 let {isActiveUrl, isActiveRoute} = require("./routes")
 let seeds = require("./seeds")
@@ -14,6 +14,7 @@ let main = function (src) {
   let page = src.navi
     .sample(src.navi::view("route"))  // remount only when page *type* changes...
     .map(({component}) => merge({
+        console: Observable.empty(),  // affects console
         redirect: Observable.empty(), // affects navi
         update: Observable.empty(),   // affects state
         DOM: Observable.empty(),      // affects DOM
@@ -82,6 +83,8 @@ let main = function (src) {
     DOM: page.flatMapLatest(prop("DOM")),
 
     URL: navi::view("url"),
+
+    console: page.flatMapLatest(prop("console")),
   }
 }
 
@@ -93,4 +96,6 @@ Cycle.run(main, {
   DOM: makeDOMDriver("#app"),
 
   URL: makeURLDriver(),
+  
+  console: makeConsoleDriver(), 
 })

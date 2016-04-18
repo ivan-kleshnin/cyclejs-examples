@@ -3,7 +3,7 @@ let Class = require("classnames")
 let {Observable} = require("rx")
 let Cycle = require("@cycle/core")
 let {a, makeDOMDriver} = require("@cycle/dom")
-let {makeURLDriver} = require("./drivers")
+let {makeURLDriver, makeConsoleDriver} = require("./drivers")
 let {pluck, store, view} = require("./rx.utils.js")
 require("./routes")
 
@@ -54,6 +54,8 @@ let main = function (src) {
     DOM: page.flatMapLatest(prop("DOM")),
 
     URL: navi::view("url"),
+
+    console: page.flatMapLatest(prop("console")),
   }
 }
 
@@ -63,4 +65,6 @@ Cycle.run(main, {
   DOM: makeDOMDriver("#app"),
 
   URL: makeURLDriver(),
+  
+  console: makeConsoleDriver(), 
 })

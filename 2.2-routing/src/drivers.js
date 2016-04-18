@@ -6,4 +6,13 @@ let makeURLDriver = function () {
   }
 }
 
+let makeConsoleDriver = function () {
+  return function (message) {
+    message.subscribe((msg) => {
+      console.log(msg)
+    })
+  }
+}
+
 exports.makeURLDriver = makeURLDriver
+exports.makeConsoleDriver = makeConsoleDriver
