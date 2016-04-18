@@ -7,6 +7,8 @@ let {withSuffix} = require("./helpers")
 let routes = [
   [new Route("/"), require("./pages/home")],
   [new Route("/about"), require("./pages/about")],
+  [new Route("/complex"), require("./pages/complex")],
+  [new Route("/complex2"), require("./pages/complex2")],
   [new Route("/users"), require("./pages/user.index")],
   [new Route("/users/:id"), require("./pages/user.detail")],
   [new Route("/*path"), require("./pages/not-found")],
