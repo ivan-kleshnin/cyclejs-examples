@@ -6,7 +6,7 @@ let menu = require("../chunks/menu")
 module.exports = function ({DOM, navi}) {
   // INTENTS
   let intents = {
-    redirect: DOM.select("a:not([rel=external])")
+    changeState: DOM.select("a:not([rel=external])")
       .events("click")
       .filter((event) => !(/:\/\//.test(event.target.getAttribute("href")))) // drop links with protocols (as external)
       .do((event) => event.preventDefault())
@@ -29,6 +29,6 @@ module.exports = function ({DOM, navi}) {
       ])
     }),
 
-    console: intents.redirect.map((url) => "Complex2 sees " + url),
+    console: intents.changeState.map((url) => "Complex2 sees " + url),
   }
 }
