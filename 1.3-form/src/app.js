@@ -43,6 +43,7 @@ let main = function (src) {
   // STATE
   let state = store(seeds, update)
 
+  // SINKS
   return {
     DOM: state.map((state) => {
       let {form} = state

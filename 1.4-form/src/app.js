@@ -62,6 +62,7 @@ let main = function (src) {
   // STATE
   let state = store(seeds, update)
 
+  // SINKS
   return {
     DOM: Observable.combineLatest(
       state, formModel,

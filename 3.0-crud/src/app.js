@@ -73,6 +73,7 @@ let main = function (src) {
 
   let state = store(seeds, update)
 
+  // SINKS
   return {
     navi: navi,
 

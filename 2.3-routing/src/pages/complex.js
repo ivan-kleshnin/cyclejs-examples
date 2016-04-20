@@ -15,6 +15,7 @@ module.exports = function ({DOM, navi}) {
       .share(),
   }
 
+  // SINKS
   return {
     DOM: navi.map((navi) => {
       console.log("render complex")

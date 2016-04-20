@@ -63,6 +63,7 @@ let main = function (src) {
   // STATE
   let state = store(seeds, Observable.empty())
 
+  // SINKS
   return {
     navi: navi,
 

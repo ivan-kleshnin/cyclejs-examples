@@ -47,6 +47,7 @@ let main = function (src) {
     .distinctUntilChanged().shareReplay(1)
     .delay(1) // shift to the next tick (navi <- routing: immediate)
 
+  // SINKS
   return {
     navi: navi,
 
