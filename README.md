@@ -88,7 +88,7 @@ DOM depends from both `state` and `derivedState`.
 
 ```js
 let derivedState = state.map(...)
-let DOM = Observable.combineLatest(state, derivedState, (state, derivedState) => {...})
+let DOM = Observable.combineLatest(state, derivedState, (state, derivedState) => /* render DOM */)
 ```
 
 Now every time a change in `state` will cause a change in `derivedState` you'll have two DOM rendering instead of one.
