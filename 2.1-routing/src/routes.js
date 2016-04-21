@@ -1,11 +1,12 @@
 let {curry, find, takeLast} = require("ramda")
 let Url = require("url")
-let {withSuffix} = require("./helpers")
+
+let {withSuffix} = require("../../helpers")
 
 let routes = [
-  ["/", require("./pages/home")],
-  ["/about", require("./pages/about")],
-  ["*", require("./pages/not-found")],
+  ["/", require("./pages/home/app")],
+  ["/about", require("./pages/about/app")],
+  ["*", require("./pages/not-found/app")],
 ]
 
 // doroute :: [[String, Component]] -> String -> [String, Component]

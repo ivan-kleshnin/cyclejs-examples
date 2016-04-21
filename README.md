@@ -32,7 +32,7 @@ State. Dataflow.
 
 ### 1.2-form
 
-Actions. State loop.
+Actions. Update loop.
 
 ### 1.3-form
 
@@ -178,6 +178,8 @@ Observable.combineLatest(
   }
 )
 ```
+
+and we use `$` as a shortcut for statics in `Observable` (`let {Observable: $} = require("rx")`).
 
 ### Console driver
 

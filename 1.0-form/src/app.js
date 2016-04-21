@@ -1,4 +1,3 @@
-let {Observable} = require("rx")
 let Cycle = require("@cycle/core")
 let {br, button, div, h1, h2, hr, input, label, makeDOMDriver, p, pre} = require("@cycle/dom")
 
@@ -15,7 +14,7 @@ let main = function (src) {
     .startWith("")
 
   return {
-    DOM: Observable.combineLatest(
+    DOM: $.combineLatest(
       username, email,
       (username, email) => {
         return div([

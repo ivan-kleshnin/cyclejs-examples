@@ -1,9 +1,10 @@
 let {assoc, identity} = require("ramda")
-let {Observable} = require("rx")
+let {Observable: $} = require("rx")
 let Cycle = require("@cycle/core")
 let {br, button, div, h1, h2, hr, input, label, makeDOMDriver, p, pre} = require("@cycle/dom")
-let {always} = require("./helpers")
-let {overState, pluck, setState, store, toState, view} = require("./rx.utils")
+
+let {pluck, setState, store, toOverState, toState, view} = require("../../rx.utils")
+
 let {User} = require("./models")
 let seeds = require("./seeds")
 
@@ -16,32 +17,36 @@ let main = function (src) {
   let intents = {
     changeUsername: textFrom("#username"),
     changeEmail: textFrom("#email"),
+
     createUser: clickFrom("#submit").debounce(100),
   }
 
-  // ACTIONS
-  let actions = {
-    createUser: src.state::view("form")
+  // STATE
+  let state = store(seeds, $.merge(
+    // Track fields
+    intents.changeUsername::toState("form.username"),
+    intents.changeEmail::toState("form.email"),
+
+    // Trunk updates
+    src.update
+  ))
+
+  // TRUNK ACTIONS
+  let trunkActions = {
+    createUser: state::view("form")
       .sample(intents.createUser)
       .map((input) => User(input))
       .share(),
   }
 
-  // UPDATE
-  let update = Observable.merge(
-    // Reset form after submit
-    actions.createUser.delay(1)::setState("form", always(seeds.form)),
-    
-    // Track fields
-    intents.changeUsername::toState("form.username"),
-    intents.changeEmail::toState("form.email"),
-    
+  // TRUNK UPDATE
+  let trunkUpdate = $.merge(
     // Create user
-    actions.createUser::overState("users", (u) => assoc(u.id, u))
-  )
+    trunkActions.createUser::toOverState("users", (u) => assoc(u.id, u)),
 
-  // STATE
-  let state = store(seeds, update)
+    // Reset form after valid submit
+    trunkActions.createUser.delay(1)::setState("form", seeds.form)
+  )
 
   // SINKS
   return {
@@ -66,12 +71,12 @@ let main = function (src) {
       ])
     }),
     
-    state,
+    update: trunkUpdate,
   }
 }
 
 Cycle.run(main, {
-  state: identity,
+  update: identity,
 
   DOM: makeDOMDriver("#app"),
 })

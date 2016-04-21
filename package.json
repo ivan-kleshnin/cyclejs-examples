@@ -1,6 +1,6 @@
 {
   "name": "cycle-examples",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "private": true,
   "scripts": {
     "1.0": "webpack-dev-server --content-base 1.0-form/public/ --inline --progress",

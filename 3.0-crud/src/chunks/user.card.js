@@ -1,5 +1,6 @@
 let {a, div, h2, p, span} = require("@cycle/dom")
-let {formatInteger, formatString} = require("../formatters")
+
+let {formatInteger, formatString} = require("../../../formatters")
 
 module.exports = function ({navi, user}) {
   return (

@@ -1,11 +1,13 @@
 let {identity, merge, prop} = require("ramda")
 let Url = require("url")
 let Class = require("classnames")
-let {Observable} = require("rx")
+let {Observable: $} = require("rx")
 let Cycle = require("@cycle/core")
 let {a, makeDOMDriver} = require("@cycle/dom")
-let {makeURLDriver, makeConsoleDriver} = require("./drivers")
-let {pluck, store, view} = require("./rx.utils.js")
+
+let {makeURLDriver, makeConsoleDriver} = require("../../drivers")
+let {pluck, store, view} = require("../../rx.utils.js")
+
 let {isActiveUrl, isActiveRoute} = require("./routes")
 let seeds = require("./seeds")
 
@@ -15,10 +17,10 @@ let main = function (src) {
   let page = src.navi
     .sample(src.navi::view("route"))  // remount only when page *type* changes...
     .map(({component}) => merge({
-        console: Observable.empty(),  // affects console
-        redirect: Observable.empty(), // affects navi
-        update: Observable.empty(),   // affects state
-        DOM: Observable.empty(),      // affects DOM
+        console: $.empty(),  // affects console
+        redirect: $.empty(), // affects navi
+        update: $.empty(),   // affects state
+        DOM: $.empty(),      // affects DOM
       }, component(src))
     ).shareReplay(1)
 
@@ -28,13 +30,13 @@ let main = function (src) {
       .events("click")
       .filter((event) => !(/:\/\//.test(event.target.getAttribute("href")))) // drop links with protocols (as external)
       .do((event) => event.preventDefault())
-      .map((event) => event.target.href) // pick normalized property
+      ::pluck("target.href")             // pick normalized property
       .map((url) => Url.parse(url).path) // keep pathname + querystring only
       .share(),
   }
 
   // NAVI
-  let updateNavi = Observable.merge(
+  let updateNavi = $.merge(
     intents.redirect,
     page.flatMapLatest(prop("redirect"))
   )
@@ -66,12 +68,10 @@ let main = function (src) {
     .delay(1) // shift to the next tick (navi <- routing: immediate)
 
   // STATE
-  let update = Observable.merge(
-    // ...put global updates here
+  let state = store(seeds, $.merge(
+    // ...
     page.flatMapLatest(prop("update"))
-  )
-
-  let state = store(seeds, update)
+  ))
 
   // SINKS
   return {

@@ -1,8 +1,15 @@
 let {assoc} = require("ramda")
-let {Observable} = require("rx")
+let {Observable: $} = require("rx")
 let Cycle = require("@cycle/core")
 let {br, button, div, h1, h2, hr, input, label, makeDOMDriver, p, pre} = require("@cycle/dom")
-let {scanFn} = require("./rx.utils")
+
+let {scanFn} = require("../../rx.utils")
+
+// SEEDS
+let seeds = {
+  username: "",
+  email: "",
+}
 
 // main :: {Observable *} -> {Observable *}
 let main = function (src) {
@@ -19,20 +26,13 @@ let main = function (src) {
       .share(),
   }
 
-  // SEEDS
-  let seeds = {
-    username: "",
-    email: "",
-  }
-
-  // UPDATE
-  let update = Observable.merge(
-    intents.changeUsername.map((v) => assoc("username", v)),
-    intents.changeEmail.map((v) => assoc("email", v))
-  )
-
   // STATE
-  let state = update
+  let state = $
+    .merge(
+      // Track fields
+      intents.changeUsername.map((v) => assoc("username", v)),
+      intents.changeEmail.map((v) => assoc("email", v))
+    )
     .startWith(seeds)
     .scan(scanFn)
     .distinctUntilChanged()

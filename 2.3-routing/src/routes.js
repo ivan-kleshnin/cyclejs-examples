@@ -1,17 +1,18 @@
 let {curry, find} = require("ramda")
 let Url = require("url")
 let Route = require("route-parser")
-let {withSuffix} = require("./helpers")
+
+let {withSuffix} = require("../../helpers")
 
 // TODO define document title here?!
 let routes = [
-  [new Route("/"), require("./pages/home")],
-  [new Route("/about"), require("./pages/about")],
-  [new Route("/complex"), require("./pages/complex")],
-  [new Route("/complex2"), require("./pages/complex2")],
-  [new Route("/users"), require("./pages/user.index")],
-  [new Route("/users/:id"), require("./pages/user.detail")],
-  [new Route("/*path"), require("./pages/not-found")],
+  [new Route("/"), require("./pages/home/app")],
+  [new Route("/about"), require("./pages/about/app")],
+  [new Route("/complex"), require("./pages/complex/app")],
+  [new Route("/complex2"), require("./pages/complex2/app")],
+  [new Route("/users"), require("./pages/user.index/app")],
+  [new Route("/users/:id"), require("./pages/user.detail/app")],
+  [new Route("/*path"), require("./pages/not-found/app")],
 ]
 
 // doroute :: [[Route, Component]] -> String -> [String, Params, Component]
@@ -25,7 +26,7 @@ let doroute = curry((routes, url) => {
   }
 })
 
-// unroute :: [[Route, Component]] -> String -> Params -> String 
+// unroute :: [[Route, Component]] -> String -> Params -> String
 let unroute = curry((routes, route, params) => {
   let match = find(([r, _]) => r.spec == route, routes)
   if (match) {

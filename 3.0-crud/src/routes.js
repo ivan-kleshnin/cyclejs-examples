@@ -1,16 +1,17 @@
 let {curry, find} = require("ramda")
 let Url = require("url")
 let Route = require("route-parser")
-let {withSuffix} = require("./helpers")
+
+let {withSuffix} = require("../../helpers")
 
 // TODO define document title here?!
 let routes = [
-  [new Route("/"), require("./pages/home")],
-  [new Route("/users"), require("./pages/user.index")],
-  [new Route("/users/create"), require("./pages/user.create")],
-  [new Route("/users/:id"), require("./pages/user.detail")],
-  [new Route("/users/:id/edit"), require("./pages/user.edit")],
-  [new Route("/*path"), require("./pages/not-found")],
+  [new Route("/"), require("./pages/home/app")],
+  [new Route("/users"), require("./pages/user.index/app")],
+  [new Route("/users/create"), require("./pages/user.create/app")],
+  [new Route("/users/:id"), require("./pages/user.detail/app")],
+  [new Route("/users/:id/edit"), require("./pages/user.edit/app")],
+  [new Route("/*path"), require("./pages/not-found/app")],
 ]
 
 // doroute :: [[Route, Component]] -> String -> [String, Params, Component]

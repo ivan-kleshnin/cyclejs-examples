@@ -1,8 +1,10 @@
 let {assoc, assocPath, identity, prop} = require("ramda")
-let {Observable} = require("rx")
+let {Observable: $} = require("rx")
 let Cycle = require("@cycle/core")
 let {br, button, div, h1, h2, hr, input, label, makeDOMDriver, p, pre} = require("@cycle/dom")
-let {scanFn} = require("./rx.utils")
+
+let {scanFn} = require("../../rx.utils")
+
 let {User} = require("./models")
 let seeds = require("./seeds")
 
@@ -27,33 +29,41 @@ let main = function (src) {
       .share(),
   }
 
-  // ACTIONS
-  let actions = {
-    createUser: src.state.map(prop("form"))
+  // STATE
+  let state = $
+    .merge(
+      // Track fields
+      intents.changeUsername.map((v) => assocPath(["form", "username"], v)),
+      intents.changeEmail.map((v) => assocPath(["form", "email"], v)),
+  
+      // Trunk updates
+      src.update
+    )
+    .startWith(seeds)
+    .scan(scanFn)
+    .distinctUntilChanged()
+    .shareReplay(1)
+
+  // TRUNK ACTIONS
+  let trunkActions = {
+    createUser: state.map(prop("form"))
       .sample(intents.createUser)
       .map((input) => User(input))
       .share(),
   }
 
-  // UPDATE
-  let update = Observable.merge(
-    // Reset form after submit
-    actions.createUser.delay(1).map((_) => assoc("form", seeds.form)),
-    
+  // TRUNK UPDATE
+  let trunkUpdate = $.merge(
     // Track fields
     intents.changeUsername.map((v) => assocPath(["form", "username"], v)),
     intents.changeEmail.map((v) => assocPath(["form", "email"], v)),
     
     // Create user
-    actions.createUser.map((u) => (s) => assocPath(["users", u.id], u, s))
-  )
+    trunkActions.createUser.map((u) => (s) => assocPath(["users", u.id], u, s)),
 
-  // STATE
-  let state = update
-    .startWith(seeds)
-    .scan(scanFn)
-    .distinctUntilChanged()
-    .shareReplay(1)
+    // Reset form after valid submit
+    trunkActions.createUser.delay(1).map((_) => assoc("form", seeds.form))
+  )
 
   // SINKS
   return {
@@ -78,12 +88,12 @@ let main = function (src) {
       ])
     }),
     
-    state,
+    update: trunkUpdate,
   }
 }
 
 Cycle.run(main, {
-  state: identity,
+  update: identity,
 
   DOM: makeDOMDriver("#app"),
 })

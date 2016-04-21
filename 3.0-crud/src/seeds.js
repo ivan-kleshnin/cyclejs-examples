@@ -1,18 +1,6 @@
 let {makeUser} = require("./makers")
 
 let seeds = {
-  userCreateForm: {
-    username: null,
-    email: null,
-    points: null,
-    bonus: null,
-  },
-
-  userEditForm: {
-    points: null,
-    bonus: null,
-  },
-
   users: {
     "1": makeUser({id: "1", username: "gizmo", email: "gizmo@paqmind.com", points: 30, bonus: 10}),
     "2": makeUser({id: "2", username: "fancy", email: "fancy@paqmind.com", points: 20}),
