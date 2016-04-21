@@ -101,7 +101,7 @@ May be surprisingly hard to implement and support.
 2) Debounce glitches. Derived states are mostly just sync calculations so `debounce(1)` will work like a charm.
 
 ```js
-DOM: Observable.combineLatest(...whatever).debounce(1).map(([...]) => ... render DOM)
+DOM: Observable.combineLatest(...whatever).debounce(1).map(([...]) => ... /* render DOM */)
 ```
 
 3) Tolerate glitches. May be a good choice while you're not confident about dataflow.
