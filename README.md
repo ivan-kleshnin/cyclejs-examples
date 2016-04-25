@@ -83,7 +83,7 @@ Diamond cases in stream topologies will cause unnecessary events called "glitche
 RxJS does not apply topological sorting to suppress them (as Bacon or Flyd do).
 Performance and memory usage are gradually improved but not without consequences.
 
-Imagine you have a `state` and `derivedState` streams.
+Imagine you have `state` and `derivedState` streams.
 DOM depends from both `state` and `derivedState`.
 
 ```js
@@ -98,7 +98,7 @@ There are basically three ways to address this:
 1) Use `.withLatestFrom()` and / or `.zip()` to express your dataflow as a set of control and data streams.
 May be surprisingly hard to implement and support.
 
-2) Debounce glitches. Derived states are mostly just sync calculations so `debounce(1)` will work like a charm.
+2) Debounce glitches. Derived states are mostly sync calculations so `debounce(1)` will work like a charm.
 
 ```js
 DOM: Observable.combineLatest(...whatever).debounce(1).map(([...]) => /* render DOM */)

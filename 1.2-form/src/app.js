@@ -36,7 +36,7 @@ let main = function (src) {
       intents.changeUsername.map((v) => assocPath(["form", "username"], v)),
       intents.changeEmail.map((v) => assocPath(["form", "email"], v)),
   
-      // Trunk updates
+      // Updates
       src.update
     )
     .startWith(seeds)
@@ -44,26 +44,13 @@ let main = function (src) {
     .distinctUntilChanged()
     .shareReplay(1)
 
-  // TRUNK ACTIONS
-  let trunkActions = {
+  // ACTIONS
+  let actions = {
     createUser: state.map(prop("form"))
       .sample(intents.createUser)
       .map((input) => User(input))
       .share(),
   }
-
-  // TRUNK UPDATE
-  let trunkUpdate = $.merge(
-    // Track fields
-    intents.changeUsername.map((v) => assocPath(["form", "username"], v)),
-    intents.changeEmail.map((v) => assocPath(["form", "email"], v)),
-    
-    // Create user
-    trunkActions.createUser.map((u) => (s) => assocPath(["users", u.id], u, s)),
-
-    // Reset form after valid submit
-    trunkActions.createUser.delay(1).map((_) => assoc("form", seeds.form))
-  )
 
   // SINKS
   return {
@@ -88,7 +75,17 @@ let main = function (src) {
       ])
     }),
     
-    update: trunkUpdate,
+    update: $.merge(
+      // Track fields
+      intents.changeUsername.map((v) => assocPath(["form", "username"], v)),
+      intents.changeEmail.map((v) => assocPath(["form", "email"], v)),
+      
+      // Create user
+      actions.createUser.map((u) => (s) => assocPath(["users", u.id], u, s)),
+  
+      // Reset form after valid submit
+      actions.createUser.delay(1).map((_) => assoc("form", seeds.form))
+    ),
   }
 }
 

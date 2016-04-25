@@ -34,7 +34,7 @@ let main = function (src) {
     intents.changeUsername::toState("form.username"),
     intents.changeEmail::toState("form.email"),
 
-    // Trunk updates
+    // Updates
     src.update
   ))
 
@@ -55,21 +55,12 @@ let main = function (src) {
 
   let hasErrors = derive((es) => Boolean(filterX(values(flattenObject(es))).length), errors)
 
-  // TRUNK ACTIONS
-  let trunkActions = {
+  // ACTIONS
+  let actions = {
     createUser: model.filter(identity)
       .sample(intents.createUser)
       .share(),
   }
-
-  // TRUNK UPDATE
-  let trunkUpdate = $.merge(
-    // Create user
-    trunkActions.createUser::toOverState("users", (u) => assoc(u.id, u)),
-
-    // Reset form after valid submit
-    trunkActions.createUser.delay(1)::setState("form", seeds.form)
-  )
 
   // SINKS
   return {
@@ -99,7 +90,13 @@ let main = function (src) {
       }
     ),
 
-    update: trunkUpdate,
+    update: $.merge(
+      // Create user
+      actions.createUser::toOverState("users", (u) => assoc(u.id, u)),
+  
+      // Reset form after valid submit
+      actions.createUser.delay(1)::setState("form", seeds.form)
+    ),
   }
 }
 

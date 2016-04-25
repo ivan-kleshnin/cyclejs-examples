@@ -67,23 +67,12 @@ module.exports = function (src) {
 
   let hasErrors = derive((es) => Boolean(filterX(values(flattenObject(es))).length), errors)
 
-  // TRUNK ACTIONS
-  let trunkActions = {
+  // ACTIONS
+  let actions = {
     createUser: model.filter(identity)
       .sample(intents.createUser)
       .share(),
   }
-
-  // TRUNK UPDATE
-  let trunkUpdate = $.merge(
-    trunkActions.createUser::toOverState("users", (u) => assoc(u.id, u))
-  )
-
-  // TRUNK REDIRECT
-  let trunkRedirect = $.merge(
-    // Redirect to edit page after valid submit
-    trunkActions.createUser.delay(1).map((user) => window.unroute(`/users/:id`, {id: user.id}))
-  )
 
   // SINKS
   return {
@@ -124,8 +113,13 @@ module.exports = function (src) {
       }
     ),
 
-    update: trunkUpdate,
+    update: $.merge(
+      actions.createUser::toOverState("users", (u) => assoc(u.id, u))
+    ),
 
-    redirect: trunkRedirect,
+    redirect: $.merge(
+      // Redirect to edit page after valid submit
+      actions.createUser.delay(1).map((user) => window.unroute(`/users/:id`, {id: user.id}))
+    ),
   }
 }
