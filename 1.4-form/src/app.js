@@ -17,6 +17,16 @@ let main = function (src) {
   let textFrom = (s) => src.DOM.select(s).events("input")::pluck("target.value").share()
   let clickFrom = (s) => src.DOM.select(s).events("click").map((e) => true).share()
 
+  // DERIVED STATE
+  let model = derive((form) => {
+    try {
+      return makeUser(form)
+    } catch (err) {
+      if (err instanceof TypeError) { return null }
+      else                          { throw err }
+    }
+  }, src.state::view("form"))
+
   // INTENTS
   let intents = {
     changeUsername: textFrom("#username"),
@@ -25,25 +35,6 @@ let main = function (src) {
     createUser: clickFrom("#submit").debounce(100),
   }
 
-  // STATE
-  let state = store(seeds, $.merge(
-    // Track fields
-    intents.changeUsername::toState("form.username"),
-    intents.changeEmail::toState("form.email"),
-
-    // Updates
-    src.update
-  ))
-
-  let model = derive((form) => {
-    try {
-      return makeUser(form)
-    } catch (err) {
-      if (err instanceof TypeError) { return null }
-      else                          { throw err }
-    }
-  }, state::view("form"))
-
   // ACTIONS
   let actions = {
     createUser: model.filter(identity)
@@ -51,8 +42,23 @@ let main = function (src) {
       .share(),
   }
 
+  // STATE
+  let state = store(seeds, $.merge(
+    // Track fields
+    intents.changeUsername::toState("form.username"),
+    intents.changeEmail::toState("form.email"),
+
+    // Create user
+    actions.createUser::toOverState("users", (u) => assoc(u.id, u)),
+
+    // Reset form after valid submit
+    actions.createUser.delay(1)::setState("form", seeds.form)
+  ))
+
   // SINKS
   return {
+    state: state,
+    
     DOM: $.combineLatest(state, model)
       .debounce(1)
       .map(([state, model]) => {
@@ -76,19 +82,11 @@ let main = function (src) {
         ])
       }
     ),
-
-    update: $.merge(
-      // Create user
-      actions.createUser::toOverState("users", (u) => assoc(u.id, u)),
-
-      // Reset form after valid submit
-      actions.createUser.delay(1)::setState("form", seeds.form)
-    ),
   }
 }
 
 Cycle.run(main, {
-  update: identity,
+  state: identity,
 
   DOM: makeDOMDriver("#app"),
 })

@@ -27,8 +27,7 @@ let main = function (src) {
   }
 
   // STATE
-  let state = $
-    .merge(
+  let state = $.merge(
       // Track fields
       intents.changeUsername.map((v) => assoc("username", v)),
       intents.changeEmail.map((v) => assoc("email", v))

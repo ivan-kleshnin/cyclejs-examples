@@ -16,7 +16,7 @@ let scanFn = curry((state, updateFn) => {
 // pluck :: (Observable a ->) String -> Observable b
 let pluck = function (path) {
   let ls = lens(path)
-  return this.map((v) => R.view(ls, v))
+  return this.map((v) => R.view(ls, v)).share()
 }
 
 // pluckN :: (Observable a ->) [String] -> Observable b

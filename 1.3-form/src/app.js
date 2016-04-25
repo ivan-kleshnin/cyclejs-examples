@@ -21,26 +21,31 @@ let main = function (src) {
     createUser: clickFrom("#submit").debounce(100),
   }
 
+  // ACTIONS
+  let actions = {
+    createUser: src.state::view("form")
+      .sample(intents.createUser)
+      .map((input) => User(input))
+      .share(),
+  }
+
   // STATE
   let state = store(seeds, $.merge(
     // Track fields
     intents.changeUsername::toState("form.username"),
     intents.changeEmail::toState("form.email"),
 
-    // Updates
-    src.update
-  ))
+    // Create user
+    actions.createUser::toOverState("users", (u) => assoc(u.id, u)),
 
-  // ACTIONS
-  let actions = {
-    createUser: state::view("form")
-      .sample(intents.createUser)
-      .map((input) => User(input))
-      .share(),
-  }
+    // Reset form after valid submit
+    actions.createUser.delay(1)::setState("form", seeds.form)
+  ))
 
   // SINKS
   return {
+    state: state,
+    
     DOM: state.map((state) => {
       let {form} = state
       return div([
@@ -61,19 +66,11 @@ let main = function (src) {
         pre(JSON.stringify(state, null, 2)),
       ])
     }),
-    
-    update: $.merge(
-      // Create user
-      actions.createUser::toOverState("users", (u) => assoc(u.id, u)),
-
-      // Reset form after valid submit
-      actions.createUser.delay(1)::setState("form", seeds.form)
-    ),
   }
 }
 
 Cycle.run(main, {
-  update: identity,
+  state: identity,
 
   DOM: makeDOMDriver("#app"),
 })

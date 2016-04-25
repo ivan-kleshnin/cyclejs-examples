@@ -29,31 +29,35 @@ let main = function (src) {
       .share(),
   }
 
+  // ACTIONS
+  let actions = {
+    createUser: src.state.map(prop("form"))
+      .sample(intents.createUser)
+      .map((input) => User(input))
+      .share(),
+  }
+
   // STATE
-  let state = $
-    .merge(
+  let state = $.merge(
       // Track fields
       intents.changeUsername.map((v) => assocPath(["form", "username"], v)),
       intents.changeEmail.map((v) => assocPath(["form", "email"], v)),
   
-      // Updates
-      src.update
+      // Create user
+      actions.createUser.map((u) => (s) => assocPath(["users", u.id], u, s)),
+  
+      // Reset form after valid submit
+      actions.createUser.delay(1).map((_) => assoc("form", seeds.form))
     )
     .startWith(seeds)
     .scan(scanFn)
     .distinctUntilChanged()
     .shareReplay(1)
 
-  // ACTIONS
-  let actions = {
-    createUser: state.map(prop("form"))
-      .sample(intents.createUser)
-      .map((input) => User(input))
-      .share(),
-  }
-
   // SINKS
   return {
+    state: state,
+    
     DOM: state.map((state) => {
       let {form} = state
       return div([
@@ -74,23 +78,11 @@ let main = function (src) {
         pre(JSON.stringify(state, null, 2)),
       ])
     }),
-    
-    update: $.merge(
-      // Track fields
-      intents.changeUsername.map((v) => assocPath(["form", "username"], v)),
-      intents.changeEmail.map((v) => assocPath(["form", "email"], v)),
-      
-      // Create user
-      actions.createUser.map((u) => (s) => assocPath(["users", u.id], u, s)),
-  
-      // Reset form after valid submit
-      actions.createUser.delay(1).map((_) => assoc("form", seeds.form))
-    ),
   }
 }
 
 Cycle.run(main, {
-  update: identity,
+  state: identity,
 
   DOM: makeDOMDriver("#app"),
 })
