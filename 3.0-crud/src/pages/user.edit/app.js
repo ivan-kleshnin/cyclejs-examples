@@ -24,10 +24,27 @@ module.exports = function (src) {
   let numberFrom = (s) => src.DOM.select(s).events("input")::pluck("target.value").map(parseInteger).share()
   let clickFrom = (s) => src.DOM.select(s).events("click").map((e) => true).share()
 
+  // DERIVED STATE
   let user = deriveN(
     (params, users) => users[params.id],
     [src.navi::view("params"), src.state::view("users")]
   )
+  
+  let model = deriveN((user, form) => {
+    try {
+      return makeUser(merge(user, form))
+    } catch (err) {
+      if (err instanceof TypeError) { return null }
+      else                          { throw err }
+    }
+  }, [user, src.state2])
+
+  let errors = store(seeds, $.merge(
+    src.state2::view("points").skip(1)::validate(Points)::toState("points"),
+    src.state2::view("bonus").skip(1)::validate(Bonus)::toState("bonus")
+  ))
+
+  let hasErrors = derive((es) => Boolean(filterX(values(flattenObject(es))).length), errors)
 
   // INTENTS
   let intents = {
@@ -37,8 +54,15 @@ module.exports = function (src) {
     editUser: clickFrom("#submit").debounce(100),
   }
 
-  // STATE (form)
-  let form = store(seeds, $.merge(
+  // ACTIONS
+  let actions = {
+    editUser: model.filter(identity)
+      .sample(intents.editUser)
+      .share(),
+  }
+
+  // STATE 2
+  let state2 = store(seeds, $.merge(
     // Reset form on page enter
     user.sample(src.navi::view("route").delay(1)).map(UserEdit)::toState(""),
 
@@ -47,76 +71,56 @@ module.exports = function (src) {
     intents.changeBonus::toState("bonus")
   ))
 
-  let model = deriveN((user, form) => {
-    try {
-      return makeUser(merge(user, form))
-    } catch (err) {
-      if (err instanceof TypeError) { return null }
-      else                          { throw err }
+  // DOM
+  let DOM = $
+    .combineLatest(src.navi, user, state2, model, errors).debounce(1)
+    .map(([navi, user, form, model, errors]) => {
+      console.log("render user.edit")
+
+      return div([
+        h1("Edit User"),
+        menu({navi}),
+        br(),
+        div(".form-element", [
+          label({htmlFor: "username"}, "Username:"),
+          br(),
+          input("#username", {type: "text", value: formatString(user.username), readOnly: true}),
+          p(errors.username),
+        ]),
+        div(".form-element", [
+          label({htmlFor: "email"}, "Email:"),
+          br(),
+          input("#email", {type: "text", value: formatString(user.email), readOnly: true}),
+          p(errors.email),
+        ]),
+        div(".form-element", [
+          label({htmlFor: "points"}, "Points:"),
+          br(),
+          input("#points", {type: "text", value: formatInteger(form.points), autocomplete: "off"}),
+          p(errors.points),
+        ]),
+        div(".form-element", [
+          label({htmlFor: "bonus"}, "Bonus:"),
+          br(),
+          input("#bonus", {type: "text", value: formatInteger(form.bonus), autocomplete: "off"}),
+          p(errors.bonus),
+        ]),
+        button("#submit.form-element", {type: "submit", disabled: !model}, "Edit"),
+      ])
     }
-  }, [user, form])
+  )
 
-  // STATE (errors)
-  let errors = store(seeds, $.merge(
-    form::view("points").skip(1)::validate(Points)::toState("points"),
-    form::view("bonus").skip(1)::validate(Bonus)::toState("bonus")
-  ))
+  // UPDATE
+  let update = $.merge(
+    actions.editUser::toOverState("users", (u) => assoc(u.id, u))
+  )
 
-  let hasErrors = derive((es) => Boolean(filterX(values(flattenObject(es))).length), errors)
-
-  // ACTIONS
-  let actions = {
-    editUser: model.filter(identity)
-      .sample(intents.editUser)
-      .share(),
-  }
+  // REDIRECT
+  let redirect = $.merge(
+    // Redirect to edit page after valid submit
+    actions.editUser.delay(1).map((user) => window.unroute(`/users/:id`, {id: user.id}))
+  )
 
   // SINKS
-  return {
-    DOM: $.combineLatest(src.navi, user, form, model, errors).debounce(1)
-      .map(([navi, user, form, model, errors]) => {
-        console.log("render user.edit")
-
-        return div([
-          h1("Edit User"),
-          menu({navi}),
-          br(),
-          div(".form-element", [
-            label({htmlFor: "username"}, "Username:"),
-            br(),
-            input("#username", {type: "text", value: formatString(user.username), readOnly: true}),
-            p(errors.username),
-          ]),
-          div(".form-element", [
-            label({htmlFor: "email"}, "Email:"),
-            br(),
-            input("#email", {type: "text", value: formatString(user.email), readOnly: true}),
-            p(errors.email),
-          ]),
-          div(".form-element", [
-            label({htmlFor: "points"}, "Points:"),
-            br(),
-            input("#points", {type: "text", value: formatInteger(form.points), autocomplete: "off"}),
-            p(errors.points),
-          ]),
-          div(".form-element", [
-            label({htmlFor: "bonus"}, "Bonus:"),
-            br(),
-            input("#bonus", {type: "text", value: formatInteger(form.bonus), autocomplete: "off"}),
-            p(errors.bonus),
-          ]),
-          button("#submit.form-element", {type: "submit", disabled: !model}, "Edit"),
-        ])
-      }
-    ),
-
-    update: $.merge(
-      actions.editUser::toOverState("users", (u) => assoc(u.id, u))
-    ),
-
-    redirect: $.merge(
-      // Redirect to edit page after valid submit
-      actions.editUser.delay(1).map((user) => window.unroute(`/users/:id`, {id: user.id}))
-    ),
-  }
+  return {DOM, update, redirect, state2}
 }

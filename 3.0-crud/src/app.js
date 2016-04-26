@@ -16,12 +16,13 @@ let main = function (src) {
   // CURRENT PAGE
   let page = src.navi
     .sample(src.navi::view("route"))  // remount only when page *type* changes...
-    .map(({component}) => merge({
-        console: $.empty(),  // affects console
+    .map(({page}) => merge({
         redirect: $.empty(), // affects navi
         update: $.empty(),   // affects state
         DOM: $.empty(),      // affects DOM
-      }, component(src))
+        console: $.empty(),  // affects console
+        state2: $.empty(),   // nested state loop
+      }, page(src))
     ).shareReplay(1)
 
   // INTENTS
@@ -36,12 +37,7 @@ let main = function (src) {
   }
 
   // NAVI
-  let updateNavi = $.merge(
-    intents.redirect,
-    page.flatMapLatest(prop("redirect"))
-  )
-
-  let navi = updateNavi
+  let navi = $.merge(intents.redirect, page.flatMapLatest(prop("redirect")))
     .startWith(window.location.pathname)
     .distinctUntilChanged()
     .map((url) => {
@@ -79,6 +75,8 @@ let main = function (src) {
 
     state: state,
 
+    state2: page.flatMapLatest(prop("state2")),
+
     DOM: page.flatMapLatest(prop("DOM")),
 
     URL: navi::view("url"),
@@ -91,6 +89,8 @@ Cycle.run(main, {
   navi: identity,
 
   state: identity,
+
+  state2: identity,
 
   DOM: makeDOMDriver("#app"),
 

@@ -8,21 +8,22 @@ let menu = require("../../chunks/menu")
 let userCard = require("../../chunks/user.card")
 
 module.exports = function (src) {
+  // DOM
+  let DOM = $.combineLatest(
+    src.navi, src.state::view("users"),
+    (navi, users) => {
+      console.log("render user.index")
+      users = sortBy(prop("username"), values(users))
+      let cards = map((user) => userCard({navi, user}), users)
+      return div([
+        h1("User Index"),
+        menu({navi}),
+        a({href: "/users/create"}, "Create"),
+        div(intersperse(hr(), cards)) // no templates – no pain
+      ])
+    }
+  )
+
   // SINKS
-  return {
-    DOM: $.combineLatest(
-      src.navi, src.state::view("users"),
-      (navi, users) => {
-        console.log("render user.index")
-        users = sortBy(prop("username"), values(users))
-        let cards = map((user) => userCard({navi, user}), users)
-        return div([
-          h1("User Index"),
-          menu({navi}),
-          a({href: "/users/create"}, "Create"),
-          div(intersperse(hr(), cards)) // no templates – no pain
-        ])
-      }
-    )
-  }
+  return {DOM}
 }

@@ -7,29 +7,30 @@ let menu = require("../../chunks/menu")
 let userCard = require("../../chunks/user.card")
 
 module.exports = function (src) {
-  // STATE
+  // DERIVED STATE
   let user = deriveN(
     (params, users) => users[params.id],
     [src.navi::view("params"), src.state::view("users")]
   )
+
+  // DOM
+  let DOM = user.withLatestFrom(
+    src.navi, src.state::view("users"),
+    (user, navi, users) => {
+      console.log("render user.detail")
+      let ids = keys(users)
+      return div([
+        h1("User Detail"),
+        menu({navi}),
+        userCard({navi, user}),
+        hr(),
+        a({href: window.unroute("/users/:id", {id: nextId(ids, navi.params.id)})}, "Next User"),
+      ])
+    }
+  )
     
   // SINKS
-  return {
-    DOM: user.withLatestFrom(
-      src.navi, src.state::view("users"),
-      (user, navi, users) => {
-        console.log("render user.detail")
-        let ids = keys(users)
-        return div([
-          h1("User Detail"),
-          menu({navi}),
-          userCard({navi, user}),
-          hr(),
-          a({href: window.unroute("/users/:id", {id: nextId(ids, navi.params.id)})}, "Next User"),
-        ])
-      }
-    )
-  }
+  return {DOM}
 }
 
 function nextId(ids, id) {
