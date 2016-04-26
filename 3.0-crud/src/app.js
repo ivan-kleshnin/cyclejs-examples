@@ -9,7 +9,7 @@ let {makeURLDriver, makeConsoleDriver} = require("../../drivers")
 let {pluck, store, view} = require("../../rx.utils.js")
 
 let {isActiveUrl, isActiveRoute} = require("./routes")
-let seeds = require("./seeds")
+let seeds = require("./seeds/app")
 
 // main :: {Observable *} -> {Observable *}
 let main = function (src) {
@@ -95,6 +95,6 @@ Cycle.run(main, {
   DOM: makeDOMDriver("#app"),
 
   URL: makeURLDriver(),
-  
-  console: makeConsoleDriver(), 
+
+  console: makeConsoleDriver(),
 })

@@ -6,11 +6,11 @@ let {withSuffix} = require("../../helpers")
 
 // TODO define document title here?!
 let routes = [
-  [new Route("/"), require("./pages/home/app")],
-  [new Route("/about"), require("./pages/about/app")],
-  [new Route("/users"), require("./pages/user.index/app")],
-  [new Route("/users/:id"), require("./pages/user.detail/app")],
-  [new Route("/*path"), require("./pages/not-found/app")],
+  [new Route("/"), require("./pages/home")],
+  [new Route("/about"), require("./pages/about")],
+  [new Route("/users"), require("./pages/user.index")],
+  [new Route("/users/:id"), require("./pages/user.detail")],
+  [new Route("/*path"), require("./pages/not-found")],
 ]
 
 // doroute :: [[Route, Component]] -> String -> [String, Params, Component]

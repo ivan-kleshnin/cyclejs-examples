@@ -1,9 +1,9 @@
 let {curry, find, takeLast} = require("ramda")
 
 let routes = [
-  ["/", require("./pages/home/app")],
-  ["/about", require("./pages/about/app")],
-  ["*", require("./pages/not-found/app")],
+  ["/", require("./pages/home")],
+  ["/about", require("./pages/about")],
+  ["*", require("./pages/not-found")],
 ]
 
 // doroute :: [[String, Component]] -> String -> [String, Component]
