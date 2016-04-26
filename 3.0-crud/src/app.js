@@ -45,7 +45,7 @@ let main = function (src) {
     .startWith(window.location.pathname)
     .distinctUntilChanged()
     .map((url) => {
-      let [route, params, component] = window.doroute(url)
+      let [route, params, page] = window.doroute(url)
 
       let aa = (...args) => {
         let vnode = a(...args)
@@ -58,7 +58,7 @@ let main = function (src) {
         url,                                 // :: String
         route,                               // :: String
         params,                              // :: {*}
-        component,                           // :: {Observable *} -> {Observable *}
+        page,                                // :: {Observable *} -> {Observable *}
         isActiveUrl: isActiveUrl(url),       // :: String -> Boolean
         isActiveRoute: isActiveRoute(route), // :: String -> Boolean
         aa,

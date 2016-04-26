@@ -15,10 +15,10 @@ let main = function (src) {
   // CURRENT PAGE
   let page = src.navi
     .sample(src.navi::view("route"))  // remount only when page *type* changes...
-    .map(({component}) => merge({
+    .map(({page}) => merge({
         console: $.empty(), // affects console
         DOM: $.empty(),     // affects DOM
-      }, component(src))
+      }, page(src))
     ).shareReplay(1)
 
   // INTENTS
@@ -42,7 +42,7 @@ let main = function (src) {
     .startWith(window.location.pathname)
     .distinctUntilChanged()
     .map((url) => {
-      let [route, component] = window.doroute(url)
+      let [route, page] = window.doroute(url)
 
       let aa = (...args) => {
         let vnode = a(...args)
@@ -54,7 +54,7 @@ let main = function (src) {
       return {
         url,                           // :: String
         route,                         // :: String
-        component,                     // :: {Observable *} -> {Observable *}
+        page,                          // :: {Observable *} -> {Observable *}
         isActiveUrl: isActiveUrl(url), // :: String -> Boolean
         aa,
       }
