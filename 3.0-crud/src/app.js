@@ -24,8 +24,8 @@ let main = function (src) {
       let sinks = merge({
         redirect: $.empty(), // affects navi
         update: $.empty(),   // affects state
-        DOM: $.empty(),      // affects DOM
         log: $.empty(),      // affects log
+        DOM: $.empty(),      // affects DOM
         state2: $.empty(),   // nested state loop
       }, navi.page(sources))
 
@@ -93,12 +93,12 @@ let main = function (src) {
     navi: navi,
 
     state: state,
+    
+    log: page.flatMapLatest(prop("log")),
 
     DOM: page.flatMapLatest(prop("DOM")),
 
     URL: navi::view("url"),
-
-    log: page.flatMapLatest(prop("log")),
   }
 }
 
@@ -106,10 +106,10 @@ Cycle.run(main, {
   navi: identity,
 
   state: identity,
+  
+  log: makeLogDriver(),
 
   DOM: makeDOMDriver("#app"),
 
   URL: makeURLDriver(),
-
-  log: makeLogDriver(),
 })

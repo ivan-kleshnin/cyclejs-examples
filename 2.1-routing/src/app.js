@@ -14,11 +14,11 @@ let {isActiveUrl, isActiveRoute} = require("./routes")
 let main = function (src) {
   // CURRENT PAGE
   let page = src.navi
-    .sample(src.navi::view("route"))  // remount only when page *type* changes...
-    .map(({page}) => merge({
+    .sample(src.navi::view("route")) // remount only when page *type* changes...
+    .map((navi) => merge({
         log: $.empty(), // affects log
         DOM: $.empty(), // affects DOM
-      }, page(src))
+      }, navi.page(src))
     ).shareReplay(1)
 
   // INTENTS
@@ -66,20 +66,20 @@ let main = function (src) {
   return {
     navi: navi,
 
+    log: page.flatMapLatest(prop("log")),
+
     DOM: page.flatMapLatest(prop("DOM")),
 
     URL: navi::view("url"),
-
-    log: page.flatMapLatest(prop("log")),
   }
 }
 
 Cycle.run(main, {
   navi: identity,
 
+  log: makeLogDriver(),
+
   DOM: makeDOMDriver("#app"),
 
   URL: makeURLDriver(),
-
-  log: makeLogDriver(),
 })
