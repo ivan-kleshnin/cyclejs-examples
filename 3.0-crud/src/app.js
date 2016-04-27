@@ -1,7 +1,7 @@
 let {identity, merge, prop} = require("ramda")
 let Url = require("url")
 let Class = require("classnames")
-let {Observable: $} = require("rx")
+let {Observable: $, ReplaySubject} = require("rx")
 let Cycle = require("@cycle/core")
 let {a, makeDOMDriver} = require("@cycle/dom")
 
@@ -15,15 +15,34 @@ let seeds = require("./seeds/app")
 let main = function (src) {
   // CURRENT PAGE
   let page = src.navi
-    .sample(src.navi::view("route"))  // remount only when page *type* changes...
-    .map(({page}) => merge({
+    .sample(src.navi::view("route")) // remount only when page *type* changes...
+    .map((navi) => {
+      let state2 = new ReplaySubject(1)
+      let sources = merge(src, {state2})
+
+      // Run page
+      let sinks = merge({
         redirect: $.empty(), // affects navi
         update: $.empty(),   // affects state
         DOM: $.empty(),      // affects DOM
-        console: $.empty(),  // affects console
+        log: $.empty(),      // affects log
         state2: $.empty(),   // nested state loop
-      }, page(src))
-    ).shareReplay(1)
+      }, navi.page(sources))
+
+      let subscriptions = [
+        sinks.state2.subscribe(state2.asObserver()),
+      ]
+
+      return {navi, sinks, subscriptions}
+    })
+    .scan((prevPage, currPage) => {
+      if (prevPage.subscriptions) {
+        prevPage.subscriptions.forEach((s) => s.dispose())
+      }
+      return currPage
+    }, {})
+    .pluck("sinks")
+    .shareReplay(1)
 
   // INTENTS
   let intents = {
@@ -75,8 +94,6 @@ let main = function (src) {
 
     state: state,
 
-    state2: page.flatMapLatest(prop("state2")),
-
     DOM: page.flatMapLatest(prop("DOM")),
 
     URL: navi::view("url"),
@@ -89,8 +106,6 @@ Cycle.run(main, {
   navi: identity,
 
   state: identity,
-
-  state2: identity,
 
   DOM: makeDOMDriver("#app"),
 

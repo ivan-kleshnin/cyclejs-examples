@@ -28,7 +28,7 @@ module.exports = function (src) {
     (params, users) => users[params.id],
     [src.navi::view("params"), src.state::view("users")]
   )
-  
+
   let model = deriveN((user, form) => {
     try {
       return makeUser(merge(user, form))

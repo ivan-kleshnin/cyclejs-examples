@@ -28,7 +28,7 @@ module.exports = function (src) {
       ])
     }
   )
-    
+
   // SINKS
   return {DOM}
 }
