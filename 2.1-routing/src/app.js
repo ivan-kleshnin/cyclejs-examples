@@ -5,7 +5,7 @@ let {Observable: $} = require("rx")
 let Cycle = require("@cycle/core")
 let {a, makeDOMDriver} = require("@cycle/dom")
 
-let {makeURLDriver, makeConsoleDriver} = require("../../drivers")
+let {makeURLDriver, makeLogDriver} = require("../../drivers")
 let {pluck, store, view} = require("../../rx.utils.js")
 
 let {isActiveUrl, isActiveRoute} = require("./routes")
@@ -16,8 +16,8 @@ let main = function (src) {
   let page = src.navi
     .sample(src.navi::view("route"))  // remount only when page *type* changes...
     .map(({page}) => merge({
-        console: $.empty(), // affects console
-        DOM: $.empty(),     // affects DOM
+        log: $.empty(), // affects log
+        DOM: $.empty(), // affects DOM
       }, page(src))
     ).shareReplay(1)
 
@@ -70,7 +70,7 @@ let main = function (src) {
 
     URL: navi::view("url"),
 
-    console: page.flatMapLatest(prop("console")),
+    log: page.flatMapLatest(prop("log")),
   }
 }
 
@@ -80,6 +80,6 @@ Cycle.run(main, {
   DOM: makeDOMDriver("#app"),
 
   URL: makeURLDriver(),
-  
-  console: makeConsoleDriver(), 
+
+  log: makeLogDriver(),
 })

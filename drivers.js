@@ -6,7 +6,7 @@ let makeURLDriver = function () {
   }
 }
 
-let makeConsoleDriver = function () {
+let makeLogDriver = function () {
   return function (message) {
     message.subscribe((msg) => {
       console.log(msg)
@@ -15,4 +15,4 @@ let makeConsoleDriver = function () {
 }
 
 exports.makeURLDriver = makeURLDriver
-exports.makeConsoleDriver = makeConsoleDriver
+exports.makeLogDriver = makeLogDriver

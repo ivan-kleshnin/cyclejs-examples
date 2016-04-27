@@ -5,7 +5,7 @@ let {Observable: $} = require("rx")
 let Cycle = require("@cycle/core")
 let {a, makeDOMDriver} = require("@cycle/dom")
 
-let {makeURLDriver, makeConsoleDriver} = require("../../drivers")
+let {makeURLDriver, makeLogDriver} = require("../../drivers")
 let {pluck, store, view} = require("../../rx.utils.js")
 
 let {isActiveUrl, isActiveRoute} = require("./routes")
@@ -81,7 +81,7 @@ let main = function (src) {
 
     URL: navi::view("url"),
 
-    console: page.flatMapLatest(prop("console")),
+    log: page.flatMapLatest(prop("log")),
   }
 }
 
@@ -96,5 +96,5 @@ Cycle.run(main, {
 
   URL: makeURLDriver(),
 
-  console: makeConsoleDriver(),
+  log: makeLogDriver(),
 })

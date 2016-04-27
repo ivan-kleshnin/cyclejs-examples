@@ -235,7 +235,7 @@ or you can utilize console driver:
 function page1(src) {
   ...
   return {
-    console: intents.foo.map(...) // convert intent value to string
+    log: intents.foo.map(...) // convert intent value to string
     DOM: ...
   }
 }
@@ -243,7 +243,7 @@ function page1(src) {
 function page2(src) {
   ...
   return {
-    console: intents.foo.map(...) // convert intent value to string
+    log: intents.foo.map(...) // convert intent value to string
     DOM: ...
   }
 }

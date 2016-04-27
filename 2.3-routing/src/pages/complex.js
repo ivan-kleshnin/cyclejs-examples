@@ -30,6 +30,6 @@ module.exports = function (src) {
       ])
     }),
 
-    console: intents.changeState.map((url) => "Complex sees " + url),
+    log: intents.changeState.map((url) => "Complex sees " + url),
   }
 }
