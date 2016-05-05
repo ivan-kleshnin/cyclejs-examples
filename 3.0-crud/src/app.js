@@ -16,9 +16,20 @@ let main = function (src) {
   // CURRENT PAGE
   let page = src.navi
     .sample(src.navi::view("route")) // remount only when page *type* changes...
-    .map((navi) => {
-      let state2 = new ReplaySubject(1)
-      let sources = merge(src, {state2})
+    .scan((prevPage, navi) => {
+      // Unsubscribe previous page (if there was)
+      if (prevPage.subscriptions) {
+        prevPage.subscriptions.forEach((s) => s.dispose())
+      }
+
+      // Make disposable sinks
+      let sinkProxies = {
+        redirect: new ReplaySubject(1),
+        update: new ReplaySubject(1),
+        DOM: new ReplaySubject(1),
+        log: new ReplaySubject(1),
+        state2: new ReplaySubject(1),
+      }
 
       // Run page
       let sinks = merge({
@@ -27,19 +38,18 @@ let main = function (src) {
         log: $.empty(),      // affects log
         DOM: $.empty(),      // affects DOM
         state2: $.empty(),   // nested state loop
-      }, navi.page(sources))
+      }, navi.page(merge(src, {state2: sinkProxies.state2})))
 
+      // Subscribe current page
       let subscriptions = [
-        sinks.state2.subscribe(state2.asObserver()),
+        sinks.redirect.subscribe(sinkProxies.redirect.asObserver()),
+        sinks.update.subscribe(sinkProxies.update.asObserver()),
+        sinks.DOM.subscribe(sinkProxies.DOM.asObserver()),
+        sinks.log.subscribe(sinkProxies.log.asObserver()),
+        sinks.state2.subscribe(sinkProxies.state2.asObserver()),
       ]
 
-      return {navi, sinks, subscriptions}
-    })
-    .scan((prevPage, currPage) => {
-      if (prevPage.subscriptions) {
-        prevPage.subscriptions.forEach((s) => s.dispose())
-      }
-      return currPage
+      return {navi, sinks: sinkProxies, subscriptions}
     }, {})
     .pluck("sinks")
     .shareReplay(1)
@@ -93,7 +103,9 @@ let main = function (src) {
     navi: navi,
 
     state: state,
-    
+
+    state2: page.flatMapLatest(prop("state2")),
+
     log: page.flatMapLatest(prop("log")),
 
     DOM: page.flatMapLatest(prop("DOM")),
@@ -106,7 +118,9 @@ Cycle.run(main, {
   navi: identity,
 
   state: identity,
-  
+
+  state2: identity,
+
   log: makeLogDriver(),
 
   DOM: makeDOMDriver("#app"),

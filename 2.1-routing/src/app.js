@@ -1,7 +1,7 @@
 let {identity, merge, prop} = require("ramda")
 let Url = require("url")
 let Class = require("classnames")
-let {Observable: $} = require("rx")
+let {Observable: $, ReplaySubject} = require("rx")
 let Cycle = require("@cycle/core")
 let {a, makeDOMDriver} = require("@cycle/dom")
 
@@ -15,11 +15,34 @@ let main = function (src) {
   // CURRENT PAGE
   let page = src.navi
     .sample(src.navi::view("route")) // remount only when page *type* changes...
-    .map((navi) => merge({
-        log: $.empty(), // affects log
-        DOM: $.empty(), // affects DOM
+    .scan((prevPage, navi) => {
+      // Unsubscribe previous page (if there was)
+      if (prevPage.subscriptions) {
+        prevPage.subscriptions.forEach((s) => s.dispose())
+      }
+
+      // Make disposable sinks
+      let sinkProxies = {
+        DOM: new ReplaySubject(1),
+        log: new ReplaySubject(1),
+      }
+
+      // Run page
+      let sinks = merge({
+        log: $.empty(),      // affects log
+        DOM: $.empty(),      // affects DOM
       }, navi.page(src))
-    ).shareReplay(1)
+
+      // Subscribe current page
+      let subscriptions = [
+        sinks.DOM.subscribe(sinkProxies.DOM.asObserver()),
+        sinks.log.subscribe(sinkProxies.log.asObserver()),
+      ]
+
+      return {navi, sinks: sinkProxies, subscriptions}
+    }, {})
+    .pluck("sinks")
+    .shareReplay(1)
 
   // INTENTS
   let intents = {

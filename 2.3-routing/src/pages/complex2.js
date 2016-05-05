@@ -6,7 +6,7 @@ let menu = require("../chunks/menu")
 module.exports = function (src) {
   // INTENTS
   let intents = {
-    changeState: src.DOM.select("a:not([rel=external])")
+    changeState: src.DOM.select(".special a:not([rel=external])")
       .events("click")
       .filter((event) => !(/:\/\//.test(event.target.getAttribute("href")))) // drop links with protocols (as external)
       .do((event) => event.preventDefault())
@@ -22,7 +22,7 @@ module.exports = function (src) {
       return div([
         h1("Complex"),
         menu({navi}),
-        p([
+        p(".special", [
           span(a({href: "#local1"}, "Local link #1")),
           span(" "),
           span(a({href: "#local2"}, "Local link #2")),
