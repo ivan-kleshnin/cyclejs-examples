@@ -1,4 +1,5 @@
 let Cycle = require("@cycle/core")
+let {Observable: $} = require("rx")
 let {br, button, div, h1, h2, hr, input, label, makeDOMDriver, p, pre} = require("@cycle/dom")
 
 // main :: {Observable *} -> {Observable *}
