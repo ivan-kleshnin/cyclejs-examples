@@ -15,7 +15,8 @@
     "2.2": "webpack-dev-server --content-base 2.2-routing/public/ --inline --progress",
     "2.3": "webpack-dev-server --content-base 2.3-routing/public/ --inline --progress",
 
-    "3.0": "webpack-dev-server --content-base 3.0-crud/public/ --inline --progress"
+    "3.0": "webpack-dev-server --content-base 3.0-crud/public/ --inline --progress",
+    "3.0.alt": "webpack-dev-server --content-base 3.0-crud.alt/public/ --inline --progress"
   },
   "dependencies": {
     "@cycle/core": "^6.0.3",
