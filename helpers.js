@@ -5,17 +5,17 @@ let fst = (xs) => xs[0]
 
 let snd = (xs) => xs[1]
 
-// always :: a -> b -> a
+// a -> b -> a
 let always = curry((x, y) => x)
 
-// lens :: String -> Lens
+// String -> Lens
 let lens = curry((path) => {
   return path ?
     R.lensPath(split(".", path)) :
     R.lensPath([])
 })
 
-// updateBy :: (a -> Boolean) -> a -> [a] -> [a]
+// (a -> Boolean) -> a -> [a] -> [a]
 let updateBy = curry((pred, val, array) => {
   let i = findIndex(pred, array);
   if (i >= 0) {
@@ -25,7 +25,7 @@ let updateBy = curry((pred, val, array) => {
   }
 })
 
-// adjustBy :: (a -> Boolean) -> (a -> b) -> [a] -> [a]
+// (a -> Boolean) -> (a -> b) -> [a] -> [a]
 let adjustBy = curry((pred, adjustFn, array) => {
   let i = findIndex(pred, array);
   if (i >= 0) {

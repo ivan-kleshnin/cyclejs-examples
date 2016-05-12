@@ -176,4 +176,3 @@ exports.sampleView = sampleView
 
 exports.filterBy = filterBy
 exports.rejectBy = rejectBy
-
