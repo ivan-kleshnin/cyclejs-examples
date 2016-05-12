@@ -5,8 +5,9 @@ let {Observable: $, ReplaySubject} = require("rx")
 let Cycle = require("@cycle/core")
 let {a, makeDOMDriver} = require("@cycle/dom")
 
+let {snd} = require("../../helpers")
+let {history, pluck, store, view} = require("../../rx.utils.js")
 let {makeURLDriver, makeLogDriver} = require("../../drivers")
-let {pluck, store, view} = require("../../rx.utils.js")
 
 let {isActiveUrl, isActiveRoute} = require("./routes")
 let seeds = require("./seeds/app")
@@ -14,11 +15,11 @@ let seeds = require("./seeds/app")
 // main :: {Observable *} -> {Observable *}
 let main = function (src) {
   // CURRENT PAGE
-  let page = src.navi
+  let pageHistory = src.navi
     .sample(src.navi::view("route")) // remount only when page *type* changes...
     .scan((prevPage, navi) => {
       // Unsubscribe previous page (if there was)
-      if (prevPage.subscriptions) {
+      if (prevPage && prevPage.subscriptions) {
         prevPage.subscriptions.forEach((s) => s.dispose())
       }
 
@@ -51,6 +52,18 @@ let main = function (src) {
 
       return {navi, sinks: sinkProxies, subscriptions}
     }, {})
+    ::history(2)
+    .shareReplay(1)
+
+  pageHistory.subscribe(([prev, curr]) => {
+    if (prev) {
+      console.log("leaving:", prev.navi)
+    }
+    console.log("entering:", curr.navi)
+  })
+
+  let page = pageHistory
+    .map(snd)
     .pluck("sinks")
     .shareReplay(1)
 

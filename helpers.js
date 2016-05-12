@@ -1,5 +1,5 @@
 let R = require("ramda")
-let {curry, pipe, split, update} = require("ramda")
+let {append, curry, drop, pipe, split, update} = require("ramda")
 
 let fst = (xs) => xs[0]
 
@@ -133,6 +133,15 @@ let withSuffix = curry((s, st) => {
   else                { return st + s }
 })
 
+let appendSliding = curry((n, x, xs) => {
+  let ys = append(x, xs)
+  if (ys.length > n) {
+    return drop(ys.length - n, ys)
+  } else {
+    return ys
+  }
+})
+
 exports.always = always
 
 exports.fst = fst
@@ -153,3 +162,5 @@ exports.unflattenObject = unflattenObject
 
 exports.withPrefix = withPrefix
 exports.withSuffix = withSuffix
+
+exports.appendSliding = appendSliding
