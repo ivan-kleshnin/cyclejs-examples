@@ -1,9 +1,11 @@
-let {assoc} = require("ramda")
+let {assoc, curry} = require("ramda")
 let {Observable: $} = require("rx")
 let Cycle = require("@cycle/core")
 let {br, button, div, h1, h2, hr, input, label, makeDOMDriver, p, pre} = require("@cycle/dom")
 
-let {scanFn} = require("../../rx.utils")
+let scanFn = curry((state, updateFn) => {
+  return updateFn(state)
+})
 
 // SEEDS
 let seeds = {

@@ -1,7 +1,6 @@
 let {indexOf, keys} = require("ramda")
+let {deriveN, view} = require("rx-utils")
 let {a, div, h1, hr} = require("@cycle/dom")
-
-let {deriveN, view} = require("../../../rx.utils")
 
 let menu = require("../chunks/menu")
 let userCard = require("../chunks/user.card")
@@ -12,7 +11,7 @@ module.exports = function (src) {
     (params, users) => users[params.id],
     [src.navi::view("params"), src.state::view("users")]
   )
-    
+
   // SINKS
   return {
     DOM: user.withLatestFrom(

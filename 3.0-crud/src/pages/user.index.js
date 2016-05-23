@@ -1,8 +1,7 @@
 let {identity, intersperse, map, merge, prop, sortBy, values} = require("ramda")
 let {Observable: $} = require("rx")
+let {view} = require("rx-utils")
 let {a, div, h1, hr} = require("@cycle/dom")
-
-let {view} = require("../../../rx.utils")
 
 let menu = require("../chunks/menu")
 let userCard = require("../chunks/user.card")

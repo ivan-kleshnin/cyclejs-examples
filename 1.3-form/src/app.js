@@ -1,9 +1,8 @@
 let {assoc, identity} = require("ramda")
 let {Observable: $} = require("rx")
+let {pluck, setState, store, toOverState, toState, view} = require("rx-utils")
 let Cycle = require("@cycle/core")
 let {br, button, div, h1, h2, hr, input, label, makeDOMDriver, p, pre} = require("@cycle/dom")
-
-let {pluck, setState, store, toOverState, toState, view} = require("../../rx.utils")
 
 let {User} = require("./models")
 let seeds = require("./seeds")

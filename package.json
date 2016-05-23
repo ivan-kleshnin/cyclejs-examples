@@ -9,12 +9,10 @@
     "1.3": "webpack-dev-server --content-base 1.3-form/public/ --inline --progress",
     "1.4": "webpack-dev-server --content-base 1.4-form/public/ --inline --progress",
     "1.5": "webpack-dev-server --content-base 1.5-form/public/ --inline --progress",
-
     "2.0": "webpack-dev-server --content-base 2.0-routing/public/ --inline --progress",
     "2.1": "webpack-dev-server --content-base 2.1-routing/public/ --inline --progress",
     "2.2": "webpack-dev-server --content-base 2.2-routing/public/ --inline --progress",
     "2.3": "webpack-dev-server --content-base 2.3-routing/public/ --inline --progress",
-
     "3.0": "webpack-dev-server --content-base 3.0-crud/public/ --inline --progress",
     "3.0.alt": "webpack-dev-server --content-base 3.0-crud.alt/public/ --inline --progress"
   },
@@ -32,6 +30,7 @@
     "ramda": "^0.21.0",
     "route-parser": "0.0.5",
     "rx": "^4.1.0",
+    "rx-utils": "^1.0.3",
     "tcomb": "^3.0.0",
     "tcomb-validation": "^3.0.0",
     "webpack": "^1.12.15",

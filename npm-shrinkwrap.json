@@ -1,6 +1,6 @@
 {
   "name": "cycle-examples",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "dependencies": {
     "@cycle/core": {
       "version": "6.0.3",
@@ -2376,6 +2376,10 @@
       "version": "4.1.0",
       "from": "rx@latest",
       "resolved": "https://registry.npmjs.org/rx/-/rx-4.1.0.tgz"
+    },
+    "rx-utils": {
+      "version": "1.0.3",
+      "from": "rx-utils@latest"
     },
     "samsam": {
       "version": "1.1.2",

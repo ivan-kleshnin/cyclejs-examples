@@ -1,14 +1,16 @@
-let {assoc, assocPath, identity, prop} = require("ramda")
+let {assoc, assocPath, curry, identity, prop} = require("ramda")
 let {Observable: $} = require("rx")
 let Cycle = require("@cycle/core")
 let {br, button, div, h1, h2, hr, input, label, makeDOMDriver, p, pre} = require("@cycle/dom")
 
-let {scanFn} = require("../../rx.utils")
-
 let {User} = require("./models")
 let seeds = require("./seeds")
 
-// main :: {Observable *} -> {Observable *}
+let scanFn = curry((state, updateFn) => {
+  return updateFn(state)
+})
+
+// {Observable *} -> {Observable *}
 let main = function (src) {
   // INTENTS
   let intents = {
@@ -42,10 +44,10 @@ let main = function (src) {
       // Track fields
       intents.changeUsername.map((v) => assocPath(["form", "username"], v)),
       intents.changeEmail.map((v) => assocPath(["form", "email"], v)),
-  
+
       // Create user
       actions.createUser.map((u) => (s) => assocPath(["users", u.id], u, s)),
-  
+
       // Reset form after valid submit
       actions.createUser.delay(1).map((_) => assoc("form", seeds.form))
     )
@@ -57,7 +59,7 @@ let main = function (src) {
   // SINKS
   return {
     state: state,
-    
+
     DOM: state.map((state) => {
       let {form} = state
       return div([

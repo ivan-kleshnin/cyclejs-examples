@@ -2,11 +2,11 @@ let {identity, merge, prop} = require("ramda")
 let Url = require("url")
 let Class = require("classnames")
 let {Observable: $, ReplaySubject} = require("rx")
+let {history, pluck, store, view} = require("rx-utils")
 let Cycle = require("@cycle/core")
 let {a, makeDOMDriver} = require("@cycle/dom")
 
 let {snd} = require("../../helpers")
-let {history, pluck, store, view} = require("../../rx.utils.js")
 let {makeURLDriver, makeLogDriver} = require("../../drivers")
 
 let {isActiveUrl, isActiveRoute} = require("./routes")

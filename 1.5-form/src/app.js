@@ -1,10 +1,11 @@
 let {assoc, filter, identity, values} = require("ramda")
 let {Observable: $} = require("rx")
+let {derive, pluck, setState, store, toOverState, toState, view} = require("rx-utils")
 let Cycle = require("@cycle/core")
 let {br, button, div, h1, h2, hr, input, label, makeDOMDriver, p, pre} = require("@cycle/dom")
 
+let {validate} = require("../../rx-utils")
 let {flattenObject} = require("../../helpers")
-let {derive, pluck, setState, store, toOverState, toState, validate, view} = require("../../rx.utils")
 
 let {User} = require("./types")
 let {makeUser} = require("./makers")

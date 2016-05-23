@@ -1,9 +1,10 @@
 let {assoc, filter, identity, merge, values} = require("ramda")
 let {Observable: $} = require("rx")
+let {derive, deriveN, pluck, setState, store, toOverState, toState, view} = require("rx-utils")
 let {br, button, div, input, label, h1, p} = require("@cycle/dom")
 
+let {validate} = require("../../../rx-utils")
 let {flattenObject} = require("../../../helpers")
-let {derive, deriveN, pluck, setState, store, toOverState, toState, validate, view} = require("../../../rx.utils")
 let {parseString, parseInteger} = require("../../../parsers")
 let {formatString, formatInteger} = require("../../../formatters")
 

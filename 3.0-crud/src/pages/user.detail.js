@@ -1,7 +1,6 @@
 let {indexOf, keys} = require("ramda")
+let {deriveN, view} = require("rx-utils")
 let {a, div, h1, hr} = require("@cycle/dom")
-
-let {deriveN, view} = require("../../../rx.utils")
 
 let menu = require("../chunks/menu")
 let userCard = require("../chunks/user.card")
