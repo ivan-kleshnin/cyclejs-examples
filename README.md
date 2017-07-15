@@ -1,6 +1,6 @@
 # CycleJS examples
 
-Subjective followup to the [official repo](https://github.com/cyclejs/examples).
+Subjective followup to the [official repo](https://github.com/cyclejs/cyclejs/tree/master/examples).
 
 Examples are grouped into lessons and placed in narrative order.<br/>
 They are meant to be reviewed one by one, sequentially.<br/>
