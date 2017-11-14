@@ -1,5 +1,9 @@
 # CycleJS examples
 
+**This repo is frozen as I don't use CycleJS anymore. Check [Unredux](https://github.com/ivan-kleshnin/unredux) for more details.**
+
+---
+
 Subjective followup to the [official repo](https://github.com/cyclejs/cyclejs/tree/master/examples).
 
 Examples are grouped into lessons and placed in narrative order.<br/>
